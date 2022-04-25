@@ -4,8 +4,9 @@
 #include <gtest/gtest.h>
 #include "../src/tub_json.h"
 #include <fstream>
+#include "../src/entry_builder.h"
 
-class TubJsonTest : public ::testing::Test
+class EntryBuilderTest : public ::testing::Test
 {
 protected:
     // Per-test-suite set-up.
@@ -33,19 +34,17 @@ protected:
     static nlohmann::json json;
 };
 
-nlohmann::json TubJsonTest::json = nlohmann::json::value_t::array;
+nlohmann::json EntryBuilderTest::json = nlohmann::json::value_t::array;
 
-TEST_F(TubJsonTest, BasicAssertions) {
+
+
+TEST_F(EntryBuilderTest, BasicEntry) {
     /*
      * Test to see if I can get a single title, and that it is in UTF-8
      */
-
-    auto results = TubJsonTest::json["query"]["results"];
-    std::string result;
-    for(nlohmann::json entry: results)
-    {
-        result += entry["printouts"]["Title (Arabic)"][0];
-    }
+    auto results = EntryBuilderTest::json["query"]["results"];
+    entry_builder entryBuilder;
+    std::vector<Entry> entries = entryBuilder.make_entry(results);
     std::string expected = "بحث في) أصول الفقه)";
-    EXPECT_EQ(expected, result);
+    EXPECT_EQ(expected, entries.at(0).title_arabic);
 }

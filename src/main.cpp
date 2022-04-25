@@ -1,4 +1,3 @@
-#include <iostream>
 #include "services/tub_mediawiki_service.h"
 #include "services/file_writer_service.h"
 
