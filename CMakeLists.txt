@@ -12,10 +12,11 @@ add_executable(tub_pdf_maker
         src/services/mediawiki_service.h
         src/services/tub_mediawiki_service.cpp src/services/tub_mediawiki_service.h
         src/services/file_writer_service.cpp src/services/file_writer_service.h
-        src/tub_json.cpp src/tub_json.h)
+        src/tub_json.cpp src/tub_json.h src/models/entry.cpp src/models/entry.h)
 target_link_libraries(tub_pdf_maker PRIVATE cpr::cpr)
 target_link_libraries(tub_pdf_maker PRIVATE Boost::log)
 target_link_libraries(tub_pdf_maker PRIVATE nlohmann_json::nlohmann_json)
+add_compile_options(-g -Wall -Wextra -Wno-unused-parameter -Wno-reorder -Werror=return-type)
 
 enable_testing()
 
@@ -24,7 +25,7 @@ add_executable(
         tests/tub_mediawiki_test.cpp
         src/services/tub_mediawiki_service.h src/services/tub_mediawiki_service.cpp
         src/services/mediawiki_service.h
-        src/tub_json.cpp src/tub_json.h tests/tub_json_test.cpp)
+        src/tub_json.cpp src/tub_json.h tests/tub_json_test.cpp src/models/entry.cpp src/models/entry.h)
 target_link_libraries(
         TubMediaWiki_test
         GTest::gtest_main
@@ -35,3 +36,4 @@ target_link_libraries(
 include(GoogleTest)
 
 gtest_discover_tests(TubMediaWiki_test)
+
