@@ -41,7 +41,7 @@ TEST_F(TubJsonTest, BasicAssertions) {
      */
 
     auto results = TubJsonTest::json["query"]["results"];
-    std::string result = "";
+    std::string result;
     for(nlohmann::json entry: results)
     {
         result += entry["printouts"]["Title (Arabic)"][0];
