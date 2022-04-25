@@ -46,5 +46,6 @@ TEST_F(EntryBuilderTest, BasicEntry) {
     entry_builder entryBuilder;
     std::vector<Entry> entries = entryBuilder.make_entry(results);
     std::string expected = "بحث في) أصول الفقه)";
+    EXPECT_EQ(5, entries.size());
     EXPECT_EQ(expected, entries.at(0).title_arabic);
 }
