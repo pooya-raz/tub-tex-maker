@@ -24,7 +24,6 @@ enable_testing()
 
 add_executable(
         TubMediaWiki_test
-        tests/tub_mediawiki_test.cpp
         src/services/tub_mediawiki_service.h src/services/tub_mediawiki_service.cpp
         src/services/mediawiki_service.h
         src/tub_json.cpp src/tub_json.h
