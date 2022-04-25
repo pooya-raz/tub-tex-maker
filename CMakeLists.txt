@@ -5,20 +5,26 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(cpr CONFIG REQUIRED)
 find_package(Boost 1.79.0 REQUIRED COMPONENTS log)
 find_package(GTest CONFIG REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 
-add_executable(tub_pdf_maker src/main.cpp src/services/TubMediaWikiService.cpp src/services/TubMediaWikiService.h src/services/MediaWikiService.h)
+add_executable(tub_pdf_maker
+        src/main.cpp
+        src/services/mediawiki_service.h
+        src/services/tub_mediawiki_service.cpp src/services/tub_mediawiki_service.h
+        src/services/file_writer_service.cpp src/services/file_writer_service.h
+        src/tub_json.cpp src/tub_json.h)
 target_link_libraries(tub_pdf_maker PRIVATE cpr::cpr)
 target_link_libraries(tub_pdf_maker PRIVATE Boost::log)
+target_link_libraries(tub_pdf_maker PRIVATE nlohmann_json::nlohmann_json)
 
 enable_testing()
 
 add_executable(
         TubMediaWiki_test
-        tests/TuBMediaWiki_test.cpp
-        src/services/TubMediaWikiService.cpp
-        src/services/TubMediaWikiService.h
-        src/services/MediaWikiService.h
-)
+        tests/tub_mediawiki_test.cpp
+        src/services/tub_mediawiki_service.h src/services/tub_mediawiki_service.cpp
+        src/services/mediawiki_service.h
+        src/tub_json.cpp src/tub_json.h tests/tub_json_test.cpp)
 target_link_libraries(
         TubMediaWiki_test
         GTest::gtest_main
