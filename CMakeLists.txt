@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
 project(tub_pdf_maker)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 find_package(cpr CONFIG REQUIRED)
 find_package(Boost 1.79.0 REQUIRED COMPONENTS log)
 find_package(GTest CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 
 add_executable(tub_pdf_maker
         src/main.cpp
@@ -20,6 +21,7 @@ add_executable(tub_pdf_maker
 target_link_libraries(tub_pdf_maker PRIVATE cpr::cpr)
 target_link_libraries(tub_pdf_maker PRIVATE Boost::log)
 target_link_libraries(tub_pdf_maker PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(tub_pdf_maker PRIVATE fmt::fmt)
 add_compile_options(-g -Wall -Wextra -Wno-unused-parameter -Wno-reorder -Werror=return-type)
 
 enable_testing()
@@ -39,6 +41,7 @@ target_link_libraries(
         GTest::gtest_main
         cpr::cpr
         Boost::log
+        fmt::fmt
 )
 
 include(GoogleTest)

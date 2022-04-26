@@ -46,10 +46,10 @@ TEST_F(EntryBuilderTest, BasicEntry) {
     entry_builder entryBuilder;
     std::vector<Entry> entries = entryBuilder.build_entries(results);
     EXPECT_EQ(5, entries.size());
-    EXPECT_EQ("بحث في) أصول الفقه)", entries.at(0).getMTitleArabic());
-    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getMTitleTransliterated());
+    EXPECT_EQ("بحث في) أصول الفقه)", entries.at(0).getTitleArabic());
+    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getTitleTransliterated());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getId());
-    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entries.at(0).getMAuthor().getName());
+    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entries.at(0).getAuthor().getName());
 
 
 }

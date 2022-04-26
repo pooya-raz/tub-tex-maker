@@ -4,8 +4,6 @@
 
 #include "entry.h"
 
-#include <utility>
-
 Entry::Entry() = default;
 
 Entry::Entry(std::string id, std::string title_transliterated, std::string title_arabic, Author author) {
@@ -16,9 +14,14 @@ Entry::Entry(std::string id, std::string title_transliterated, std::string title
 }
 
 std::string Entry::to_string() {
-    return "Title: " + m_title_transliterated + "\n" +
+    std::string latex = fmt::format("Title: {} ",m_title_transliterated);
+    return latex;
+    /*
+    + m_title_transliterated + "\n" +
            m_title_arabic +
            "Author " + m_author.getName();
+
+    */
 
 }
 
@@ -26,14 +29,14 @@ const std::string &Entry::getId() const {
     return m_id;
 }
 
-const std::string &Entry::getMTitleTransliterated() const {
+const std::string &Entry::getTitleTransliterated() const {
     return m_title_transliterated;
 }
 
-const std::string &Entry::getMTitleArabic() const {
+const std::string &Entry::getTitleArabic() const {
     return m_title_arabic;
 }
 
-const Author &Entry::getMAuthor() const {
+const Author &Entry::getAuthor() const {
     return m_author;
 }

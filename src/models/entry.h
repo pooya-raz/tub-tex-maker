@@ -6,6 +6,8 @@
 #define TUB_PDF_MAKER_ENTRY_H
 
 #include <string>
+#include <utility>
+#include <fmt/core.h>
 #include "author.h"
 
 class Entry
@@ -21,13 +23,13 @@ public:
 
     Entry(std::string id, std::string title_transliterated, std::string title_arabic, Author author);
 
-    const std::string &getId() const;
+    [[nodiscard]] const std::string &getId() const;
 
-    const std::string &getMTitleTransliterated() const;
+    [[nodiscard]] const std::string &getTitleTransliterated() const;
 
-    const std::string &getMTitleArabic() const;
+    [[nodiscard]] const std::string &getTitleArabic() const;
 
-    const Author &getMAuthor() const;
+    [[nodiscard]] const Author &getAuthor() const;
 
     std::string to_string();
 
