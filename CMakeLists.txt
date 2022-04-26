@@ -10,9 +10,9 @@ find_package(fmt CONFIG REQUIRED)
 
 add_executable(tub_pdf_maker
         src/main.cpp
-        src/services/mediawiki_service.h
-        src/services/tub_mediawiki_service.cpp src/services/tub_mediawiki_service.h
-        src/services/file_writer_service.cpp src/services/file_writer_service.h
+        src/io/mediawiki.h
+        src/io/tub_mediawiki.cpp src/io/tub_mediawiki.h
+        src/io/file_writer.cpp src/io/file_writer.h
         src/tub_json.cpp src/tub_json.h
         src/models/entry.cpp src/models/entry.h
         src/entry_builder.cpp src/entry_builder.h
@@ -27,8 +27,8 @@ enable_testing()
 
 add_executable(
         TubMediaWiki_test
-        src/services/tub_mediawiki_service.h src/services/tub_mediawiki_service.cpp
-        src/services/mediawiki_service.h
+        src/io/tub_mediawiki.h src/io/tub_mediawiki.cpp
+        src/io/mediawiki.h
         src/tub_json.cpp src/tub_json.h
         tests/tub_json_test.cpp
         src/models/entry.cpp src/models/entry.h

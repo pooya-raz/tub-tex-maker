@@ -2,9 +2,9 @@
 // Created by pooya on 4/25/22.
 //
 
-#include "tub_mediawiki_service.h"
+#include "tub_mediawiki.h"
 
-std::string tub_mediawiki_service::getQuery(std::string query) {
+std::string tub_mediawiki::getQuery(std::string query) {
     BOOST_LOG_TRIVIAL(info) << "HTTP call to TUB";
     auto url = "http://144.173.140.108:8080/tub/api.php?action=ask&format=json&query=" + query;
     cpr::Response response = cpr::Get(cpr::Url{url});
