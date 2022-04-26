@@ -16,18 +16,21 @@ private:
     std::string m_id {};
     std::string m_title_transliterated {};
     std::string m_title_arabic {};
+    std::string m_description {};
     Author m_author {};
 
 public:
     Entry();
 
-    Entry(std::string id, std::string title_transliterated, std::string title_arabic, Author author);
+    Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Author author);
 
     [[nodiscard]] const std::string &getId() const;
 
     [[nodiscard]] const std::string &getTitleTransliterated() const;
 
     [[nodiscard]] const std::string &getTitleArabic() const;
+
+    [[nodiscard]] const std::string &getDescription() const;
 
     [[nodiscard]] const Author &getAuthor() const;
 

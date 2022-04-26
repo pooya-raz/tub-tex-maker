@@ -6,16 +6,36 @@
 
 Entry::Entry() = default;
 
-Entry::Entry(std::string id, std::string title_transliterated, std::string title_arabic, Author author) {
+Entry::Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Author author) {
     m_id = std::move(id);
     m_title_transliterated = std::move(title_transliterated);
     m_title_arabic = std::move(title_arabic);
     m_author = std::move(author);
+    m_description = std::move(description);
 }
 
 std::string Entry::to_string() {
-    std::string latex = fmt::format("Title: {} ",m_title_transliterated);
-    return latex;
+
+    return fmt::format("\\item \\\\textbf{{{transliterated_title}}}\n"
+                                    "        \\\\newline\n"
+                                    "        \\\\textarabic{{{arabic_title}}}\n"
+                                    "        \\\\newline\n"
+                                    "        {author}\n"
+                                    "        \\\\newline\n"
+                                    "        {death_dates}\n"
+                                    "        \\\\newline\n"
+                                    "        \\\\newline\n"
+                                    "        \\\\textbf{{Description}}\n"
+                                    "        \\\\newline\t\n"
+                                    "        {description}\n"
+                                    "        \\\\newline\n"
+                                    "        \\\\newline",
+                                    fmt::arg("transliterated_title",m_title_transliterated),
+                                    fmt::arg("arabic_title",m_title_arabic),
+                                    fmt::arg("author",m_author.getName()),
+                                    fmt::arg("death_dates","blank here"),
+                                    fmt::arg("description",m_description)
+                                    );
 }
 
 const std::string &Entry::getId() const {
@@ -32,4 +52,8 @@ const std::string &Entry::getTitleArabic() const {
 
 const Author &Entry::getAuthor() const {
     return m_author;
+}
+
+const std::string &Entry::getDescription() const {
+    return m_description;
 }

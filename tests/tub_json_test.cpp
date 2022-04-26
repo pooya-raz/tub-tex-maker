@@ -50,6 +50,5 @@ TEST_F(EntryBuilderTest, BasicEntry) {
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getTitleTransliterated());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getId());
     EXPECT_EQ("Murtaḍā al-Ḥusaynī", entries.at(0).getAuthor().getName());
-
-
+    EXPECT_EQ("Sample description", entries.at(0).getDescription());
 }

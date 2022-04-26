@@ -7,14 +7,14 @@ std::string entry_builder::safe_get_element(int index, nlohmann::json json){
     if(!json.empty()){
         return json[index];
     }
-    return "";
+    return "NO DATA";
 }
 
 std::string entry_builder::safe_get_value(const std::string& key, nlohmann::json json){
     if(json.contains(key)) {
         return json[key];
     }
-    return "";
+    return "NO DATA";
 }
 std::string entry_builder::safe_get_value_with_index(const std::string& key, nlohmann::json json, int index)
 {
@@ -22,7 +22,7 @@ std::string entry_builder::safe_get_value_with_index(const std::string& key, nlo
         nlohmann::json array = json[key];
         return safe_get_element(index, array);
     }
-    return "";
+    return "NO DATA";
 }
 
 Entry entry_builder::build_entry(const nlohmann::json & json) {
@@ -31,9 +31,10 @@ Entry entry_builder::build_entry(const nlohmann::json & json) {
     auto title_arabic = safe_get_value_with_index("Title (Arabic)", printouts,0);
     auto title_transliterated = safe_get_value_with_index("Title (transliterated)",printouts,0);
     std::string author_name_transliterated = printouts["Has author(s)"][0]["fulltext"];
+    auto description = safe_get_value_with_index("Has a catalogue description", printouts,0);
 
     Author author {author_name_transliterated};
-    Entry new_entry {id, title_transliterated, title_arabic, author};
+    Entry new_entry {id, title_transliterated, title_arabic, description, author};
     return new_entry;
 }
 
