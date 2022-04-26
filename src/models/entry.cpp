@@ -16,13 +16,6 @@ Entry::Entry(std::string id, std::string title_transliterated, std::string title
 std::string Entry::to_string() {
     std::string latex = fmt::format("Title: {} ",m_title_transliterated);
     return latex;
-    /*
-    + m_title_transliterated + "\n" +
-           m_title_arabic +
-           "Author " + m_author.getName();
-
-    */
-
 }
 
 const std::string &Entry::getId() const {
