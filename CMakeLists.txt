@@ -17,7 +17,7 @@ add_executable(tub_pdf_maker
         src/models/entry.cpp src/models/entry.h
         src/entry_builder.cpp src/entry_builder.h
         src/models/author.cpp src/models/author.h
-        )
+        src/categories.h)
 target_link_libraries(tub_pdf_maker PRIVATE cpr::cpr)
 target_link_libraries(tub_pdf_maker PRIVATE Boost::log)
 target_link_libraries(tub_pdf_maker PRIVATE nlohmann_json::nlohmann_json)
@@ -35,7 +35,7 @@ add_executable(
         src/models/entry.cpp src/models/entry.h
         src/entry_builder.cpp src/entry_builder.h
         src/models/author.cpp src/models/author.h
-)
+        src/categories.h)
 target_link_libraries(
         TubMediaWiki_test
         GTest::gtest_main
