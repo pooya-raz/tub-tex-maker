@@ -57,7 +57,6 @@ TEST_F(EntryBuilderTest, BasicEntry) {
     EXPECT_EQ(222,entries.at(0).getAuthor().getMDeathGregorian());
     EXPECT_EQ("222",entries.at(0).getAuthor().getMDeathGregorianText());
 
-
-
+    EXPECT_EQ("(d. 111/222)",entries.at(0).getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
 
 }

@@ -37,3 +37,34 @@ const std::string &Author::getMDeathGregorianText() const {
     return m_death_gregorian_text;
 }
 
+std::string Author::getDeathDates() const {
+    std::string hijri = "NO DATA";
+    std::string gregorian = "NO DATA";
+
+    if(m_death_hijri != 0){
+        hijri = std::to_string(m_death_hijri);
+    }
+    if(m_death_hijri_text != "NO DATA")
+    {
+        hijri = m_death_hijri_text;
+    }
+
+    if(m_death_gregorian != 0)
+    {
+        gregorian = std::to_string(m_death_gregorian);
+    }
+    if(m_death_gregorian_text != "NO DATA")
+    {
+        gregorian = m_death_gregorian_text;
+    }
+
+    return fmt::format("(d. {hijri}/{gregorian})",
+                       fmt::arg("hijri",hijri),
+                       fmt::arg("gregorian",gregorian)
+    );
+
+
+
+
+}
+

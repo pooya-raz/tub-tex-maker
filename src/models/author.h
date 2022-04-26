@@ -5,6 +5,7 @@
 #ifndef TUB_PDF_MAKER_AUTHOR_H
 #define TUB_PDF_MAKER_AUTHOR_H
 #include <string>
+#include <fmt/core.h>
 
 class Author
 {
@@ -32,6 +33,8 @@ public:
     [[nodiscard]] const std::string &getMDeathHijriText() const;
 
     [[nodiscard]] const std::string &getMDeathGregorianText() const;
+
+    std::string getDeathDates() const;
 };
 
 

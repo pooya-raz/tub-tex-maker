@@ -33,7 +33,7 @@ std::string Entry::to_string() {
                                     fmt::arg("transliterated_title",m_title_transliterated),
                                     fmt::arg("arabic_title",m_title_arabic),
                                     fmt::arg("author",m_author.getName()),
-                                    fmt::arg("death_dates","blank here"),
+                                    fmt::arg("death_dates",m_author.getDeathDates()),
                                     fmt::arg("description",m_description)
                                     );
 }
