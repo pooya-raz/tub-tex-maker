@@ -13,6 +13,8 @@ class entry_builder {
 private:
     std::string safe_get_element(int index, nlohmann::json json);
     std::string safe_get_value(const std::string& key, nlohmann::json json);
+    int safe_get_hijri(const std::string& key, nlohmann::json json);
+    int safe_get_gregorian(const std::string& key, nlohmann::json json);
     std::string safe_get_value_with_index(const std::string& key, nlohmann::json json, int index);
     Entry build_entry(const nlohmann::json& json);
 

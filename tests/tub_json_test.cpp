@@ -49,6 +49,15 @@ TEST_F(EntryBuilderTest, BasicEntry) {
     EXPECT_EQ("بحث في) أصول الفقه)", entries.at(0).getTitleArabic());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getTitleTransliterated());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entries.at(0).getId());
-    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entries.at(0).getAuthor().getName());
     EXPECT_EQ("Sample description", entries.at(0).getDescription());
+
+    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entries.at(0).getAuthor().getName());
+    EXPECT_EQ(111,entries.at(0).getAuthor().getMDeathHijri());
+    EXPECT_EQ("111",entries.at(0).getAuthor().getMDeathHijriText());
+    EXPECT_EQ(222,entries.at(0).getAuthor().getMDeathGregorian());
+    EXPECT_EQ("222",entries.at(0).getAuthor().getMDeathGregorianText());
+
+
+
+
 }
