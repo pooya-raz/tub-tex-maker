@@ -12,9 +12,12 @@
 class entry_builder {
 private:
     std::string safe_get_element(int index, nlohmann::json json);
-    std::string safe_get_value(const std::string& key, nlohmann::json json, int index);
+    std::string safe_get_value(const std::string& key, nlohmann::json json);
+    std::string safe_get_value_with_index(const std::string& key, nlohmann::json json, int index);
+    Entry build_entry(const nlohmann::json& json);
+
 public:
-    std::vector<Entry> make_entry(const nlohmann::json& json);
+    std::vector<Entry> build_entries(const nlohmann::json& json);
 
 };
 

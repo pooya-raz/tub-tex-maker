@@ -10,7 +10,13 @@ std::string entry_builder::safe_get_element(int index, nlohmann::json json){
     return "";
 }
 
-std::string entry_builder::safe_get_value(const std::string& key, nlohmann::json json, int index)
+std::string entry_builder::safe_get_value(const std::string& key, nlohmann::json json){
+    if(json.contains(key)) {
+        return json[key];
+    }
+    return "";
+}
+std::string entry_builder::safe_get_value_with_index(const std::string& key, nlohmann::json json, int index)
 {
     if(json.contains(key)){
         nlohmann::json array = json[key];
@@ -19,15 +25,23 @@ std::string entry_builder::safe_get_value(const std::string& key, nlohmann::json
     return "";
 }
 
-std::vector<Entry> entry_builder::make_entry(const nlohmann::json& json) {
+Entry entry_builder::build_entry(const nlohmann::json & json) {
+    nlohmann::json printouts = json["printouts"];
+    auto id = safe_get_value("fulltext", json);
+    auto title_arabic = safe_get_value_with_index("Title (Arabic)", printouts,0);
+    auto title_transliterated = safe_get_value_with_index("Title (transliterated)",printouts,0);
+    std::string author_name_transliterated = printouts["Has author(s)"][0]["fulltext"];
+
+    Author author {author_name_transliterated};
+    Entry new_entry {id, title_transliterated, title_arabic, author};
+    return new_entry;
+}
+
+std::vector<Entry> entry_builder::build_entries(const nlohmann::json& json) {
     std::vector<Entry> entries;
-    for(nlohmann::json entry: json)
+    for(const nlohmann::json& entry: json)
     {
-        nlohmann::json printouts = entry["printouts"];
-        Entry new_entry;
-        new_entry.title_arabic = safe_get_value("Title (Arabic)", printouts,0);
-        new_entry.title_transliteration = safe_get_value("Title (transliterated)",printouts,0);
-        new_entry.author.name_transliterated = printouts["Has author(s)"][0]["fulltext"];
+        auto new_entry = build_entry(entry);
         entries.push_back(new_entry);
     }
     return entries;
