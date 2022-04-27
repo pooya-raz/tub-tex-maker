@@ -9,6 +9,7 @@
 #include <utility>
 #include <fmt/core.h>
 #include "author.h"
+#include "../models/title_type.h"
 
 class Entry
 {
@@ -17,12 +18,13 @@ private:
     std::string m_title_transliterated {};
     std::string m_title_arabic {};
     std::string m_description {};
+    Category m_category {};
     Author m_author {};
 
 public:
     Entry();
 
-    Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Author author);
+    Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Category category, Author author);
 
     [[nodiscard]] const std::string &getId() const;
 
@@ -33,6 +35,8 @@ public:
     [[nodiscard]] const std::string &getDescription() const;
 
     [[nodiscard]] const Author &getAuthor() const;
+
+    [[nodiscard]] const Category &getCategory() const;
 
     std::string to_string();
 

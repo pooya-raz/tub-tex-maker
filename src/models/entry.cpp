@@ -6,12 +6,18 @@
 
 Entry::Entry() = default;
 
-Entry::Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Author author) {
+Entry::Entry(std::string id,
+             std::string title_transliterated,
+             std::string title_arabic,
+             std::string description,
+             Category category,
+             Author author) {
     m_id = std::move(id);
     m_title_transliterated = std::move(title_transliterated);
     m_title_arabic = std::move(title_arabic);
     m_author = std::move(author);
     m_description = std::move(description);
+    m_category = std::move(category);
 }
 
 std::string Entry::to_string() {
@@ -56,4 +62,8 @@ const Author &Entry::getAuthor() const {
 
 const std::string &Entry::getDescription() const {
     return m_description;
+}
+
+const Category &Entry::getCategory() const {
+    return m_category;
 }

@@ -50,10 +50,12 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
     auto entries = EntryBuilderTest::entries;
     EXPECT_EQ(5, entries.size());
     auto entry = entries.at(0);
+    Category category {ManuscriptOnly};
     EXPECT_EQ("بحث في) أصول الفقه)", entry.getTitleArabic());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry.getTitleTransliterated());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry.getId());
     EXPECT_EQ("NO DATA", entry.getDescription());
+    EXPECT_EQ(category,entry.getCategory());
 
     EXPECT_EQ("Murtaḍā al-Ḥusaynī", entry.getAuthor().getName());
     EXPECT_EQ(0,entry.getAuthor().getMDeathHijri());
@@ -72,17 +74,18 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
 
     auto entries = EntryBuilderTest::entries;
     auto entry = entries.at(1);
+    Category category {Edited};
     EXPECT_EQ("مختصر) التذكرة بأصول الفقه)", entry.getTitleArabic());
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry.getTitleTransliterated());
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry.getId());
     EXPECT_EQ( "This is a summary of al-Tadhkira bi-uṣūl al-fiqh.", entry.getDescription());
+    EXPECT_EQ(category,entry.getCategory());
 
     EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry.getAuthor().getName());
     EXPECT_EQ(449,entry.getAuthor().getMDeathHijri());
     EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathHijriText());
     EXPECT_EQ(1057,entry.getAuthor().getMDeathGregorian());
     EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathGregorianText());
-
     EXPECT_EQ("(d. 449/1057)",entry.getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
 
 }
