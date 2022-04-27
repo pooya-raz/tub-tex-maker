@@ -4,7 +4,7 @@
 
 #ifndef TUB_PDF_MAKER_ENTRY_BUILDER_H
 #define TUB_PDF_MAKER_ENTRY_BUILDER_H
-#include "../src/models/entry.h"
+#include "../models/entry.h"
 #include <nlohmann/json.hpp>
 
 

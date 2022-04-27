@@ -2,9 +2,9 @@
 // Created by pooya on 4/25/22.
 //
 #include <gtest/gtest.h>
-#include "../src/tub_json.h"
+#include "../tub_json.h"
 #include <fstream>
-#include "../src/entry_builder.h"
+#include "./entry_builder.h"
 
 class EntryBuilderTest : public ::testing::Test
 {
