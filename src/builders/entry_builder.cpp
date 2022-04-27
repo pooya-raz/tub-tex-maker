@@ -54,9 +54,9 @@ Entry entry_builder::build_entry(const nlohmann::json &json) {
     auto id = safe_get_value("fulltext", json);
     auto title_arabic = safe_get_value_with_index("Title (Arabic)", printouts, 0);
     auto title_transliterated = safe_get_value_with_index("Title (transliterated)", printouts, 0);
-    std::string author_name_transliterated = printouts["Has author(s)"][0]["fulltext"];
     auto description = safe_get_value_with_index("Has a catalogue description", printouts, 0);
 
+    auto author_name_transliterated = safe_get_value_with_index("Full name (transliterated)", printouts, 0);
     auto death_hijri = safe_get_hijri("Death (Hijri)", printouts);
     auto death_gregorian = safe_get_gregorian("Death (Gregorian)", printouts);
     auto death_hijri_text = safe_get_value_with_index("Death (Hijri) text", printouts, 0);
