@@ -12,10 +12,10 @@
 
 class entry_builder {
 private:
-    Entry build_entry(TubJson json);
+    Entry build_entry(TubJson& json);
 
 public:
-    std::vector<Entry> build_entries(TubJson json);
+    std::vector<Entry> build_entries(TubJson& json);
 
 };
 

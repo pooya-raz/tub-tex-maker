@@ -6,7 +6,7 @@
 #include "../models/title_type.h"
 #include <iostream>
 
-Entry entry_builder::build_entry(TubJson tubJson) {
+Entry entry_builder::build_entry(TubJson& tubJson) {
     auto parseCategory
             {
                     [](const std::string& string)
@@ -39,6 +39,7 @@ Entry entry_builder::build_entry(TubJson tubJson) {
     auto title_transliterated = tubJson.at("printouts").at("Title (transliterated)").get(0);
     auto description = tubJson.at("printouts").at("Has a catalogue description").get(0);
     auto category= parseCategory(tubJson.at("printouts").at("Category").at(0).get("fulltext"));
+    
     /*
      * Get author details
      */
@@ -65,9 +66,9 @@ Entry entry_builder::build_entry(TubJson tubJson) {
     return new_entry;
 }
 
-std::vector<Entry> entry_builder::build_entries(TubJson json) {
+std::vector<Entry> entry_builder::build_entries(TubJson& json) {
     std::vector<Entry> entries;
-    for (const TubJson &entry: json.get_entries()) {
+    for (TubJson & entry: json.get_entries()) {
         auto new_entry = build_entry(entry);
         entries.push_back(new_entry);
     }
