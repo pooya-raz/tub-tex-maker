@@ -7,6 +7,7 @@
 #include <iostream>
 
 Entry entry_builder::build_entry(TubJson& tubJson) {
+    auto correctionsRequired = std::vector<CorrectionsRequired>();
     auto parseCategory
             {
                     [](const std::string& string)
@@ -20,6 +21,7 @@ Entry entry_builder::build_entry(TubJson& tubJson) {
                         catch (const char* exception){
                             std::cerr << "Error: " << exception <<std::endl;
                         }
+                        return Category{kCorrectionsRequired};
                     }
             };
 
@@ -31,6 +33,7 @@ Entry entry_builder::build_entry(TubJson& tubJson) {
             return std::stoi(year);
         }
     };
+
     /*
      * Get title details
      */
@@ -39,7 +42,6 @@ Entry entry_builder::build_entry(TubJson& tubJson) {
     auto title_transliterated = tubJson.at("printouts").at("Title (transliterated)").get(0);
     auto description = tubJson.at("printouts").at("Has a catalogue description").get(0);
     auto category= parseCategory(tubJson.at("printouts").at("Category").at(0).get("fulltext"));
-    
     /*
      * Get author details
      */
@@ -49,6 +51,11 @@ Entry entry_builder::build_entry(TubJson& tubJson) {
     auto death_hijri_text = tubJson.at("printouts").at("Death (Hijri) text").get(0);
     auto death_gregorian_text= tubJson.at("printouts").at("Death (Gregorian) text").get(0);
 
+    /*
+     * Check for errors
+     */
+    if(category == kCorrectionsRequired) correctionsRequired.push_back(CheckCategory);
+    if(death_hijri == 0 || death_gregorian ==0 ) correctionsRequired.push_back(CheckDates);
     /*
      * Build models
      */
@@ -62,6 +69,7 @@ Entry entry_builder::build_entry(TubJson& tubJson) {
                     title_arabic,
                     description,
                     category,
+                    correctionsRequired,
                     author};
     return new_entry;
 }

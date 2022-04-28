@@ -8,6 +8,7 @@
 #include <string>
 #include <utility>
 #include <fmt/core.h>
+#include <vector>
 #include "author.h"
 #include "../models/title_type.h"
 
@@ -19,12 +20,13 @@ private:
     std::string m_title_arabic {};
     std::string m_description {};
     Category m_category {};
+    std::vector<CorrectionsRequired> m_corrections_required {};
     Author m_author {};
 
 public:
     Entry();
 
-    Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Category category, Author author);
+    Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Category category, std::vector<CorrectionsRequired> correctionsRequired, Author author);
 
     [[nodiscard]] const std::string &getId() const;
 
@@ -37,6 +39,8 @@ public:
     [[nodiscard]] const Author &getAuthor() const;
 
     [[nodiscard]] const Category &getCategory() const;
+
+    [[nodiscard]] const std::vector<CorrectionsRequired> &getCorrectionsRequired() const;
 
     std::string to_string();
 

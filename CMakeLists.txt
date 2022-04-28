@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
-project(tub_pdf_maker)
+project(tub_pdf_maker VERSION 0.1)
 
 set(CMAKE_CXX_STANDARD 20)
 find_package(cpr CONFIG REQUIRED)

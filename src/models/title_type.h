@@ -16,6 +16,16 @@ enum TitleType {
     Refutation,
     Taqrirat,
     Translation
-    };
-enum Category { Edited, ManuscriptOnly, NonExtant };
+};
+enum Category {
+    Edited,
+    ManuscriptOnly,
+    NonExtant,
+    kCorrectionsRequired
+};
+
+enum CorrectionsRequired {
+    CheckDates,
+    CheckCategory,
+};
 #endif //TUB_PDF_MAKER_TITLE_TYPE_H

@@ -11,12 +11,14 @@ Entry::Entry(std::string id,
              std::string title_arabic,
              std::string description,
              Category category,
+             std::vector<CorrectionsRequired> correctionsRequired,
              Author author) {
     m_id = std::move(id);
     m_title_transliterated = std::move(title_transliterated);
     m_title_arabic = std::move(title_arabic);
     m_author = std::move(author);
     m_description = std::move(description);
+    m_corrections_required = std::move(correctionsRequired);
     m_category = category;
 }
 
@@ -66,4 +68,8 @@ const std::string &Entry::getDescription() const {
 
 const Category &Entry::getCategory() const {
     return m_category;
+}
+
+const std::vector<CorrectionsRequired> &Entry::getCorrectionsRequired() const {
+    return m_corrections_required;
 }

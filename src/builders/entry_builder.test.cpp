@@ -5,6 +5,7 @@
 #include "../TubJson.h"
 #include <fstream>
 #include "./entry_builder.h"
+#include "../models/title_type.h"
 
 class EntryBuilderTest : public ::testing::Test
 {
@@ -56,6 +57,9 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
     EXPECT_EQ("NO DATA", entry.getDescription());
     EXPECT_EQ(category,entry.getCategory());
 
+    std::vector<CorrectionsRequired> correctionsRequired {CheckDates};
+    EXPECT_EQ(correctionsRequired,entry.getCorrectionsRequired());
+
     EXPECT_EQ("Murtaḍā al-Ḥusaynī", entry.getAuthor().getName());
     EXPECT_EQ(0,entry.getAuthor().getMDeathHijri());
     EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathHijriText());
@@ -79,6 +83,8 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry.getId());
     EXPECT_EQ( "This is a summary of al-Tadhkira bi-uṣūl al-fiqh.", entry.getDescription());
     EXPECT_EQ(category,entry.getCategory());
+    std::vector<CorrectionsRequired> correctionsRequired {};
+    EXPECT_EQ(correctionsRequired,entry.getCorrectionsRequired());
 
     EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry.getAuthor().getName());
     EXPECT_EQ(449,entry.getAuthor().getMDeathHijri());
