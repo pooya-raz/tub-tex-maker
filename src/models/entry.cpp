@@ -17,7 +17,7 @@ Entry::Entry(std::string id,
     m_title_arabic = std::move(title_arabic);
     m_author = std::move(author);
     m_description = std::move(description);
-    m_category = std::move(category);
+    m_category = category;
 }
 
 std::string Entry::to_string() {

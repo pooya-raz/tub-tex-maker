@@ -6,20 +6,16 @@
 #define TUB_PDF_MAKER_ENTRY_BUILDER_H
 #include "../models/entry.h"
 #include <nlohmann/json.hpp>
+#include "../TubJson.h"
 
 
 
 class entry_builder {
 private:
-    std::string safe_get_element(int index, nlohmann::json json);
-    std::string safe_get_value(const std::string& key, nlohmann::json json);
-    int safe_get_hijri(const std::string& key, nlohmann::json json);
-    int safe_get_gregorian(const std::string& key, nlohmann::json json);
-    std::string safe_get_value_with_index(const std::string& key, nlohmann::json json, int index);
-    Entry build_entry(const nlohmann::json& json);
+    Entry build_entry(TubJson json);
 
 public:
-    std::vector<Entry> build_entries(const nlohmann::json& json);
+    std::vector<Entry> build_entries(TubJson json);
 
 };
 

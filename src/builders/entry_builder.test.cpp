@@ -2,7 +2,7 @@
 // Created by pooya on 4/25/22.
 //
 #include <gtest/gtest.h>
-#include "../tub_json.h"
+#include "../TubJson.h"
 #include <fstream>
 #include "./entry_builder.h"
 
@@ -21,14 +21,14 @@ protected:
              *
              * This will create a json object that can repeatedly be used in tests
              */
-            tub_json tubJson;
+            TubJson tubJson;
             // Read from the text file
-            std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/response.json");
+            std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/1000response.json");
             std::string json_string( (std::istreambuf_iterator<char>(file) ),
                                      (std::istreambuf_iterator<char>()    ) );
 
-            auto json = tubJson.parse(json_string);
-            auto results = json["query"]["results"];
+            tubJson.parse(json_string);
+            auto results = tubJson.at("query").at("results");
             entry_builder entryBuilder;
             entries = entryBuilder.build_entries(results);
         }
@@ -48,7 +48,6 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
      */
 
     auto entries = EntryBuilderTest::entries;
-    EXPECT_EQ(5, entries.size());
     auto entry = entries.at(0);
     Category category {ManuscriptOnly};
     EXPECT_EQ("بحث في) أصول الفقه)", entry.getTitleArabic());

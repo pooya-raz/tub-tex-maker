@@ -6,85 +6,47 @@
 #include "../models/title_type.h"
 #include <iostream>
 
-std::string entry_builder::safe_get_element(int index, nlohmann::json json) {
-    if (!json.empty()) {
-        return json[index];
-    }
-    return "NO DATA";
-}
+Entry entry_builder::build_entry(TubJson tubJson) {
+    auto parseCategory
+            {
+                    [](const std::string& string)
+                    {
+                        try{
+                            if(string == "Category:Manuscript-only title" ) return Category {ManuscriptOnly};
+                            if(string == "Category:Edited title") return Category {Edited};
+                            if(string == "Category:Non-extant title") return Category {NonExtant};
+                            throw "Unknown category: " + string;
+                        }
+                        catch (const char* exception){
+                            std::cerr << "Error: " << exception <<std::endl;
+                        }
+                    }
+            };
 
-std::string entry_builder::safe_get_value(const std::string &key, nlohmann::json json) {
-    if (json.contains(key)) {
-        return json[key];
-    }
-    return "NO DATA";
-}
-
-std::string entry_builder::safe_get_value_with_index(const std::string &key, nlohmann::json json, int index) {
-    if (json.contains(key)) {
-        nlohmann::json array = json[key];
-        return safe_get_element(index, array);
-    }
-    return "NO DATA";
-}
-
-int entry_builder::safe_get_hijri(const std::string &key, nlohmann::json json) {
-    if (json.contains(key)) {
-        if (!json[key].empty()) {
-            return json[key][0];
-        }
-        return 0;
-    }
-    return 0;
-}
-
-int entry_builder::safe_get_gregorian(const std::string &key, nlohmann::json json) {
-    if (json.contains(key)) {
-        if (!json[key].empty()) {
-            std::string raw = json[key][0]["raw"];
-            auto year = raw.substr(raw.find('/') + 1);
+    auto parseGregorianDate {
+        [](const std::string& string)
+        {
+            if(string == "NO DATA") return 0;
+            auto year = string.substr(string.find('/') + 1);
             return std::stoi(year);
         }
-        return 0;
-    }
-    return 0;
-}
-
-
-Entry entry_builder::build_entry(const nlohmann::json &json) {
-
+    };
     /*
      * Get title details
      */
-    const nlohmann::json& printouts = json["printouts"];
-    auto id = safe_get_value("fulltext", json);
-    auto title_arabic = safe_get_value_with_index("Title (Arabic)", printouts, 0);
-    auto title_transliterated = safe_get_value_with_index("Title (transliterated)", printouts, 0);
-    auto description = safe_get_value_with_index("Has a catalogue description", printouts, 0);
-    auto parseCategory
-            {
-                [](const std::string& string)
-                {
-                    try{
-                        if(string == "Category:Manuscript-only title" ) return Category {ManuscriptOnly};
-                        if(string == "Category:Edited title") return Category {Edited};
-                        if(string == "Category:Non-extant title") return Category {NonExtant};
-                        throw "Unknown category: " + string;
-                    }
-                    catch (const char* exception){
-                        std::cerr << "Error: " << exception <<std::endl;
-                    }
-                }
-            };
-    auto category = parseCategory(printouts["Category"][0]["fulltext"]);
+    auto id = tubJson.get("fulltext");
+    auto title_arabic = tubJson.at("printouts").at("Title (Arabic)").get(0);
+    auto title_transliterated = tubJson.at("printouts").at("Title (transliterated)").get(0);
+    auto description = tubJson.at("printouts").at("Has a catalogue description").get(0);
+    auto category= parseCategory(tubJson.at("printouts").at("Category").at(0).get("fulltext"));
     /*
      * Get author details
      */
-    auto author_name_transliterated = safe_get_value_with_index("Full name (transliterated)", printouts, 0);
-    auto death_hijri = safe_get_hijri("Death (Hijri)", printouts);
-    auto death_gregorian = safe_get_gregorian("Death (Gregorian)", printouts);
-    auto death_hijri_text = safe_get_value_with_index("Death (Hijri) text", printouts, 0);
-    auto death_gregorian_text = safe_get_value_with_index("Death (Gregorian) text", printouts, 0);
+    auto author_name_transliterated = tubJson.at("printouts").at("Full name (transliterated)").get(0);
+    auto death_hijri = tubJson.at("printouts").at("Death (Hijri)").get_int(0);
+    auto death_gregorian = parseGregorianDate(tubJson.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
+    auto death_hijri_text = tubJson.at("printouts").at("Death (Hijri) text").get(0);
+    auto death_gregorian_text= tubJson.at("printouts").at("Death (Gregorian) text").get(0);
 
     /*
      * Build models
@@ -103,9 +65,9 @@ Entry entry_builder::build_entry(const nlohmann::json &json) {
     return new_entry;
 }
 
-std::vector<Entry> entry_builder::build_entries(const nlohmann::json &json) {
+std::vector<Entry> entry_builder::build_entries(TubJson json) {
     std::vector<Entry> entries;
-    for (const nlohmann::json &entry: json) {
+    for (const TubJson &entry: json.get_entries()) {
         auto new_entry = build_entry(entry);
         entries.push_back(new_entry);
     }
