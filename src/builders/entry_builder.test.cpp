@@ -5,7 +5,6 @@
 #include "../TubJson.h"
 #include <fstream>
 #include "./entry_builder.h"
-#include "../models/title_type.h"
 
 class EntryBuilderTest : public ::testing::Test
 {
@@ -27,7 +26,6 @@ protected:
             std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/1000response.json");
             std::string json_string( (std::istreambuf_iterator<char>(file) ),
                                      (std::istreambuf_iterator<char>()    ) );
-
             tubJson.parse(json_string);
             auto results = tubJson.at("query").at("results");
             entry_builder entryBuilder;
@@ -48,8 +46,7 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
      * Test to see if I can get a single title, and that it is in UTF-8
      */
 
-    auto entries = EntryBuilderTest::entries;
-    auto entry = entries.at(0);
+    auto& entry = EntryBuilderTest::entries.at(0);
     Category category {ManuscriptOnly};
     TitleType title_type {Treatise};
     EXPECT_EQ("بحث في) أصول الفقه)", entry.getTitleArabic());
@@ -77,8 +74,7 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
      * Test to see if I can get a single title, and that it is in UTF-8
      */
 
-    auto entries = EntryBuilderTest::entries;
-    auto entry = entries.at(1);
+    auto& entry = EntryBuilderTest::entries.at(1);
     Category category {Edited};
     EXPECT_EQ("مختصر) التذكرة بأصول الفقه)", entry.getTitleArabic());
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry.getTitleTransliterated());
