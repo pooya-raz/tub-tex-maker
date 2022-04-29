@@ -5,8 +5,8 @@
 #ifndef TUB_PDF_MAKER_TITLE_TYPE_H
 #define TUB_PDF_MAKER_TITLE_TYPE_H
 enum TitleType {
-    MonographsWithCommentaries,
-    MonographsWithoutCommentaries,
+    MonographWithCommentaries,
+    MonographWithoutCommentaries,
     Commentary,
     Gloss,
     MarginalNotes,
