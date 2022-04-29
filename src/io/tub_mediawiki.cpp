@@ -11,8 +11,10 @@ std::string tub_mediawiki::getQuery(std::string query) {
     if(response.status_code != 200)
     {
         BOOST_LOG_TRIVIAL(error) << "There was an error retrieving the data. HTTP error code: " << response.status_code;
+        throw std::runtime_error("It didn't work");
+    }else{
+        BOOST_LOG_TRIVIAL(info) << "Successful. Status code: " << response.status_code;
     }
-    BOOST_LOG_TRIVIAL(info) << "Successful. Status code: " << response.status_code;
 
     return response.text;
 }
