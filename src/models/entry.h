@@ -20,13 +20,21 @@ private:
     std::string m_title_arabic {};
     std::string m_description {};
     Category m_category {};
+    TitleType m_title_type {};
     std::vector<CorrectionsRequired> m_corrections_required {};
     Author m_author {};
 
 public:
     Entry();
 
-    Entry(std::string id, std::string title_transliterated, std::string title_arabic, std::string description, Category category, std::vector<CorrectionsRequired> correctionsRequired, Author author);
+    Entry(std::string id,
+          std::string title_transliterated,
+          std::string title_arabic,
+          std::string description,
+          Category category,
+          std::vector<CorrectionsRequired> corrections_required,
+          TitleType title_type,
+          Author author);
 
     [[nodiscard]] const std::string &getId() const;
 
@@ -39,6 +47,8 @@ public:
     [[nodiscard]] const Author &getAuthor() const;
 
     [[nodiscard]] const Category &getCategory() const;
+
+    [[nodiscard]] const TitleType &getTitleType() const;
 
     [[nodiscard]] const std::vector<CorrectionsRequired> &getCorrectionsRequired() const;
 

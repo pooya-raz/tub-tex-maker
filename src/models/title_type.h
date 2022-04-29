@@ -5,8 +5,7 @@
 #ifndef TUB_PDF_MAKER_TITLE_TYPE_H
 #define TUB_PDF_MAKER_TITLE_TYPE_H
 enum TitleType {
-    MonographWithCommentaries,
-    MonographWithoutCommentaries,
+    Monograph,
     Commentary,
     Gloss,
     MarginalNotes,
@@ -15,17 +14,19 @@ enum TitleType {
     Poem,
     Refutation,
     Taqrirat,
-    Translation
+    Translation,
+    tCorrectionsRequired,
 };
 enum Category {
     Edited,
     ManuscriptOnly,
     NonExtant,
-    kCorrectionsRequired
+    cCorrectionsRequired
 };
 
 enum CorrectionsRequired {
     CheckDates,
     CheckCategory,
+    CheckTitleType
 };
 #endif //TUB_PDF_MAKER_TITLE_TYPE_H

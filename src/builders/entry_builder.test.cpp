@@ -51,11 +51,13 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
     auto entries = EntryBuilderTest::entries;
     auto entry = entries.at(0);
     Category category {ManuscriptOnly};
+    TitleType title_type {Treatise};
     EXPECT_EQ("بحث في) أصول الفقه)", entry.getTitleArabic());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry.getTitleTransliterated());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry.getId());
     EXPECT_EQ("NO DATA", entry.getDescription());
     EXPECT_EQ(category,entry.getCategory());
+    EXPECT_EQ(title_type,entry.getTitleType());
 
     std::vector<CorrectionsRequired> correctionsRequired {CheckDates};
     EXPECT_EQ(correctionsRequired,entry.getCorrectionsRequired());
@@ -85,6 +87,8 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
     EXPECT_EQ(category,entry.getCategory());
     std::vector<CorrectionsRequired> correctionsRequired {};
     EXPECT_EQ(correctionsRequired,entry.getCorrectionsRequired());
+    TitleType title_type {Summary};
+    EXPECT_EQ(title_type,entry.getTitleType());
 
     EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry.getAuthor().getName());
     EXPECT_EQ(449,entry.getAuthor().getMDeathHijri());
