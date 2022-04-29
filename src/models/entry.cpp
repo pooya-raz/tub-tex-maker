@@ -22,7 +22,7 @@ Entry::Entry(std::string id,
     m_category = category;
 }
 
-std::string Entry::to_string() {
+std::string Entry::to_latex() {
 
     return fmt::format("\\item \\\\textbf{{{transliterated_title}}}\n"
                                     "        \\\\newline\n"

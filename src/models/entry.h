@@ -42,7 +42,7 @@ public:
 
     [[nodiscard]] const std::vector<CorrectionsRequired> &getCorrectionsRequired() const;
 
-    std::string to_string();
+    std::string to_latex();
 
 };
 
