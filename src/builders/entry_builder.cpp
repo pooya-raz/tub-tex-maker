@@ -6,7 +6,7 @@
 #include "../models/title_type.h"
 #include <iostream>
 
-Entry entry_builder::build_entry(TubJson &tubJson) {
+std::shared_ptr<Entry> entry_builder::add_entry(TubJson &json) {
     auto corrections_required = std::vector<CorrectionsRequired>();
     auto parseCategory
             {
@@ -45,20 +45,20 @@ Entry entry_builder::build_entry(TubJson &tubJson) {
     /*
      * Get title details
      */
-    auto id = tubJson.get("fulltext");
-    auto title_arabic = tubJson.at("printouts").at("Title (Arabic)").get(0);
-    auto title_transliterated = tubJson.at("printouts").at("Title (transliterated)").get(0);
-    auto description = tubJson.at("printouts").at("Has a catalogue description").get(0);
-    auto category = parseCategory(tubJson.at("printouts").at("Category").at(0).get("fulltext"));
-    auto title_type = parseTitleType(tubJson.at("printouts").at("Book type").get(0));
+    auto id = json.get("fulltext");
+    auto title_arabic = json.at("printouts").at("Title (Arabic)").get(0);
+    auto title_transliterated = json.at("printouts").at("Title (transliterated)").get(0);
+    auto description = json.at("printouts").at("Has a catalogue description").get(0);
+    auto category = parseCategory(json.at("printouts").at("Category").at(0).get("fulltext"));
+    auto title_type = parseTitleType(json.at("printouts").at("Book type").get(0));
     /*
      * Get author details
      */
-    auto author_name_transliterated = tubJson.at("printouts").at("Full name (transliterated)").get(0);
-    auto death_hijri = tubJson.at("printouts").at("Death (Hijri)").get_int(0);
-    auto death_gregorian = parseGregorianDate(tubJson.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
-    auto death_hijri_text = tubJson.at("printouts").at("Death (Hijri) text").get(0);
-    auto death_gregorian_text = tubJson.at("printouts").at("Death (Gregorian) text").get(0);
+    auto author_name_transliterated = json.at("printouts").at("Full name (transliterated)").get(0);
+    auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int(0);
+    auto death_gregorian = parseGregorianDate(json.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
+    auto death_hijri_text = json.at("printouts").at("Death (Hijri) text").get(0);
+    auto death_gregorian_text = json.at("printouts").at("Death (Gregorian) text").get(0);
 
     /*
      * Check for errors
@@ -74,22 +74,24 @@ Entry entry_builder::build_entry(TubJson &tubJson) {
                   death_gregorian,
                   death_hijri_text,
                   death_gregorian_text};
-    Entry new_entry{id,
+    auto new_entry = std::make_shared<Entry>(id,
                     title_transliterated,
                     title_arabic,
                     description,
                     category,
                     corrections_required,
                     title_type,
-                    author};
+                    author);
     return new_entry;
 }
 
-std::vector<Entry> entry_builder::build_entries(TubJson &json) {
-    std::vector<Entry> entries;
+void entry_builder::add_entries(TubJson &json) {
     for (TubJson &entry: json.get_entries()) {
-        auto new_entry = build_entry(entry);
-        entries.push_back(new_entry);
+        auto new_entry = add_entry(entry);
+        m_entries.push_back(new_entry);
     }
-    return entries;
+}
+
+EntryVec& entry_builder::getEntries() {
+    return m_entries;
 }

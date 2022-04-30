@@ -7,15 +7,19 @@
 #include "../models/entry.h"
 #include <nlohmann/json.hpp>
 #include "../TubJson.h"
+#include <vector>
 
+typedef std::vector<std::shared_ptr<Entry>> EntryVec;
 
 
 class entry_builder {
 private:
-    Entry build_entry(TubJson& json);
+    EntryVec m_entries;
+    std::shared_ptr<Entry> add_entry(TubJson& json);
 
 public:
-    std::vector<Entry> build_entries(TubJson& json);
+    void add_entries(TubJson& json);
+    EntryVec& getEntries();
 
 };
 

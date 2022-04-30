@@ -5,7 +5,6 @@
 #include "../TubJson.h"
 #include <fstream>
 #include "./entry_builder.h"
-
 class EntryBuilderTest : public ::testing::Test
 {
 protected:
@@ -29,15 +28,16 @@ protected:
             tubJson.parse(json_string);
             auto results = tubJson.at("query").at("results");
             entry_builder entryBuilder;
-            entries = entryBuilder.build_entries(results);
+            entryBuilder.add_entries(results);
+            entries = entryBuilder.getEntries();
         }
     }
 
     // Some expensive resource shared by all tests.
-    static std::vector<Entry> entries;
+    static EntryVec& entries;
 };
-
-std::vector<Entry> EntryBuilderTest::entries = {};
+EntryVec empty;
+EntryVec& EntryBuilderTest::entries = empty;
 
 
 
@@ -46,27 +46,26 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
      * Test to see if I can get a single title, and that it is in UTF-8
      */
 
-    auto& entry = EntryBuilderTest::entries.at(0);
+    const auto entry = EntryBuilderTest::entries.at(0);
     Category category {ManuscriptOnly};
     TitleType title_type {Treatise};
-    EXPECT_EQ("بحث في) أصول الفقه)", entry.getTitleArabic());
-    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry.getTitleTransliterated());
-    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry.getId());
-    EXPECT_EQ("NO DATA", entry.getDescription());
-    EXPECT_EQ(category,entry.getCategory());
-    EXPECT_EQ(title_type,entry.getTitleType());
+    EXPECT_EQ("بحث في) أصول الفقه)", entry->getTitleArabic());
+    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry->getTitleTransliterated());
+    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry->getId());
+    EXPECT_EQ("NO DATA", entry->getDescription());
+    EXPECT_EQ(category,entry->getCategory());
+    EXPECT_EQ(title_type,entry->getTitleType());
 
     std::vector<CorrectionsRequired> correctionsRequired {CheckDates};
-    EXPECT_EQ(correctionsRequired,entry.getCorrectionsRequired());
+    EXPECT_EQ(correctionsRequired,entry->getCorrectionsRequired());
 
-    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entry.getAuthor().getName());
-    EXPECT_EQ(0,entry.getAuthor().getMDeathHijri());
-    EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathHijriText());
-    EXPECT_EQ(0,entry.getAuthor().getMDeathGregorian());
-    EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathGregorianText());
+    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entry->getAuthor().getName());
+    EXPECT_EQ(0,entry->getAuthor().getMDeathHijri());
+    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathHijriText());
+    EXPECT_EQ(0,entry->getAuthor().getMDeathGregorian());
+    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathGregorianText());
 
-    EXPECT_EQ("(d. NO DATA/NO DATA)",entry.getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
-
+    EXPECT_EQ("(d. NO DATA/NO DATA)",entry->getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
 }
 
 TEST_F(EntryBuilderTest, WithDatesAndDescription) {
@@ -74,23 +73,23 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
      * Test to see if I can get a single title, and that it is in UTF-8
      */
 
-    auto& entry = EntryBuilderTest::entries.at(1);
+    const auto entry = EntryBuilderTest::entries.at(1);
     Category category {Edited};
-    EXPECT_EQ("مختصر) التذكرة بأصول الفقه)", entry.getTitleArabic());
-    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry.getTitleTransliterated());
-    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry.getId());
-    EXPECT_EQ( "This is a summary of al-Tadhkira bi-uṣūl al-fiqh.", entry.getDescription());
-    EXPECT_EQ(category,entry.getCategory());
+    EXPECT_EQ("مختصر) التذكرة بأصول الفقه)", entry->getTitleArabic());
+    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry->getTitleTransliterated());
+    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry->getId());
+    EXPECT_EQ( "This is a summary of al-Tadhkira bi-uṣūl al-fiqh.", entry->getDescription());
+    EXPECT_EQ(category,entry->getCategory());
     std::vector<CorrectionsRequired> correctionsRequired {};
-    EXPECT_EQ(correctionsRequired,entry.getCorrectionsRequired());
+    EXPECT_EQ(correctionsRequired,entry->getCorrectionsRequired());
     TitleType title_type {Summary};
-    EXPECT_EQ(title_type,entry.getTitleType());
+    EXPECT_EQ(title_type,entry->getTitleType());
 
-    EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry.getAuthor().getName());
-    EXPECT_EQ(449,entry.getAuthor().getMDeathHijri());
-    EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathHijriText());
-    EXPECT_EQ(1057,entry.getAuthor().getMDeathGregorian());
-    EXPECT_EQ("NO DATA",entry.getAuthor().getMDeathGregorianText());
-    EXPECT_EQ("(d. 449/1057)",entry.getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
+    EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry->getAuthor().getName());
+    EXPECT_EQ(449,entry->getAuthor().getMDeathHijri());
+    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathHijriText());
+    EXPECT_EQ(1057,entry->getAuthor().getMDeathGregorian());
+    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathGregorianText());
+    EXPECT_EQ("(d. 449/1057)",entry->getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
 
 }
