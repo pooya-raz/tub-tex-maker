@@ -2,8 +2,8 @@
 // Created by pooya on 4/26/22.
 //
 
-#ifndef TUB_PDF_MAKER_ENTRY_BUILDER_H
-#define TUB_PDF_MAKER_ENTRY_BUILDER_H
+#ifndef TUB_PDF_MAKER_ENTRY_MANGER_H
+#define TUB_PDF_MAKER_ENTRY_MANGER_H
 #include "../models/entry.h"
 #include <nlohmann/json.hpp>
 #include "../TubJson.h"
@@ -12,7 +12,7 @@
 typedef std::vector<std::shared_ptr<Entry>> EntryVec;
 
 
-class entry_builder {
+class EntryManager {
 private:
     EntryVec m_entries;
     std::shared_ptr<Entry> add_entry(TubJson& json);
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //TUB_PDF_MAKER_ENTRY_BUILDER_H
+#endif //TUB_PDF_MAKER_ENTRY_MANGER_H

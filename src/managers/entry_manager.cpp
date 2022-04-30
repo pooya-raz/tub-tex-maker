@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include "../TubJson.h"
 #include <fstream>
-#include "./entry_builder.h"
+#include "./entry_manger.h"
 class EntryBuilderTest : public ::testing::Test
 {
 protected:
@@ -27,9 +27,9 @@ protected:
                                      (std::istreambuf_iterator<char>()    ) );
             tubJson.parse(json_string);
             auto results = tubJson.at("query").at("results");
-            entry_builder entryBuilder;
-            entryBuilder.add_entries(results);
-            entries = entryBuilder.getEntries();
+            EntryManager entryManager;
+            entryManager.add_entries(results);
+            entries = entryManager.getEntries();
         }
     }
 

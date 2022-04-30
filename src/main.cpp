@@ -1,7 +1,7 @@
 #include "io/tub_mediawiki.h"
 #include "io/file_writer.h"
 #include "TubJson.h"
-#include "./builders/entry_builder.h"
+#include "./managers/entry_manger.h"
 
 int main() {
 

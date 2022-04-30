@@ -15,7 +15,7 @@ add_executable(tub_pdf_maker
         src/io/file_writer.cpp src/io/file_writer.h
         src/TubJson.cpp src/TubJson.h
         src/models/entry.cpp src/models/entry.h
-        src/builders/entry_builder.cpp src/builders/entry_builder.h
+        src/managers/entry_manger.cpp src/managers/entry_manger.h
         src/models/author.cpp src/models/author.h
         src/models/title_type.h)
 target_link_libraries(tub_pdf_maker PRIVATE cpr::cpr)
@@ -31,7 +31,7 @@ add_executable(
         src/io/mediawiki.h
         src/TubJson.cpp src/TubJson.h
         src/models/entry.cpp src/models/entry.h
-        src/builders/entry_builder.cpp src/builders/entry_builder.h src/builders/entry_builder.test.cpp
+        src/managers/entry_manger.cpp src/managers/entry_manger.h src/managers/entry_manager.cpp
         src/models/author.cpp src/models/author.h
         src/models/title_type.h src/TubJson.test.cpp)
 target_link_libraries(

@@ -2,11 +2,11 @@
 // Created by pooya on 4/26/22.
 //
 
-#include "entry_builder.h"
+#include "entry_manger.h"
 #include "../models/title_type.h"
 #include <iostream>
 
-std::shared_ptr<Entry> entry_builder::add_entry(TubJson &json) {
+std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
     auto corrections_required = std::vector<CorrectionsRequired>();
     auto parseCategory
             {
@@ -85,13 +85,13 @@ std::shared_ptr<Entry> entry_builder::add_entry(TubJson &json) {
     return new_entry;
 }
 
-void entry_builder::add_entries(TubJson &json) {
+void EntryManager::add_entries(TubJson &json) {
     for (TubJson &entry: json.get_entries()) {
         auto new_entry = add_entry(entry);
         m_entries.push_back(new_entry);
     }
 }
 
-EntryVec& entry_builder::getEntries() {
+EntryVec& EntryManager::getEntries() {
     return m_entries;
 }
