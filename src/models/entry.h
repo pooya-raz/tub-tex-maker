@@ -15,14 +15,14 @@
 class Entry
 {
 private:
-    std::string m_id {};
-    std::string m_title_transliterated {};
-    std::string m_title_arabic {};
-    std::string m_description {};
-    Category m_category {};
-    TitleType m_title_type {};
-    std::vector<CorrectionsRequired> m_corrections_required {};
-    Author m_author {};
+    std::string id {};
+    std::string title_transliterated {};
+    std::string title_arabic {};
+    std::string description {};
+    Category category {};
+    TitleType title_type {};
+    std::vector<CorrectionsRequired> corrections_required {};
+    Author author {};
 
 public:
     Entry();

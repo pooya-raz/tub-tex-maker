@@ -2,8 +2,8 @@
 // Created by pooya on 4/26/22.
 //
 
-#ifndef TUB_PDF_MAKER_ENTRY_MANGER_H
-#define TUB_PDF_MAKER_ENTRY_MANGER_H
+#ifndef TUB_PDF_MAKER_ENTRY_MANAGER_H
+#define TUB_PDF_MAKER_ENTRY_MANAGER_H
 #include "../models/entry.h"
 #include <nlohmann/json.hpp>
 #include "../TubJson.h"
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //TUB_PDF_MAKER_ENTRY_MANGER_H
+#endif //TUB_PDF_MAKER_ENTRY_MANAGER_H

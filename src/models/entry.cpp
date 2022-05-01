@@ -13,16 +13,16 @@ Entry::Entry(std::string id,
              Category category,
              std::vector<CorrectionsRequired> corrections_required,
              TitleType title_type,
-             Author author) {
-    m_id = std::move(id);
-    m_title_transliterated = std::move(title_transliterated);
-    m_title_arabic = std::move(title_arabic);
-    m_author = std::move(author);
-    m_description = std::move(description);
-    m_corrections_required = std::move(corrections_required);
-    m_title_type = title_type;
-    m_category = category;
-}
+             Author author):
+    id(std::move(id)),
+    title_transliterated(std::move(title_transliterated)),
+    title_arabic(std::move(title_arabic)),
+    author(std::move(author)),
+    description(std::move(description)),
+    corrections_required(std::move(corrections_required)),
+    title_type(title_type),
+    category(category)
+    {}
 
 std::string Entry::to_latex() {
 
@@ -40,44 +40,44 @@ std::string Entry::to_latex() {
                                     "        {description}\n"
                                     "        \\\\newline\n"
                                     "        \\\\newline",
-                                    fmt::arg("transliterated_title",m_title_transliterated),
-                                    fmt::arg("arabic_title",m_title_arabic),
-                                    fmt::arg("author",m_author.getName()),
-                                    fmt::arg("death_dates",m_author.getDeathDates()),
-                                    fmt::arg("description",m_description)
+                                    fmt::arg("transliterated_title",title_transliterated),
+                                    fmt::arg("arabic_title",title_arabic),
+                                    fmt::arg("author",author.getName()),
+                                    fmt::arg("death_dates",author.getDeathDates()),
+                                    fmt::arg("description",description)
                                     );
 }
 
 const std::string &Entry::getId() const {
-    return m_id;
+    return id;
 }
 
 const std::string &Entry::getTitleTransliterated() const {
-    return m_title_transliterated;
+    return title_transliterated;
 }
 
 const std::string &Entry::getTitleArabic() const {
-    return m_title_arabic;
+    return title_arabic;
 }
 
 const Author &Entry::getAuthor() const {
-    return m_author;
+    return author;
 }
 
 const std::string &Entry::getDescription() const {
-    return m_description;
+    return description;
 }
 
 
 const Category &Entry::getCategory() const {
-    return m_category;
+    return category;
 }
 
 
 const TitleType &Entry::getTitleType() const {
-    return m_title_type;
+    return title_type;
 }
 
 const std::vector<CorrectionsRequired> &Entry::getCorrectionsRequired() const {
-    return m_corrections_required;
+    return corrections_required;
 }

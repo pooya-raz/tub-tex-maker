@@ -1,95 +1,97 @@
 //
-// Created by pooya on 4/25/22.
+// Created by pooya on 4/26/22.
 //
-#include <gtest/gtest.h>
-#include "../TubJson.h"
-#include <fstream>
-#include "./entry_manger.h"
-class EntryBuilderTest : public ::testing::Test
-{
-protected:
-    // Per-test-suite set-up.
-    // Called before the first test in this test suite.
-    // Can be omitted if not needed.
-    static void SetUpTestSuite() {
-        // Avoid reallocating static objects if called in subclasses of FooTest.
-        if (entries.empty()) {
 
-            /*
-             * Create Json from Text file
-             *
-             * This will create a json object that can repeatedly be used in tests
-             */
-            TubJson tubJson;
-            // Read from the text file
-            std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/1000response.json");
-            std::string json_string( (std::istreambuf_iterator<char>(file) ),
-                                     (std::istreambuf_iterator<char>()    ) );
-            tubJson.parse(json_string);
-            auto results = tubJson.at("query").at("results");
-            EntryManager entryManager;
-            entryManager.add_entries(results);
-            entries = entryManager.getEntries();
-        }
-    }
+#include "entry_manager.h"
+#include <iostream>
 
-    // Some expensive resource shared by all tests.
-    static EntryVec& entries;
-};
-EntryVec empty;
-EntryVec& EntryBuilderTest::entries = empty;
+std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
+    auto corrections_required = std::vector<CorrectionsRequired>();
+    auto parseCategory
+            {
+                    [](const std::string &string) {
+                        if (string == "Category:Manuscript-only title") return Category{ManuscriptOnly};
+                        if (string == "Category:Edited title") return Category{Edited};
+                        if (string == "Category:Non-extant title") return Category{NonExtant};
+                        return Category{cCorrectionsRequired};
+                    }
+            };
 
+    auto parseTitleType
+            {
+                    [](const std::string &string) {
+                        if (string == "Monograph") return TitleType{Monograph};
+                        if (string == "Treatise (risāla)") return TitleType{Treatise};
+                        if (string == "Commentary (sharḥ)") return TitleType{Commentary};
+                        if (string == "Gloss (ḥāshīyah)") return TitleType{Gloss};
+                        if (string == "Marginal notes (taʿlīqa)") return TitleType{MarginalNotes};
+                        if (string == "Summary (khulāṣa/mukhtaṣar)") return TitleType{Summary};
+                        if (string == "Poem (manẓūma)") return TitleType{Poem};
+                        if (string == "Refutation (radd)") return TitleType{Refutation};
+                        if (string == "Taqrīrāt") return TitleType{Taqrirat};
+                        if (string == "Translation") return TitleType{Translation};
+                        return TitleType{tCorrectionsRequired};
+                    }
+            };
+    auto parseGregorianDate{
+            [](const std::string &string) {
+                if (string == "NO DATA") return 0;
+                auto year = string.substr(string.find('/') + 1);
+                return std::stoi(year);
+            }
+    };
 
-
-TEST_F(EntryBuilderTest, NoDatesNoDescription) {
     /*
-     * Test to see if I can get a single title, and that it is in UTF-8
+     * Get title details
      */
+    auto id = json.get("fulltext");
+    auto title_arabic = json.at("printouts").at("Title (Arabic)").get(0);
+    auto title_transliterated = json.at("printouts").at("Title (transliterated)").get(0);
+    auto description = json.at("printouts").at("Has a catalogue description").get(0);
+    auto category = parseCategory(json.at("printouts").at("Category").at(0).get("fulltext"));
+    auto title_type = parseTitleType(json.at("printouts").at("Book type").get(0));
+    /*
+     * Get author details
+     */
+    auto author_name_transliterated = json.at("printouts").at("Full name (transliterated)").get(0);
+    auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int(0);
+    auto death_gregorian = parseGregorianDate(json.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
+    auto death_hijri_text = json.at("printouts").at("Death (Hijri) text").get(0);
+    auto death_gregorian_text = json.at("printouts").at("Death (Gregorian) text").get(0);
 
-    const auto entry = EntryBuilderTest::entries.at(0);
-    Category category {ManuscriptOnly};
-    TitleType title_type {Treatise};
-    EXPECT_EQ("بحث في) أصول الفقه)", entry->getTitleArabic());
-    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry->getTitleTransliterated());
-    EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry->getId());
-    EXPECT_EQ("NO DATA", entry->getDescription());
-    EXPECT_EQ(category,entry->getCategory());
-    EXPECT_EQ(title_type,entry->getTitleType());
-
-    std::vector<CorrectionsRequired> correctionsRequired {CheckDates};
-    EXPECT_EQ(correctionsRequired,entry->getCorrectionsRequired());
-
-    EXPECT_EQ("Murtaḍā al-Ḥusaynī", entry->getAuthor().getName());
-    EXPECT_EQ(0,entry->getAuthor().getMDeathHijri());
-    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathHijriText());
-    EXPECT_EQ(0,entry->getAuthor().getMDeathGregorian());
-    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathGregorianText());
-
-    EXPECT_EQ("(d. NO DATA/NO DATA)",entry->getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
+    /*
+     * Check for errors
+     */
+    if (category == cCorrectionsRequired) corrections_required.push_back(CheckCategory);
+    if (title_type == tCorrectionsRequired) corrections_required.push_back(CheckTitleType);
+    if (death_hijri == 0 || death_gregorian == 0) corrections_required.push_back(CheckDates);
+    /*
+     * Build models
+     */
+    Author author{author_name_transliterated,
+                  death_hijri,
+                  death_gregorian,
+                  death_hijri_text,
+                  death_gregorian_text};
+    auto new_entry = std::make_shared<Entry>(
+            id,
+                    title_transliterated,
+                    title_arabic,
+                    description,
+                    category,
+                    corrections_required,
+                    title_type,
+                    author);
+    return new_entry;
 }
 
-TEST_F(EntryBuilderTest, WithDatesAndDescription) {
-    /*
-     * Test to see if I can get a single title, and that it is in UTF-8
-     */
+void EntryManager::add_entries(TubJson &json) {
+    for (TubJson &entry: json.get_entries()) {
+        auto new_entry = add_entry(entry);
+        m_entries.push_back(new_entry);
+    }
+}
 
-    const auto entry = EntryBuilderTest::entries.at(1);
-    Category category {Edited};
-    EXPECT_EQ("مختصر) التذكرة بأصول الفقه)", entry->getTitleArabic());
-    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry->getTitleTransliterated());
-    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry->getId());
-    EXPECT_EQ( "This is a summary of al-Tadhkira bi-uṣūl al-fiqh.", entry->getDescription());
-    EXPECT_EQ(category,entry->getCategory());
-    std::vector<CorrectionsRequired> correctionsRequired {};
-    EXPECT_EQ(correctionsRequired,entry->getCorrectionsRequired());
-    TitleType title_type {Summary};
-    EXPECT_EQ(title_type,entry->getTitleType());
-
-    EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry->getAuthor().getName());
-    EXPECT_EQ(449,entry->getAuthor().getMDeathHijri());
-    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathHijriText());
-    EXPECT_EQ(1057,entry->getAuthor().getMDeathGregorian());
-    EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathGregorianText());
-    EXPECT_EQ("(d. 449/1057)",entry->getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
-
+EntryVec& EntryManager::getEntries() {
+    return m_entries;
 }
