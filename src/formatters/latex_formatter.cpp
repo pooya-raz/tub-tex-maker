@@ -32,6 +32,22 @@ std::string latex_formatter::to_latex(const EntryMap& entryMap) {
     };
 
     std::string final;
+    final += " \\documentclass{article}\n"
+             "    \\usepackage{fontspec,lipsum}\n"
+             "    \\defaultfontfeatures{Ligatures=TeX}\n"
+             "    \\usepackage[small,sf,bf]{titlesec}\n"
+             "    \\setromanfont{Gentium Plus}\n"
+             "    \\newfontfamily\\arabicfont[Script=Arabic]{Amiri}\n"
+             "    \\usepackage{polyglossia}\n"
+             "    \\setmainlanguage{english}\n"
+             "    \\setotherlanguage{arabic}\n"
+             "    \\title{Twelver Usul Bibliography}\n"
+             "    \\author{The TUB Team}\n"
+             "    \\date{\\today} \n"
+             "    \\begin{document}\n"
+             "    \\maketitle\n"
+             "    \\tableofcontents\n"
+             "    \\pagebreak";
     std::map<TitleType,std::string> section_map {
         {Monograph,"Monograph"},
         {Treatise,"Treatise (risāla)"},
@@ -42,10 +58,11 @@ std::string latex_formatter::to_latex(const EntryMap& entryMap) {
         {Poem,"Poem (manẓūma)"},
         {Refutation,"Refutation (radd)"},
         {Taqrirat,"Taqrīrāt"},
-        {Translation," Translation"},
+        {Translation,"Translation"},
     };
     for (const auto& section: section_map){
             final += build_section(section.first, section.second,entryMap);
     }
+    final += "\\end{document}";
     return final;
 }
