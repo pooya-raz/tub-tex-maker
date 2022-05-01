@@ -26,20 +26,20 @@ Entry::Entry(std::string id,
 
 std::string Entry::to_latex() {
 
-    return fmt::format("\\item \\\\textbf{{{transliterated_title}}}\n"
-                                    "        \\\\newline\n"
-                                    "        \\\\textarabic{{{arabic_title}}}\n"
-                                    "        \\\\newline\n"
+    return fmt::format("\\item \\textbf{{{transliterated_title}}}\n"
+                                    "        \\newline\n"
+                                    "        \\textarabic{{{arabic_title}}}\n"
+                                    "        \\newline\n"
                                     "        {author}\n"
-                                    "        \\\\newline\n"
+                                    "        \\newline\n"
                                     "        {death_dates}\n"
-                                    "        \\\\newline\n"
-                                    "        \\\\newline\n"
-                                    "        \\\\textbf{{Description}}\n"
-                                    "        \\\\newline\t\n"
+                                    "        \\newline\n"
+                                    "        \\newline\n"
+                                    "        \\textbf{{Description}}\n"
+                                    "        \\newline\t\n"
                                     "        {description}\n"
-                                    "        \\\\newline\n"
-                                    "        \\\\newline",
+                                    "        \\newline\n"
+                                    "        \\newline",
                                     fmt::arg("transliterated_title",title_transliterated),
                                     fmt::arg("arabic_title",title_arabic),
                                     fmt::arg("author",author.getName()),
