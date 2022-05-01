@@ -10,16 +10,18 @@
 #include <vector>
 
 typedef std::vector<std::shared_ptr<Entry>> EntryVec;
-
+typedef std::map<TitleType, EntryVec > EntryMap;
 
 class EntryManager {
 private:
-    EntryVec m_entries;
+    EntryVec entries;
+    EntryMap entryMap;
     std::shared_ptr<Entry> add_entry(TubJson& json);
 
 public:
     void add_entries(TubJson& json);
     EntryVec& getEntries();
+    EntryMap& getEntryMap();
 
 };
 

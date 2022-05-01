@@ -13,7 +13,7 @@ protected:
     // Can be omitted if not needed.
     static void SetUpTestSuite() {
         // Avoid reallocating static objects if called in subclasses of FooTest.
-        if (entries.empty()) {
+        if (entryMap.empty()) {
 
             /*
              * Create Json from Text file
@@ -29,15 +29,15 @@ protected:
             auto results = tubJson.at("query").at("results");
             EntryManager entryManager;
             entryManager.add_entries(results);
-            entries = entryManager.getEntries();
+            entryMap = entryManager.getEntryMap();
         }
     }
 
     // Some expensive resource shared by all tests.
-    static EntryVec& entries;
+    static EntryMap& entryMap;
 };
-EntryVec empty;
-EntryVec& EntryBuilderTest::entries = empty;
+EntryMap emptyMap;
+EntryMap& EntryBuilderTest::entryMap = emptyMap;
 
 
 
@@ -45,10 +45,11 @@ TEST_F(EntryBuilderTest, NoDatesNoDescription) {
     /*
      * Test to see if I can get a single title, and that it is in UTF-8
      */
-
-    const auto entry = EntryBuilderTest::entries.at(0);
     Category category {ManuscriptOnly};
     TitleType title_type {Treatise};
+    const auto entryMap = EntryBuilderTest::entryMap[title_type];
+    const auto& entry = entryMap.at(0);
+
     EXPECT_EQ("بحث في) أصول الفقه)", entry->getTitleArabic());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry->getTitleTransliterated());
     EXPECT_EQ("(Bahth fī) uṣūl al-fiqh", entry->getId());
@@ -72,9 +73,10 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
     /*
      * Test to see if I can get a single title, and that it is in UTF-8
      */
-
-    const auto entry = EntryBuilderTest::entries.at(1);
     Category category {Edited};
+    TitleType title_type {Summary};
+    const auto entryMap = EntryBuilderTest::entryMap[title_type];
+    const auto& entry = entryMap.at(0);
     EXPECT_EQ("مختصر) التذكرة بأصول الفقه)", entry->getTitleArabic());
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry->getTitleTransliterated());
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh", entry->getId());
@@ -82,7 +84,7 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
     EXPECT_EQ(category,entry->getCategory());
     std::vector<CorrectionsRequired> correctionsRequired {};
     EXPECT_EQ(correctionsRequired,entry->getCorrectionsRequired());
-    TitleType title_type {Summary};
+
     EXPECT_EQ(title_type,entry->getTitleType());
 
     EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry->getAuthor().getName());

@@ -88,10 +88,15 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
 void EntryManager::add_entries(TubJson &json) {
     for (TubJson &entry: json.get_entries()) {
         auto new_entry = add_entry(entry);
-        m_entries.push_back(new_entry);
+        entries.push_back(new_entry);
+        entryMap[new_entry->getTitleType()].push_back(new_entry);
     }
 }
 
 EntryVec& EntryManager::getEntries() {
-    return m_entries;
+    return entries;
+}
+
+EntryMap& EntryManager::getEntryMap() {
+    return entryMap;
 }
