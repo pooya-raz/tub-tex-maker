@@ -17,7 +17,8 @@ add_executable(tub_pdf_maker
         src/models/entry.cpp src/models/entry.h
         src/managers/entry_manager.cpp src/managers/entry_manager.h
         src/models/author.cpp src/models/author.h
-        src/models/title_type.h)
+        src/models/title_type.h
+        src/formatters/latex_formatter.cpp src/formatters/latex_formatter.h)
 target_link_libraries(tub_pdf_maker PRIVATE cpr::cpr)
 target_link_libraries(tub_pdf_maker PRIVATE Boost::log)
 target_link_libraries(tub_pdf_maker PRIVATE nlohmann_json::nlohmann_json)
@@ -33,7 +34,8 @@ add_executable(
         src/models/entry.cpp src/models/entry.h
         src/managers/entry_manager.cpp src/managers/entry_manager.h src/managers/entry_manager.test.cpp
         src/models/author.cpp src/models/author.h
-        src/models/title_type.h src/TubJson.test.cpp)
+        src/models/title_type.h src/TubJson.test.cpp
+        src/formatters/latex_formatter.cpp src/formatters/latex_formatter.h src/formatters/latex_formatter_test.cpp)
 target_link_libraries(
         TubMediaWiki_test
         GTest::gtest_main
