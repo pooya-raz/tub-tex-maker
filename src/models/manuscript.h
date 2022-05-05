@@ -30,7 +30,10 @@ public:
             std::string manuscript_number,
             std::string manuscript_of_title
     );
+
+    const std::string &getManuscriptOfTitle() const;
 };
+
 
 
 #endif //TUB_PDF_MAKER_MANUSCRIPT_H

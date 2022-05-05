@@ -23,3 +23,7 @@ Manuscript::Manuscript(
         city(std::move(city)),
         manuscript_number(std::move(manuscript_number)),
         manuscript_of_title(std::move(manuscript_of_title)) {}
+
+const std::string &Manuscript::getManuscriptOfTitle() const {
+    return manuscript_of_title;
+}

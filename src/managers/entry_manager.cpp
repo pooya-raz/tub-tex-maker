@@ -86,7 +86,7 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
 }
 
 void EntryManager::add_entries(TubJson &json) {
-    for (TubJson &entry: json.get_entries()) {
+    for (TubJson &entry: json.get_results()) {
         auto new_entry = add_entry(entry);
         entries.push_back(new_entry);
         if(new_entry->getAuthor().getMDeathHijri() > 0){
@@ -94,6 +94,31 @@ void EntryManager::add_entries(TubJson &json) {
         }
     }
 }
+
+Manuscript EntryManager::add_manuscript(TubJson &json) {
+    auto location = json.at("printouts").get("Has a location");
+    auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int(0);
+    auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
+    auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
+    auto year_gregorian_text = json.at("printouts").at("Has year(Gregorian) text").get(0);
+    auto city = json.at("printouts").get("Located in a city");
+    auto manuscript_number= json.at("printouts").get("Manuscript number");
+    auto manuscript_of_title= json.at("printouts").get("Manuscript of title");
+
+    return {location, year_hijri, year_gregorian, year_hijri_text, year_gregorian_text, city, manuscript_number,manuscript_of_title};
+}
+
+void EntryManager::add_manuscripts(TubJson &json) {
+    for (TubJson &manuscript: json.get_results()){
+        auto new_manuscript = add_manuscript(manuscript);
+        for (auto &entry: entries){
+            if(new_manuscript.getManuscriptOfTitle() == entry->getId()){
+                entry->manuscripts.push_back(new_manuscript);
+            }
+        }
+    }
+}
+
 
 EntryVec& EntryManager::getEntries() {
     return entries;

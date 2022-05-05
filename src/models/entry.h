@@ -11,6 +11,7 @@
 #include <vector>
 #include "author.h"
 #include "../models/title_type.h"
+#include "manuscript.h"
 
 class Entry
 {
@@ -24,7 +25,10 @@ private:
     std::vector<CorrectionsRequired> corrections_required {};
     Author author {};
 
+
 public:
+    std::vector<Manuscript> manuscripts {};
+
     Entry();
 
     Entry(std::string id,

@@ -5,6 +5,7 @@
 #ifndef TUB_PDF_MAKER_ENTRY_MANAGER_H
 #define TUB_PDF_MAKER_ENTRY_MANAGER_H
 #include "../models/entry.h"
+#include "../models/manuscript.h"
 #include <nlohmann/json.hpp>
 #include "../TubJson.h"
 #include <vector>
@@ -17,9 +18,11 @@ private:
     EntryVec entries;
     EntryMap entryMap;
     std::shared_ptr<Entry> add_entry(TubJson& json);
+    Manuscript add_manuscript(TubJson& json);
 
 public:
     void add_entries(TubJson& json);
+    void add_manuscripts(TubJson& json);
     EntryVec& getEntries();
     EntryMap& getEntryMap();
 

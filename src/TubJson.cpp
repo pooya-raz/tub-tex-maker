@@ -66,7 +66,7 @@ int TubJson::get_int(const std::string& key){
     return 0;
 }
 
-std::vector<TubJson> TubJson::get_entries() {
+std::vector<TubJson> TubJson::get_results() {
     std::vector<TubJson> entries;
     for(const nlohmann::json& entry: m_json["query"]["results"])
     {

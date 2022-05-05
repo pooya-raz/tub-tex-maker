@@ -21,7 +21,23 @@ int main() {
     BOOST_LOG_TRIVIAL(info) << "The offset: " << tubJson1.get_int("query-continue-offset");
     auto results2 = tubJson1.at("query").at("results");
     entryManager.add_entries(results2);
-    fileWriter.save_to_file("response.json", result2);
+    auto manuscripts = tub.getQuery(
+            "[[Category:Manuscript]]"
+            "|?Has%20a%20location"
+            "|?Has%20references"
+            "|?Has%20year(Gregorian)"
+            "|?Has%20year(Gregorian)%20text"
+            "|?Has%20year(Hijri)"
+            "|?Has%20year(Hijri)%20text"
+            "|?Located%20in%20a%20city"
+            "|?Manuscript%20number"
+            "|?Manuscript%20of%20title"
+            "|limit=1000"
+            );
+    TubJson manuJson;
+    manuJson.parse(manuscripts);
+    entryManager.add_manuscripts(manuJson);
+    fileWriter.save_to_file("response.json", manuscripts);
     auto latex = latex_formatter::to_latex(entryManager.getEntryMap());
     fileWriter.save_to_file("output.latex",latex);
     return 0;

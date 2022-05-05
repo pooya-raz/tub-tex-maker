@@ -19,7 +19,7 @@ public:
     [[nodiscard]] std::string get(int index);
     [[nodiscard]] int get_int(int index);
     [[nodiscard]] int get_int(const std::string& key);
-    std::vector<TubJson> get_entries();
+    std::vector<TubJson> get_results();
 
     void parse(const std::string& string);
 
