@@ -9,7 +9,7 @@
 
 class file_writer {
 public:
-    void save_to_file(const std::string& text);
+    void save_to_file(const std::string& filename, const std::string& text);
 };
 
 

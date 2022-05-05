@@ -89,7 +89,9 @@ void EntryManager::add_entries(TubJson &json) {
     for (TubJson &entry: json.get_entries()) {
         auto new_entry = add_entry(entry);
         entries.push_back(new_entry);
-        entryMap[new_entry->getTitleType()].push_back(new_entry);
+        if(new_entry->getAuthor().getMDeathHijri() > 0){
+            entryMap[new_entry->getTitleType()].push_back(new_entry);
+        }
     }
 }
 

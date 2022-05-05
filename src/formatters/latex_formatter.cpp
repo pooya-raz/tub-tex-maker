@@ -3,25 +3,31 @@
 //
 
 #include "latex_formatter.h"
+bool greaterc (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
+        {
+            return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
+        }
 
 std::string latex_formatter::to_latex(const EntryMap& entryMap) {
+
     auto build_section {
         [](TitleType title_type, const std::string& label, const EntryMap& map){
             if(map.contains(title_type))
             {
+                auto entriesv = map.at(title_type);
+                std::sort(entriesv.begin(), entriesv.end(),greaterc);
                 std::string output = fmt::format("\\section{{{}}}\n\\begin{{enumerate}}\n",label);
-                auto treatises = map.at(title_type);
                 auto latex_fold = [](
                         std::string a,
                         const std::shared_ptr<Entry>& b) {
                     return std::move(a) + b->to_latex();
                 };
                 auto entries = std::accumulate(
-                        std::next(treatises.begin()),
-                        treatises.end(),
-                        treatises[0]->to_latex(),
+                        std::next(entriesv.begin()),
+                        entriesv.end(),
+                        entriesv[0]->to_latex(),
                         latex_fold);
-                output += entries + "\\end{enumerate}";
+                output += entries + "\\end{enumerate}\n";
                 return output;
             }
             else{
@@ -47,7 +53,7 @@ std::string latex_formatter::to_latex(const EntryMap& entryMap) {
              "    \\begin{document}\n"
              "    \\maketitle\n"
              "    \\tableofcontents\n"
-             "    \\pagebreak";
+             "    \\pagebreak\n";
     std::map<TitleType,std::string> section_map {
         {Monograph,"Monograph"},
         {Treatise,"Treatise (risāla)"},
