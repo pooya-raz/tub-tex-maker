@@ -56,6 +56,16 @@ int TubJson::get_int(int index) {
     return 0;
 }
 
+int TubJson::get_int(const std::string& key){
+    if (m_json_tmp.contains(key)) {
+        auto result =  m_json_tmp[key];
+        m_json_tmp = m_json;
+        return result;
+    }
+    m_json_tmp = m_json;
+    return 0;
+}
+
 std::vector<TubJson> TubJson::get_entries() {
     std::vector<TubJson> entries;
     for(const nlohmann::json& entry: m_json["query"]["results"])
