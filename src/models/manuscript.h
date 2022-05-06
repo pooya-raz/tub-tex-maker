@@ -6,6 +6,8 @@
 #define TUB_PDF_MAKER_MANUSCRIPT_H
 
 #include <string>
+#include <fmt/core.h>
+
 
 class Manuscript {
     std::string location{};
@@ -31,7 +33,11 @@ public:
             std::string manuscript_of_title
     );
 
-    const std::string &getManuscriptOfTitle() const;
+    [[nodiscard]] const std::string &getManuscriptOfTitle() const;
+
+    [[nodiscard]] std::string getDates() const;
+
+    [[nodiscard]] std::string to_latex() const;
 };
 
 

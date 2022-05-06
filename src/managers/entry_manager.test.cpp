@@ -5,6 +5,8 @@
 #include "../TubJson.h"
 #include <fstream>
 #include "./entry_manager.h"
+#include <iterator>
+#include <algorithm>
 class EntryBuilderTest : public ::testing::Test
 {
 protected:
@@ -29,6 +31,16 @@ protected:
             auto results = tubJson.at("query").at("results");
             EntryManager entryManager;
             entryManager.add_entries(results);
+
+
+            std::ifstream fileManuscript("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/response-manuscript.json");
+            std::string json_string_manuscript( (std::istreambuf_iterator<char>(fileManuscript) ),
+                                     (std::istreambuf_iterator<char>()    ) );
+            TubJson tubManuscriptJson;
+            tubManuscriptJson.parse(json_string_manuscript);
+            auto manu_results = tubManuscriptJson.at("query").at("results");
+            entryManager.add_manuscripts(manu_results);
+
             entryMap = entryManager.getEntryMap();
         }
     }
@@ -94,4 +106,7 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
     EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathGregorianText());
     EXPECT_EQ("(d. 449/1057)",entry->getAuthor().getDeathDates()) << "Didn't make the correct death dates string";
 
+    //Test manuscripts
+    EXPECT_EQ(1,entry->manuscripts.size());
+    EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh",entry->manuscripts[0].getManuscriptOfTitle());
 }

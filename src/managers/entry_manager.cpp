@@ -96,14 +96,14 @@ void EntryManager::add_entries(TubJson &json) {
 }
 
 Manuscript EntryManager::add_manuscript(TubJson &json) {
-    auto location = json.at("printouts").get("Has a location");
+    auto location = json.at("printouts").at("Has a location").get(0);
     auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int(0);
     auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
     auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
     auto year_gregorian_text = json.at("printouts").at("Has year(Gregorian) text").get(0);
-    auto city = json.at("printouts").get("Located in a city");
-    auto manuscript_number= json.at("printouts").get("Manuscript number");
-    auto manuscript_of_title= json.at("printouts").get("Manuscript of title");
+    auto city = json.at("printouts").at("Located in a city").at(0).get("fulltext");
+    auto manuscript_number= json.at("printouts").at("Manuscript number").get(0);
+    auto manuscript_of_title= json.at("printouts").at("Manuscript of title").at(0).get("fulltext");
 
     return {location, year_hijri, year_gregorian, year_hijri_text, year_gregorian_text, city, manuscript_number,manuscript_of_title};
 }

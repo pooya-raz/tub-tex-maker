@@ -34,10 +34,10 @@ int main() {
             "|?Manuscript%20of%20title"
             "|limit=1000"
             );
+    fileWriter.save_to_file("response-manuscript.json", manuscripts);
     TubJson manuJson;
     manuJson.parse(manuscripts);
     entryManager.add_manuscripts(manuJson);
-    fileWriter.save_to_file("response.json", manuscripts);
     auto latex = latex_formatter::to_latex(entryManager.getEntryMap());
     fileWriter.save_to_file("output.latex",latex);
     return 0;

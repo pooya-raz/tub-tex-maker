@@ -26,6 +26,14 @@ Entry::Entry(std::string id,
 
 std::string Entry::to_latex() {
 
+    auto manuscripts_to_latex = [this](){
+        std::string manu_latex = "\\textbf{Principal Manuscripts}\n\\newline\nno data\\newline";
+        for(auto& m: this->manuscripts){
+            manu_latex  += m.to_latex();
+        }
+        return manu_latex;
+    };
+
     return fmt::format("\\item \\textbf{{{transliterated_title}}}\n"
                                     "        \\newline\n"
                                     "        \\textarabic{{{arabic_title}}}\n"
@@ -39,12 +47,14 @@ std::string Entry::to_latex() {
                                     "        \\newline\t\n"
                                     "        {description}\n"
                                     "        \\newline\n"
-                                    "        \\newline",
+                                    "        \\newline"
+                                    "        {manuscripts}",
                                     fmt::arg("transliterated_title",title_transliterated),
                                     fmt::arg("arabic_title",title_arabic),
                                     fmt::arg("author",author.getName()),
                                     fmt::arg("death_dates",author.getDeathDates()),
-                                    fmt::arg("description",description)
+                                    fmt::arg("description",description),
+                                    fmt::arg("manuscripts",manuscripts_to_latex())
                                     );
 }
 
