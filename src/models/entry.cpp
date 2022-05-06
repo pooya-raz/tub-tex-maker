@@ -27,10 +27,11 @@ Entry::Entry(std::string id,
 std::string Entry::to_latex() {
 
     auto manuscripts_to_latex = [this](){
-        std::string manu_latex = "\\textbf{Principal Manuscripts}\n\\newline\nno data\\newline";
+        std::string manu_latex = "\\textbf{Principal Manuscripts}\n\\begin{itemize}";
         for(auto& m: this->manuscripts){
             manu_latex  += m.to_latex();
         }
+        manu_latex += "\\end{itemize}\n";
         return manu_latex;
     };
 
