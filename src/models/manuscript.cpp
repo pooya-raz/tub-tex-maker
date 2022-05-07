@@ -62,5 +62,5 @@ std::string Manuscript::to_latex() const {
                        fmt::arg("location",location),
                        fmt::arg("city",city),
                        fmt::arg("manuscript_number", manuscript_number),
-                       fmt::arg("dates  ",getDates()));
+                       fmt::arg("dates",getDates()));
 }

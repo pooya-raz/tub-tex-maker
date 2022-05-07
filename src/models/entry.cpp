@@ -27,10 +27,19 @@ Entry::Entry(std::string id,
 std::string Entry::to_latex() {
 
     auto manuscripts_to_latex = [this](){
-        std::string manu_latex = "\\textbf{Principal Manuscripts}\n\\begin{itemize}";
-        for(auto& m: this->manuscripts){
-            manu_latex  += m.to_latex();
+        std::string manu_latex = "\\textbf{Principal Manuscripts}\n\\begin{itemize}\n";
+        if(manuscripts.empty())
+        {
+            manu_latex += "\\item NO DATA\n";
+
         }
+        else
+        {
+            for(auto& m: this->manuscripts){
+                manu_latex  += m.to_latex();
+            }
+        }
+
         manu_latex += "\\end{itemize}\n";
         return manu_latex;
     };
@@ -48,7 +57,7 @@ std::string Entry::to_latex() {
                                     "        \\newline\t\n"
                                     "        {description}\n"
                                     "        \\newline\n"
-                                    "        \\newline"
+                                    "        \\newline\n"
                                     "        {manuscripts}",
                                     fmt::arg("transliterated_title",title_transliterated),
                                     fmt::arg("arabic_title",title_arabic),
