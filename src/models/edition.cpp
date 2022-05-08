@@ -61,10 +61,11 @@ Edition::Edition(std::string title_transliterated,
         );
     };
 
-    return fmt::format("\\item \\emph{{{title}}}{editor}, {edition_type}, {publisher}, {city}, {dates}",
+    return fmt::format("\\item \\emph{{{title}}}, {editor}, {edition_type}, {publisher}, {city}, {dates}",
                        fmt::arg("title", title_transliterated),
                        fmt::arg("editor", editor),
                        fmt::arg("edition_type", edition_type),
+                       fmt::arg("publisher", publisher),
                        fmt::arg("city", city),
                        fmt::arg("dates", getDates())
     );

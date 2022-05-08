@@ -99,7 +99,7 @@ int main() {
     fileWriter.save_to_file("response-editions.json", editions);
     TubJson editionJson;
     editionJson.parse(editions);
-    entryManager.add_manuscripts(editionJson);
+    entryManager.add_editions(editionJson);
     BOOST_LOG_TRIVIAL(info) << "The offset: " << editionJson.get_int("query-continue-offset");
 
     auto latex = latex_formatter::to_latex(entryManager.getEntryMap());

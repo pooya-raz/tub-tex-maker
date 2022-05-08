@@ -3,6 +3,10 @@
 //
 
 #include "latex_formatter.h"
+
+/*
+ * Lambda function for sorting entries by death of author
+ */
 bool greaterc (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
         {
             return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());

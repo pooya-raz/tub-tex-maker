@@ -26,6 +26,9 @@ Entry::Entry(std::string id,
 
 std::string Entry::to_latex() {
 
+    /*
+     * Create manuscript subsection
+     */
     auto manuscripts_to_latex = [this](){
         std::string manu_latex = "\\textbf{Principal Manuscripts}\n\\begin{itemize}\n";
         if(manuscripts.empty())
@@ -44,6 +47,26 @@ std::string Entry::to_latex() {
         return manu_latex;
     };
 
+    /*
+     * Create edition subsection
+     */
+    auto editions_to_latex=[this](){
+        std::string edition_latex =  "\\textbf{Editions}\n\\begin{itemize}\n";
+        if(editions.empty())
+        {
+            edition_latex += "\\item NO DATA\n";
+
+        }
+        else
+        {
+            for(auto& edition : this->editions){
+                edition_latex += edition.to_latex();
+            }
+        }
+
+        edition_latex+= "\\end{itemize}\n";
+        return edition_latex;
+    };
     return fmt::format("\\item \\textbf{{{transliterated_title}}}\n"
                                     "        \\newline\n"
                                     "        \\textarabic{{{arabic_title}}}\n"
@@ -58,13 +81,15 @@ std::string Entry::to_latex() {
                                     "        {description}\n"
                                     "        \\newline\n"
                                     "        \\newline\n"
-                                    "        {manuscripts}",
+                                    "        {manuscripts}"
+                                    "        {editions}",
                                     fmt::arg("transliterated_title",title_transliterated),
                                     fmt::arg("arabic_title",title_arabic),
                                     fmt::arg("author",author.getName()),
                                     fmt::arg("death_dates",author.getDeathDates()),
                                     fmt::arg("description",description),
-                                    fmt::arg("manuscripts",manuscripts_to_latex())
+                                    fmt::arg("manuscripts",manuscripts_to_latex()),
+                                    fmt::arg("editions", editions_to_latex())
                                     );
 }
 
