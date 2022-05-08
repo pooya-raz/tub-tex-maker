@@ -41,6 +41,14 @@ protected:
             auto manu_results = tubManuscriptJson.at("query").at("results");
             entryManager.add_manuscripts(manu_results);
 
+            std::ifstream file_editions("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/response-editions.json");
+            std::string json_string_editions( (std::istreambuf_iterator<char>(file_editions) ),
+                                                (std::istreambuf_iterator<char>()    ) );
+            TubJson tubEditionJson;
+            tubEditionJson.parse(json_string_editions);
+            auto edition_results= tubEditionJson.at("query").at("results");
+            entryManager.add_editions(edition_results);
+
             entryMap = entryManager.getEntryMap();
         }
     }
@@ -109,4 +117,6 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
     //Test manuscripts
     EXPECT_EQ(1,entry->manuscripts.size());
     EXPECT_EQ("(Mukhtaṣar) al-Tadhkira bi-uṣul al-fiqh",entry->manuscripts[0].getManuscriptOfTitle());
+
+    EXPECT_EQ(3,entry->editions.size());
 }

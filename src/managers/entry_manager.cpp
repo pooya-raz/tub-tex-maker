@@ -127,3 +127,42 @@ EntryVec& EntryManager::getEntries() {
 EntryMap& EntryManager::getEntryMap() {
     return entryMap;
 }
+
+Edition EntryManager::add_edition(TubJson& json){
+    auto title_transliterated = json.at("printouts").at("Title (transliterated)").get(0);
+    auto title_arabic = json.at("printouts").at("Title (Arabic)").get(0);
+    auto editor = json.at("printouts").at("Has editor(s)").get(0);
+    auto edition_type = json.at("printouts").at("Edition type").get(0);
+    auto publisher = json.at("printouts").at("Has a publisher").get(0);
+    auto city = json.at("printouts").at("City").at(0).get("fulltext");
+    auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int(0);
+    auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
+    auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
+    auto year_gregorian_text = json.at("printouts").at("Has year(Gregorian) text").get(0);
+    auto description= json.at("printouts").at("Has a description").get(0);
+    auto published_edition_of_title= json.at("printouts").at("Published edition of title").at(0).get("fulltext");
+
+    return {title_transliterated,
+            title_arabic,
+            editor,
+            edition_type,
+            publisher,
+            city,
+            year_hijri,
+            year_gregorian,
+            year_hijri_text,
+            year_gregorian_text,
+            description,
+            published_edition_of_title};
+}
+
+void EntryManager::add_editions(TubJson& json) {
+    for (TubJson &edition: json.get_results()){
+        auto new_edition = add_edition(edition);
+        for (auto &entry: entries){
+            if(new_edition.getPublishedEditionOfTitle() == entry->getId()){
+                entry->editions.push_back(new_edition);
+            }
+        }
+    }
+}

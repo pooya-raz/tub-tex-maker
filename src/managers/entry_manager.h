@@ -19,10 +19,12 @@ private:
     EntryMap entryMap;
     std::shared_ptr<Entry> add_entry(TubJson& json);
     Manuscript add_manuscript(TubJson& json);
+    Edition add_edition(TubJson& json);
 
 public:
     void add_entries(TubJson& json);
     void add_manuscripts(TubJson& json);
+    void add_editions(TubJson& json);
     EntryVec& getEntries();
     EntryMap& getEntryMap();
 

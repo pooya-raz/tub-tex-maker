@@ -6,19 +6,33 @@
 
 #include <utility>
 
-Edition::Edition(std::string title, std::string editor, std::string editionType,
-                 std::string publisher, std::string city, int yearHijri, int yearGregorian,
-                 std::string yearHijriText, std::string yearGregorianText):
-        title(std::move(title)), editor(std::move(editor)),
-        edition_type(std::move(editionType)),
+Edition::Edition(std::string title_transliterated,
+                 std::string title_arabic,
+                 std::string editor,
+                 std::string edition_type,
+                 std::string publisher,
+                 std::string city,
+                 int year_hijri,
+                 int year_gregorian,
+                 std::string year_hijri_text,
+                 std::string year_gregorian_text,
+                 std::string description,
+                 std::string published_edition_of_title
+                 ):
+        title_transliterated(std::move(title_transliterated)),
+        title_arabic(std::move(title_arabic)),
+        editor(std::move(editor)),
+        edition_type(std::move(edition_type)),
         publisher(std::move(publisher)),
         city(std::move(city)),
-        year_hijri(yearHijri),
-        year_gregorian(yearGregorian),
-        year_hijri_text(std::move(yearHijriText)),
-        year_gregorian_text(std::move(yearGregorianText)) {}
+        year_hijri(year_hijri),
+        year_gregorian(year_gregorian),
+        year_hijri_text(std::move(year_hijri_text)),
+        year_gregorian_text(std::move(year_gregorian_text)),
+        description(std::move(description)),
+        published_edition_of_title(std::move(published_edition_of_title)){}
 
-std::string Edition::to_latex() {
+        std::string Edition::to_latex() {
     auto getDates= [this](){
         std::string hijri = "NO DATA";
         std::string gregorian = "NO DATA";
@@ -48,10 +62,15 @@ std::string Edition::to_latex() {
     };
 
     return fmt::format("\\item \\emph{{{title}}}{editor}, {edition_type}, {publisher}, {city}, {dates}",
-                       fmt::arg("title", title),
+                       fmt::arg("title", title_transliterated),
                        fmt::arg("editor", editor),
                        fmt::arg("edition_type", edition_type),
                        fmt::arg("city", city),
                        fmt::arg("dates", getDates())
     );
 }
+
+std::string Edition::getPublishedEditionOfTitle() {
+    return published_edition_of_title;
+}
+

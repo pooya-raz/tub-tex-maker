@@ -80,6 +80,28 @@ int main() {
     entryManager.add_manuscripts(manuJson3);
     BOOST_LOG_TRIVIAL(info) << "The offset: " << manuJson3.get_int("query-continue-offset");
 
+    auto editions = tub.getQuery(
+            "[[Category:Edition]]"
+            "|?Title%20(transliterated)"
+            "|?Title%20(Arabic)"
+            "|?Has%20year(Gregorian)"
+            "|?Has%20year(Gregorian)%20text"
+            "|?Has%20year(Hijri)"
+            "|?Has%20year(Hijri)%20text"
+            "|?Published%20edition%20of%20title"
+            "|?Has%20editor(s)"
+            "|?Has%20a%20publisher"
+            "|?Has%20a%20description"
+            "|?Edition%20type"
+            "|?City"
+            "|limit=1000"
+    );
+    fileWriter.save_to_file("response-editions.json", editions);
+    TubJson editionJson;
+    editionJson.parse(editions);
+    entryManager.add_manuscripts(editionJson);
+    BOOST_LOG_TRIVIAL(info) << "The offset: " << editionJson.get_int("query-continue-offset");
+
     auto latex = latex_formatter::to_latex(entryManager.getEntryMap());
     fileWriter.save_to_file("output.latex",latex);
     return 0;

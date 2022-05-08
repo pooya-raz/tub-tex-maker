@@ -12,6 +12,7 @@
 #include "author.h"
 #include "../models/title_type.h"
 #include "manuscript.h"
+#include "edition.h"
 
 class Entry
 {
@@ -28,6 +29,7 @@ private:
 
 public:
     std::vector<Manuscript> manuscripts {};
+    std::vector<Edition> editions {};
 
     Entry();
 
