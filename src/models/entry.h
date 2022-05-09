@@ -24,12 +24,14 @@ private:
     Category category {};
     TitleType title_type {};
     std::vector<CorrectionsRequired> corrections_required {};
+    std::string base_text {};
     Author author {};
 
 
 public:
     std::vector<Manuscript> manuscripts {};
     std::vector<Edition> editions {};
+    std::vector<std::shared_ptr<Entry>> commentaries{};
 
     Entry();
 
@@ -40,6 +42,7 @@ public:
           Category category,
           std::vector<CorrectionsRequired> corrections_required,
           TitleType title_type,
+          std::string base_text,
           Author author);
 
     [[nodiscard]] const std::string &getId() const;
@@ -49,6 +52,8 @@ public:
     [[nodiscard]] const std::string &getTitleArabic() const;
 
     [[nodiscard]] const std::string &getDescription() const;
+
+    [[nodiscard]] const std::string &getBaseText() const;
 
     [[nodiscard]] const Author &getAuthor() const;
 

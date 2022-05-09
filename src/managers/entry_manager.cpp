@@ -50,6 +50,7 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
     auto description = json.at("printouts").at("Has a catalogue description").get(0);
     auto category = parseCategory(json.at("printouts").at("Category").at(0).get("fulltext"));
     auto title_type = parseTitleType(json.at("printouts").at("Book type").get(0));
+    auto base_text = json.at("printouts").at("Has base text").at(0).get("fulltext");
     /*
      * Get author details
      */
@@ -81,6 +82,7 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
                     category,
                     corrections_required,
                     title_type,
+                    base_text,
                     author);
     return new_entry;
 }
@@ -89,9 +91,7 @@ void EntryManager::add_entries(TubJson &json) {
     for (TubJson &entry: json.get_results()) {
         auto new_entry = add_entry(entry);
         entries.push_back(new_entry);
-        if(new_entry->getAuthor().getMDeathHijri() > 0){
-            entryMap[new_entry->getTitleType()].push_back(new_entry);
-        }
+        entryMap[new_entry->getTitleType()].push_back(new_entry);
     }
 }
 
@@ -162,6 +162,18 @@ void EntryManager::add_editions(TubJson& json) {
         for (auto &entry: entries){
             if(new_edition.getPublishedEditionOfTitle() == entry->getId()){
                 entry->editions.push_back(new_edition);
+            }
+        }
+    }
+}
+
+void EntryManager::add_commentaries() {
+    for (const auto& entry: entries){
+        if(entry->getBaseText() != "NO DATA"){
+            for(auto& base :entries){
+                if(base->getId() == entry->getBaseText()){
+                    base->commentaries.push_back(entry);
+                }
             }
         }
     }

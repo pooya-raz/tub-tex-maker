@@ -25,6 +25,7 @@ public:
     void add_entries(TubJson& json);
     void add_manuscripts(TubJson& json);
     void add_editions(TubJson& json);
+    void add_commentaries();
     EntryVec& getEntries();
     EntryMap& getEntryMap();
 
