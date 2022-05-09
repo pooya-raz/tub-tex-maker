@@ -126,6 +126,9 @@ int main() {
      */
     entryManager.add_commentaries();
 
+    BOOST_LOG_TRIVIAL(info) << "Total number of entries: " << entryManager.getEntries().size();
+
+
     /*
      * Save to latex
      */

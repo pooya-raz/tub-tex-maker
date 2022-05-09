@@ -13,7 +13,6 @@ bool greaterc (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
         }
 
 std::string latex_formatter::to_latex(const EntryMap& entryMap) {
-
     auto build_section {
         [](TitleType title_type, const std::string& label, const EntryMap& map){
             if(map.contains(title_type))
@@ -68,7 +67,7 @@ std::string latex_formatter::to_latex(const EntryMap& entryMap) {
         {Poem,"Poem (manẓūma)"},
         {Refutation,"Refutation (radd)"},
         {Taqrirat,"Taqrīrāt"},
-        {Translation,"Translation"},
+        {tCorrectionsRequired,"Corrections required in title type"},
     };
     for (const auto& section: section_map){
             final += build_section(section.first, section.second,entryMap);
