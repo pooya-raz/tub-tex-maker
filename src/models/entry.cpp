@@ -117,7 +117,8 @@ std::string Entry::to_latex() {
                                     "        \\newline\n"
                                     "        {manuscripts}"
                                     "        {editions}"
-                                    "        {commentaries}",
+                                    "        {commentaries}"
+                                    "\n",
                                     fmt::arg("transliterated_title",title_transliterated),
                                     fmt::arg("arabic_title",title_arabic),
                                     fmt::arg("author",author.getName()),
