@@ -135,7 +135,11 @@ int main() {
 
     BOOST_LOG_TRIVIAL(info) << "Total number of entries: " << entryManager.getEntries().size();
 
+    /*
+     * Sort entries, manuscripts, editions, and commentaries
+     */
 
+    entryManager.sort_all();
     /*
      * Save to latex
      */

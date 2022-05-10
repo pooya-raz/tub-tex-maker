@@ -28,6 +28,7 @@ public:
     void add_commentaries();
     EntryVec& getEntries();
     EntryMap& getEntryMap();
+    void sort_all();
 
 };
 

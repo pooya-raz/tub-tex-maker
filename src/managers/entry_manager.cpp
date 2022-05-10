@@ -178,3 +178,17 @@ void EntryManager::add_commentaries() {
         }
     }
 }
+
+void EntryManager::sort_all() {
+    /*
+ * Lambda function for sorting entries by death of author
+ */
+    auto greaterc = []
+            (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
+    {
+        return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
+    };
+    for(auto& [key,categories]: entryMap){
+        std::sort(categories.begin(), categories.end(),greaterc);
+    }
+}

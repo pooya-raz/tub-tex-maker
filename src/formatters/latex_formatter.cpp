@@ -4,13 +4,7 @@
 
 #include "latex_formatter.h"
 
-/*
- * Lambda function for sorting entries by death of author
- */
-bool greaterc (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
-        {
-            return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
-        }
+
 
 std::string latex_formatter::to_latex(const EntryMap& entryMap) {
     auto build_section {
@@ -18,7 +12,7 @@ std::string latex_formatter::to_latex(const EntryMap& entryMap) {
             if(map.contains(title_type))
             {
                 auto entriesv = map.at(title_type);
-                std::sort(entriesv.begin(), entriesv.end(),greaterc);
+
                 std::string output = fmt::format("\\section{{{}}}\n\\begin{{enumerate}}\n",label);
                 auto latex_fold = [](
                         std::string a,
