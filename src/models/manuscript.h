@@ -10,6 +10,7 @@
 
 
 class Manuscript {
+private:
     std::string location{};
     int year_hijri{};
     int year_gregorian{};
@@ -35,6 +36,19 @@ public:
 
     [[nodiscard]] const std::string &getManuscriptOfTitle() const;
 
+    [[nodiscard]] const std::string &getLocation() const;
+
+    [[nodiscard]] int getYearHijri() const;
+
+    [[nodiscard]] int getYearGregorian() const;
+
+    [[nodiscard]] const std::string &getYearHijriText() const;
+
+    [[nodiscard]] const std::string &getYearGregorianText() const;
+
+    [[nodiscard]] const std::string &getCity() const;
+
+    [[nodiscard]] const std::string &getManuscriptNumber() const;
     [[nodiscard]] std::string getDates() const;
 
     [[nodiscard]] std::string to_latex() const;

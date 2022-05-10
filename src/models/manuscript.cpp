@@ -64,3 +64,31 @@ std::string Manuscript::to_latex() const {
                        fmt::arg("manuscript_number", manuscript_number),
                        fmt::arg("dates",getDates()));
 }
+
+const std::string &Manuscript::getLocation() const {
+    return location;
+}
+
+int Manuscript::getYearHijri() const {
+    return year_hijri;
+}
+
+int Manuscript::getYearGregorian() const {
+    return year_gregorian;
+}
+
+const std::string &Manuscript::getYearHijriText() const {
+    return year_hijri_text;
+}
+
+const std::string &Manuscript::getYearGregorianText() const {
+    return year_gregorian_text;
+}
+
+const std::string &Manuscript::getCity() const {
+    return city;
+}
+
+const std::string &Manuscript::getManuscriptNumber() const {
+    return manuscript_number;
+}
