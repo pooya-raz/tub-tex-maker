@@ -24,7 +24,7 @@ protected:
              */
             TubJson tubJson;
             // Read from the text file
-            std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/1000response.json");
+            std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-tex-maker/tests/1000response.json");
             std::string json_string( (std::istreambuf_iterator<char>(file) ),
                                      (std::istreambuf_iterator<char>()    ) );
             tubJson.parse(json_string);
@@ -33,7 +33,7 @@ protected:
             entryManager.add_entries(results);
 
 
-            std::ifstream fileManuscript("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/response-manuscript.json");
+            std::ifstream fileManuscript("/Users/pooya/Developer/sandbox/cpp/tub-tex-maker/tests/response-manuscript.json");
             std::string json_string_manuscript( (std::istreambuf_iterator<char>(fileManuscript) ),
                                      (std::istreambuf_iterator<char>()    ) );
             TubJson tubManuscriptJson;
@@ -41,7 +41,7 @@ protected:
             auto manu_results = tubManuscriptJson.at("query").at("results");
             entryManager.add_manuscripts(manu_results);
 
-            std::ifstream file_editions("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/response-editions.json");
+            std::ifstream file_editions("/Users/pooya/Developer/sandbox/cpp/tub-tex-maker/tests/response-editions.json");
             std::string json_string_editions( (std::istreambuf_iterator<char>(file_editions) ),
                                                 (std::istreambuf_iterator<char>()    ) );
             TubJson tubEditionJson;

@@ -9,7 +9,7 @@ TEST(LatexFormatterTest,BasicTest){
     EntryManager entryManager;
     TubJson tubJson;
     // Read from the text file
-    std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-pdf-maker/tests/samples.json");
+    std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-tex-maker/tests/samples.json");
     std::string json_string( (std::istreambuf_iterator<char>(file) ),
                              (std::istreambuf_iterator<char>()    ) );
     tubJson.parse(json_string);
