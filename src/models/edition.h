@@ -38,6 +38,28 @@ public:
 
     std::string to_latex();
     std::string getPublishedEditionOfTitle();
+    [[nodiscard]] const std::string &getTitleTransliterated() const;
+
+    [[nodiscard]] const std::string &getTitleArabic() const;
+
+    [[nodiscard]] const std::string &getEditor() const;
+
+    [[nodiscard]] const std::string &getEditionType() const;
+
+    [[nodiscard]] const std::string &getPublisher() const;
+
+    [[nodiscard]] const std::string &getCity() const;
+
+    [[nodiscard]] int getYearHijri() const;
+
+    [[nodiscard]] int getYearGregorian() const;
+
+    [[nodiscard]] const std::string &getYearHijriText() const;
+
+    [[nodiscard]] const std::string &getYearGregorianText() const;
+
+    [[nodiscard]] const std::string &getDescription() const;
+
 };
 
 

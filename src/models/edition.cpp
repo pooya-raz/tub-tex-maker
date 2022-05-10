@@ -75,3 +75,47 @@ std::string Edition::getPublishedEditionOfTitle() {
     return published_edition_of_title;
 }
 
+const std::string &Edition::getTitleTransliterated() const {
+    return title_transliterated;
+}
+
+const std::string &Edition::getTitleArabic() const {
+    return title_arabic;
+}
+
+const std::string &Edition::getEditor() const {
+    return editor;
+}
+
+const std::string &Edition::getEditionType() const {
+    return edition_type;
+}
+
+const std::string &Edition::getPublisher() const {
+    return publisher;
+}
+
+const std::string &Edition::getCity() const {
+    return city;
+}
+
+int Edition::getYearHijri() const {
+    return year_hijri;
+}
+
+int Edition::getYearGregorian() const {
+    return year_gregorian;
+}
+
+const std::string &Edition::getYearHijriText() const {
+    return year_hijri_text;
+}
+
+const std::string &Edition::getYearGregorianText() const {
+    return year_gregorian_text;
+}
+
+const std::string &Edition::getDescription() const {
+    return description;
+}
+
