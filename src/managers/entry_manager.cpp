@@ -180,9 +180,22 @@ void EntryManager::add_commentaries() {
 }
 
 void EntryManager::sort_all() {
+
     /*
- * Lambda function for sorting entries by death of author
- */
+     * Sort all vectors in entries
+     */
+    auto compare_hijri = [](const Manuscript& a, const Manuscript& b){
+        return (a.getYearHijri() < b.getYearHijri());
+    };
+
+    for (auto& entry:entries){
+        auto& manuscripts = entry->manuscripts;
+        std::sort(manuscripts.begin(), manuscripts.end(), compare_hijri);
+    }
+
+    /*
+    * Lambda function for sorting entries by death of author
+    */
     auto greaterc = []
             (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
     {
@@ -191,4 +204,5 @@ void EntryManager::sort_all() {
     for(auto& [key,categories]: entryMap){
         std::sort(categories.begin(), categories.end(),greaterc);
     }
+
 }
