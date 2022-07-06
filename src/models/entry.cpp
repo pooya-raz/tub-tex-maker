@@ -111,8 +111,6 @@ std::string Entry::to_latex() {
                                     "        {death_dates}\n"
                                     "        \\newline\n"
                                     "        \\newline\n"
-                                    "        \\newline\n"
-                                    "        \\newline\n"
                                     "        {manuscripts}"
                                     "        {editions}"
                                     "        {commentaries}"
