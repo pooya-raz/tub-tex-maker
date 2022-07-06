@@ -49,6 +49,17 @@ protected:
             auto edition_results= tubEditionJson.at("query").at("results");
             entryManager.add_editions(edition_results);
 
+            /*
+             * Add authors
+             */
+            std::ifstream file_authors("/Users/pooya/Developer/sandbox/cpp/tub-tex-maker/tests/authors.json");
+            std::string json_string_authors( (std::istreambuf_iterator<char>(file_authors) ),
+                                              (std::istreambuf_iterator<char>()    ) );
+            TubJson tubAuthors;
+            tubAuthors.parse(json_string_authors);
+            auto authors = tubAuthors.at("query").at("results");
+            entryManager.add_authors(authors);
+
             entryManager.sort_all();
             entryMap = entryManager.getEntryMap();
         }
@@ -115,7 +126,7 @@ TEST_F(EntryBuilderTest, WithDatesAndDescription) {
 
         EXPECT_EQ(title_type,entry->getTitleType());
 
-        EXPECT_EQ("Abū l-Fatḥ Muḥammad b. ʿAlī b.ʿUthmān al-Ṭarāblūsī al-Karājukī", entry->getAuthor().getName());
+        EXPECT_EQ("al-Karājukī/al-Karājakī al-Ṭarāblūsī", entry->getAuthor().getName());
         EXPECT_EQ(449,entry->getAuthor().getMDeathHijri());
         EXPECT_EQ("NO DATA",entry->getAuthor().getMDeathHijriText());
         EXPECT_EQ(1057,entry->getAuthor().getMDeathGregorian());

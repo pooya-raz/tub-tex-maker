@@ -25,6 +25,7 @@ private:
     TitleType title_type {};
     std::vector<CorrectionsRequired> corrections_required {};
     std::string base_text {};
+    std::string author_page_title {};
     Author author {};
 
 
@@ -43,7 +44,7 @@ public:
           std::vector<CorrectionsRequired> corrections_required,
           TitleType title_type,
           std::string base_text,
-          Author author);
+          std::string author_page_title);
 
     [[nodiscard]] const std::string &getId() const;
 
@@ -63,7 +64,13 @@ public:
 
     [[nodiscard]] const std::vector<CorrectionsRequired> &getCorrectionsRequired() const;
 
+    [[nodiscard]] const std::string &getAuthorPageTitle() const;
+
     std::string to_latex();
+
+    void setAuthor(Author author);
+
+    void addCorrectionsRequired(CorrectionsRequired correctionsRequired);
 
 };
 

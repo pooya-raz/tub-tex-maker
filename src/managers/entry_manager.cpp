@@ -33,13 +33,7 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
                         return TitleType{tCorrectionsRequired};
                     }
             };
-    auto parseGregorianDate{
-            [](const std::string &string) {
-                if (string == "NO DATA") return 0;
-                auto year = string.substr(string.find('/') + 1);
-                return std::stoi(year);
-            }
-    };
+
 
     /*
      * Get title details
@@ -51,29 +45,13 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
     auto category = parseCategory(json.at("printouts").at("Category").at(0).get("fulltext"));
     auto title_type = parseTitleType(json.at("printouts").at("Book type").get(0));
     auto base_text = json.at("printouts").at("Has base text").at(0).get("fulltext");
-    /*
-     * Get author details
-     */
-    auto author_name_transliterated = json.at("printouts").at("Full name (transliterated)").get(0);
-    auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int(0);
-    auto death_gregorian = parseGregorianDate(json.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
-    auto death_hijri_text = json.at("printouts").at("Death (Hijri) text").get(0);
-    auto death_gregorian_text = json.at("printouts").at("Death (Gregorian) text").get(0);
-
+    auto author_page_title = json.at("printouts").at("Has author(s)").at(0).get("fulltext");
     /*
      * Check for errors
      */
     if (category == cCorrectionsRequired) corrections_required.push_back(CheckCategory);
     if (title_type == tCorrectionsRequired) corrections_required.push_back(CheckTitleType);
-    if (death_hijri == 0 || death_gregorian == 0) corrections_required.push_back(CheckDates);
-    /*
-     * Build models
-     */
-    Author author{author_name_transliterated,
-                  death_hijri,
-                  death_gregorian,
-                  death_hijri_text,
-                  death_gregorian_text};
+
     auto new_entry = std::make_shared<Entry>(
             id,
                     title_transliterated,
@@ -83,7 +61,8 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
                     corrections_required,
                     title_type,
                     base_text,
-                    author);
+                    author_page_title
+                    );
     return new_entry;
 }
 
@@ -212,6 +191,50 @@ void EntryManager::sort_all() {
 
     for(auto& [key,categories]: entryMap){
         std::sort(categories.begin(), categories.end(),greaterc);
+    }
+
+}
+
+
+Author EntryManager::add_author(TubJson &json) {
+
+    auto parseGregorianDate{
+            [](const std::string &string) {
+                if (string == "NO DATA") return 0;
+                auto year = string.substr(string.find('/') + 1);
+                return std::stoi(year);
+            }
+    };
+
+    /*
+    * Get author details
+    */
+    auto author_name_transliterated = json.get("fulltext");
+    auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int(0);
+    auto death_gregorian = parseGregorianDate(json.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
+    auto death_hijri_text = json.at("printouts").at("Death (Hijri) text").get(0);
+    auto death_gregorian_text = json.at("printouts").at("Death (Gregorian) text").get(0);
+
+    //
+    /*
+     * Build models
+     */
+    return {author_name_transliterated,
+                  death_hijri,
+                  death_gregorian,
+                  death_hijri_text,
+                  death_gregorian_text};
+}
+
+void EntryManager::add_authors(TubJson& json) {
+    for (TubJson &author_json: json.get_results()){
+        auto author = add_author(author_json);
+        for (auto &entry: entries){
+            if(author.getName() == entry->getAuthorPageTitle()){
+                entry->setAuthor(author);
+                if (author.getMDeathHijri()== 0 || author.getMDeathGregorian()== 0) entry->addCorrectionsRequired(CheckDates);
+            }
+        }
     }
 
 }

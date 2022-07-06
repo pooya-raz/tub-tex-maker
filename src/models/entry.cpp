@@ -14,7 +14,8 @@ Entry::Entry(std::string id,
              std::vector<CorrectionsRequired> corrections_required,
              TitleType title_type,
              std::string base_text,
-             Author author):
+             std::string author_page_title
+             ):
     id(std::move(id)),
     title_transliterated(std::move(title_transliterated)),
     title_arabic(std::move(title_arabic)),
@@ -23,7 +24,7 @@ Entry::Entry(std::string id,
     corrections_required(std::move(corrections_required)),
     title_type(title_type),
     base_text(std::move(base_text)),
-    author(std::move(author))
+    author_page_title(std::move(author_page_title))
 {}
 
 std::string Entry::to_latex() {
@@ -165,4 +166,16 @@ const std::string &Entry::getBaseText() const {
 }
 const std::vector<CorrectionsRequired> &Entry::getCorrectionsRequired() const {
     return corrections_required;
+}
+
+const std::string &Entry::getAuthorPageTitle() const {
+    return author_page_title;
+}
+
+void Entry::setAuthor(Author n_author) {
+    Entry::author = n_author;
+}
+
+void Entry::addCorrectionsRequired(CorrectionsRequired correctionsRequired) {
+    corrections_required.push_back(correctionsRequired);
 }

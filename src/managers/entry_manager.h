@@ -20,12 +20,14 @@ private:
     std::shared_ptr<Entry> add_entry(TubJson& json);
     Manuscript add_manuscript(TubJson& json);
     Edition add_edition(TubJson& json);
+    Author add_author(TubJson& json);
 
 public:
     void add_entries(TubJson& json);
     void add_manuscripts(TubJson& json);
     void add_editions(TubJson& json);
     void add_commentaries();
+    void add_authors(TubJson& json);
     EntryVec& getEntries();
     EntryMap& getEntryMap();
     void sort_all();
