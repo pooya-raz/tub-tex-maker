@@ -3,7 +3,7 @@
 //
 
 #include "TubJson.h"
-
+#include <iostream>
 TubJson::TubJson() = default;
 
 TubJson::TubJson(const nlohmann::json& json){
@@ -64,6 +64,16 @@ int TubJson::get_int(const std::string& key){
     }
     m_json_tmp = m_json;
     return 0;
+}
+
+int TubJson::get_int_hijri(int index) {
+    if (m_json_tmp.size() >= (index + 1)) {
+        auto result =  m_json_tmp[index];
+        m_json_tmp = m_json;
+        return result;
+    }
+    m_json_tmp = m_json;
+    return 9999;
 }
 
 std::vector<TubJson> TubJson::get_results() {

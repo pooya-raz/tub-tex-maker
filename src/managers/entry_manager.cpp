@@ -168,8 +168,12 @@ void EntryManager::sort_all() {
         return (a.getYearHijri() < b.getYearHijri());
     };
     auto greaterc = []
-            (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b)
-    {
+            (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b){
+        //Todo:Remove this and set getAuthor to const. I can't find what is setting the hijri date to 0 for entries without an author.
+        if (a->getAuthor().getMDeathHijri()==0){
+            a->getAuthor().setDeathHijri(9999);
+        }
+        std::cout<<a->getTitleTransliterated()<<": "<<a->getAuthor().getMDeathHijri()<<"\n";
         return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
     };
 
@@ -206,16 +210,16 @@ Author EntryManager::add_author(TubJson &json) {
             }
     };
 
+
     /*
     * Get author details
     */
     auto author_name_transliterated = json.get("fulltext");
-    auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int(0);
+    auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int_hijri(0);
     auto death_gregorian = parseGregorianDate(json.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
     auto death_hijri_text = json.at("printouts").at("Death (Hijri) text").get(0);
     auto death_gregorian_text = json.at("printouts").at("Death (Gregorian) text").get(0);
 
-    //
     /*
      * Build models
      */

@@ -37,12 +37,14 @@ const std::string &Author::getMDeathHijriText() const {
 const std::string &Author::getMDeathGregorianText() const {
     return death_gregorian_text;
 }
-
+void Author::setDeathHijri(int deathHijri) {
+    death_hijri = deathHijri;
+}
 std::string Author::getDeathDates() const {
     std::string hijri = "NO DATA";
     std::string gregorian = "NO DATA";
 
-    if(death_hijri != 0){
+    if(death_hijri != 9999){
         hijri = std::to_string(death_hijri);
     }
     if(death_hijri_text != "NO DATA")
@@ -68,4 +70,6 @@ std::string Author::getDeathDates() const {
 
 
 }
+
+
 

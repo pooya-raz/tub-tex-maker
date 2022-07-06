@@ -143,7 +143,7 @@ const std::string &Entry::getTitleArabic() const {
     return title_arabic;
 }
 
-const Author &Entry::getAuthor() const {
+Author &Entry::getAuthor() {
     return author;
 }
 

@@ -35,6 +35,8 @@ public:
     [[nodiscard]] const std::string &getMDeathGregorianText() const;
 
     std::string getDeathDates() const;
+
+    void setDeathHijri(int deathHijri);
 };
 
 

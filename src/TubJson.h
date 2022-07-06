@@ -19,12 +19,15 @@ public:
     [[nodiscard]] std::string get(int index);
     [[nodiscard]] int get_int(int index);
     [[nodiscard]] int get_int(const std::string& key);
+    [[nodiscard]]int get_int_hijri(int index);
     std::vector<TubJson> get_results();
 
     void parse(const std::string& string);
 
     TubJson();
     explicit TubJson(const nlohmann::json& json);
+
+
 };
 
 #endif //TUB_PDF_MAKER_TUBJSON_H

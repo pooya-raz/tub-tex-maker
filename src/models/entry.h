@@ -56,7 +56,7 @@ public:
 
     [[nodiscard]] const std::string &getBaseText() const;
 
-    [[nodiscard]] const Author &getAuthor() const;
+    [[nodiscard]] Author &getAuthor();
 
     [[nodiscard]] const Category &getCategory() const;
 
