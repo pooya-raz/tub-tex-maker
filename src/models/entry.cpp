@@ -111,9 +111,6 @@ std::string Entry::to_latex() {
                                     "        {death_dates}\n"
                                     "        \\newline\n"
                                     "        \\newline\n"
-                                    "        \\textbf{{Description}}\n"
-                                    "        \\newline\t\n"
-                                    "        {description}\n"
                                     "        \\newline\n"
                                     "        \\newline\n"
                                     "        {manuscripts}"
@@ -124,7 +121,6 @@ std::string Entry::to_latex() {
                                     fmt::arg("arabic_title",title_arabic),
                                     fmt::arg("author",author.getName()),
                                     fmt::arg("death_dates",author.getDeathDates()),
-                                    fmt::arg("description",description),
                                     fmt::arg("manuscripts",manuscripts_to_latex()),
                                     fmt::arg("editions", editions_to_latex()),
                                     fmt::arg("commentaries", commentaries_to_latex())
