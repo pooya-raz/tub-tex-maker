@@ -174,7 +174,7 @@ int main() {
      * Save to latex
      */
     auto latex = latex_formatter::to_latex(entryManager.getEntryMap());
-    fileWriter.save_to_file("output.latex",latex);
+    fileWriter.save_to_file("output.tex",latex);
     return 0;
 
 
