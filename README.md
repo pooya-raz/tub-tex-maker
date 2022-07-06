@@ -1,5 +1,11 @@
 #Install
 
+
+To build from command line:
+
+/Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --build /Users/pooya/Developer/sandbox/cpp/tub-tex-maker/cmake-build-debug --target tub_tex_maker
+
+
 VCPKG manager
 
 Uses: 
