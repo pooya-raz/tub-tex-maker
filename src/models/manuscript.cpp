@@ -33,7 +33,7 @@ std::string Manuscript::getDates() const{
     std::string hijri = "NO DATA";
     std::string gregorian = "NO DATA";
 
-    if(year_hijri != 0){
+    if(year_hijri != 9999){
         hijri = std::to_string(year_hijri);
 
     }

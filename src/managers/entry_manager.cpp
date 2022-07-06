@@ -76,7 +76,7 @@ void EntryManager::add_entries(TubJson &json) {
 
 Manuscript EntryManager::add_manuscript(TubJson &json) {
     auto location = json.at("printouts").at("Has a location").get(0);
-    auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int(0);
+    auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int_hijri(0);
     auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
     auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
     auto year_gregorian_text = json.at("printouts").at("Has year(Gregorian) text").get(0);

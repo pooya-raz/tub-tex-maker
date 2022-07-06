@@ -41,8 +41,13 @@ std::string Entry::to_latex() {
         }
         else
         {
-            for(auto& m: this->manuscripts){
-                manu_latex  += m.to_latex();
+            int size = (int)this->manuscripts.size();
+            int stop = 5;
+            if(size<5){
+                stop = size;
+            }
+            for(int i = 0; i < stop; i++){
+                manu_latex += this->manuscripts[i].to_latex();
             }
         }
 
