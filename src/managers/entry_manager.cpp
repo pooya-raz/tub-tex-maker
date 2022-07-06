@@ -173,10 +173,8 @@ void EntryManager::sort_all() {
         if (a->getAuthor().getMDeathHijri()==0){
             a->getAuthor().setDeathHijri(9999);
         }
-        std::cout<<a->getTitleTransliterated()<<": "<<a->getAuthor().getMDeathHijri()<<"\n";
         return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
     };
-
 
     /*
      * Sort all vectors in entries
