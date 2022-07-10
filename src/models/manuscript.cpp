@@ -29,40 +29,40 @@ const std::string &Manuscript::getManuscriptOfTitle() const {
 }
 
 
-std::string Manuscript::getDates() const{
+std::string Manuscript::getDates() const {
     std::string hijri = "NO DATA";
     std::string gregorian = "NO DATA";
 
-    if(year_hijri != 9999){
+    if (year_hijri != 9999) {
         hijri = std::to_string(year_hijri);
 
     }
-    if(year_hijri_text != "NO DATA")
-    {
+    if (year_hijri_text != "NO DATA") {
         hijri = year_hijri_text;
     }
 
-    if(year_gregorian != 0)
-    {
+    if (year_gregorian != 0) {
         gregorian = std::to_string(year_gregorian);
     }
-    if(year_gregorian_text != "NO DATA")
-    {
+    if (year_gregorian_text != "NO DATA") {
         gregorian = year_gregorian_text;
+    }
+    if (year_hijri == 0 && year_gregorian != 0) {
+        return gregorian;
     }
 
     return fmt::format("{hijri}/{gregorian}",
-                       fmt::arg("hijri",hijri),
-                       fmt::arg("gregorian",gregorian)
+                       fmt::arg("hijri", hijri),
+                       fmt::arg("gregorian", gregorian)
     );
 }
 
 std::string Manuscript::to_latex() const {
     return fmt::format("\\item {location}, {city} (\\#{manuscript_number}), dated {dates}\n",
-                       fmt::arg("location",location),
-                       fmt::arg("city",city),
+                       fmt::arg("location", location),
+                       fmt::arg("city", city),
                        fmt::arg("manuscript_number", manuscript_number),
-                       fmt::arg("dates",getDates()));
+                       fmt::arg("dates", getDates()));
 }
 
 const std::string &Manuscript::getLocation() const {

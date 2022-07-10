@@ -33,31 +33,6 @@ Edition::Edition(std::string title_transliterated,
         published_edition_of_title(std::move(published_edition_of_title)) {}
 
 std::string Edition::to_latex() {
-    auto getDates = [this]() {
-        std::string hijri = "NO DATA";
-        std::string gregorian = "NO DATA";
-
-        if (year_hijri != 0) {
-            hijri = std::to_string(year_hijri);
-
-        }
-        if (year_hijri_text != "NO DATA") {
-            hijri = year_hijri_text;
-        }
-
-        if (year_gregorian != 0) {
-            gregorian = std::to_string(year_gregorian);
-        }
-        if (year_gregorian_text != "NO DATA") {
-            gregorian = year_gregorian_text;
-        }
-
-        return fmt::format("{hijri}/{gregorian}",
-                           fmt::arg("hijri", hijri),
-                           fmt::arg("gregorian", gregorian)
-        );
-    };
-
     if (edition_type == "Modern Print") {
         return fmt::format("\\item \\emph{{{title}}}, {editor}, {publisher}, {city}, {dates}\n",
                            fmt::arg("title", title_transliterated),
@@ -76,6 +51,35 @@ std::string Edition::to_latex() {
                        fmt::arg("dates", getDates())
     );
 }
+
+std::string Edition::getDates() {
+    std::string hijri = "NO DATA";
+    std::string gregorian = "NO DATA";
+
+    if (year_hijri != 0) {
+        hijri = std::to_string(year_hijri);
+
+    }
+    if (year_hijri_text != "NO DATA") {
+        hijri = year_hijri_text;
+    }
+
+    if (year_gregorian != 0) {
+        gregorian = std::to_string(year_gregorian);
+    }
+    if (year_gregorian_text != "NO DATA") {
+        gregorian = year_gregorian_text;
+    }
+
+
+    if (year_hijri == 0 && year_gregorian != 0) {
+        return gregorian;
+    }
+    return fmt::format("{hijri}/{gregorian}",
+                       fmt::arg("hijri", hijri),
+                       fmt::arg("gregorian", gregorian)
+    );
+};
 
 std::string Edition::getPublishedEditionOfTitle() {
     return published_edition_of_title;
