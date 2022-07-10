@@ -47,7 +47,7 @@ TEST(EditionOnlyShowGregorian, BasicTest) {
     Edition edition = Edition("Title Transliterated",
                               "Title Arabic",
                               "Editor",
-                              "Modern Print",
+                              "Modern print",
                               "Publisher",
                               "City",
                               0,
