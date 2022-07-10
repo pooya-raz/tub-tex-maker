@@ -47,18 +47,24 @@ std::string Manuscript::getDates() const {
     if (year_gregorian_text != "NO DATA") {
         gregorian = year_gregorian_text;
     }
-    if (year_hijri == 0 && year_gregorian != 0) {
-        return gregorian;
+    if (year_hijri == 9999 && year_gregorian != 0) {
+        return fmt::format("dated {gregorian}",
+                           fmt::arg("gregorian", gregorian)
+        );
     }
 
-    return fmt::format("{hijri}/{gregorian}",
+    if (hijri == "NO DATA" && gregorian == "NO DATA") {
+        return "undated manuscript";
+    }
+
+    return fmt::format("dated {hijri}/{gregorian}",
                        fmt::arg("hijri", hijri),
                        fmt::arg("gregorian", gregorian)
     );
 }
 
 std::string Manuscript::to_latex() const {
-    return fmt::format("\\item {location}, {city} (\\#{manuscript_number}), dated {dates}\n",
+    return fmt::format("\\item {location}, {city} (\\#{manuscript_number}), {dates}\n",
                        fmt::arg("location", location),
                        fmt::arg("city", city),
                        fmt::arg("manuscript_number", manuscript_number),
