@@ -35,7 +35,7 @@ add_executable(
         src/managers/entry_manager.cpp src/managers/entry_manager.h src/managers/entry_manager.test.cpp
         src/models/author.cpp src/models/author.h
         src/models/title_type.h src/TubJson.test.cpp
-        src/formatters/latex_formatter.cpp src/formatters/latex_formatter.h src/formatters/latex_formatter_test.cpp src/models/manuscript.cpp src/models/manuscript.h src/models/edition.cpp src/models/edition.h)
+        src/formatters/latex_formatter.cpp src/formatters/latex_formatter.h src/formatters/latex_formatter_test.cpp src/models/manuscript.cpp src/models/manuscript.h src/models/edition.cpp src/models/edition.h src/models/edition_test.cpp src/models/author_test.cpp src/models/entry_test.cpp src/models/manuscript_test.cpp)
 target_link_libraries(
         TubMediaWiki_test
         GTest::gtest_main
