@@ -3,7 +3,6 @@
 //
 #include <gtest/gtest.h>
 #include "edition.h"
-#include <fstream>
 
 TEST(EditionTestAllFields, BasicTest) {
 

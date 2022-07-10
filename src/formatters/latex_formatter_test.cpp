@@ -5,41 +5,44 @@
 #include "latex_formatter.h"
 #include <fstream>
 
-TEST(LatexFormatterTest,BasicTest){
-    EntryManager entryManager;
-    TubJson tubJson;
-    // Read from the text file
-    std::ifstream file("/Users/pooya/Developer/sandbox/cpp/tub-tex-maker/tests/samples.json");
-    std::string json_string( (std::istreambuf_iterator<char>(file) ),
-                             (std::istreambuf_iterator<char>()    ) );
-    tubJson.parse(json_string);
-    entryManager.add_entries(tubJson);
-    std::string expected= "\"\\item \\\\textbf{(Bahth fī) uṣūl al-fiqh}\n"
-                          "        \\\\newline\n"
-                          "        \\\\textarabic{بحث في) أصول الفقه)}\n"
-                          "        \\\\newline\n"
-                          "        Murtaḍā al-Ḥusaynī\n"
-                          "        \\\\newline\n"
-                          "        (d. NO DATA/NO DATA)\n"
-                          "        \\\\newline\n"
-                          "        \\\\newline\n"
-                          "        \\\\textbf{Description}\n"
-                          "        \\\\newline\t\n"
-                          "        NO DATA\n"
-                          "        \\\\newline\n"
-                          "        \\\\newline\\item \\\\textbf{Abwāb al-jinān al-mushtamil ʿalā rasāʾil thamān}\n"
-                          "        \\\\newline\n"
-                          "        \\\\textarabic{أبواب الجنان المشتمل على رسائل ثمان}\n"
-                          "        \\\\newline\n"
-                          "        Muḥammad b. Faraj al-Ḥimyarī al-Najafī\n"
-                          "        \\\\newline\n"
-                          "        (d. c. 1059/c. 1649)\n"
-                          "        \\\\newline\n"
-                          "        \\\\newline\n"
-                          "        \\\\textbf{Description}\n"
-                          "        \\\\newline\t\n"
-                          "        NO DATA\n"
-                          "        \\\\newline\n"
-                          "        \\\\newline";
-    EXPECT_EQ(expected, latex_formatter::to_latex(entryManager.getEntryMap()));
+TEST(LatexFormatterTest, BasicTest) {
+    Author author = Author(
+            "Name Transliterated",
+            0,
+            0,
+            "8th century",
+            "14th century");
+    Manuscript manuscript = Manuscript(
+            "Location",
+            700,
+            1300,
+            "NO DATA",
+            "NO DATA",
+            "City",
+            "Manuscript Number",
+            "Manuscript of Title"
+    );
+    std::vector<Manuscript> manuscripts = {manuscript};
+    std::vector<CorrectionsRequired> corrections_required = {};
+
+    std::shared_ptr<Entry> entry = std::make_shared<Entry>(
+            "1",
+            "Title Transliterated",
+            "Title Arabic",
+            "Description",
+            Edited,
+            corrections_required,
+            Monograph,
+            "Base Text",
+            "Author Title Page");
+    entry->setAuthor(author);
+    entry->manuscripts = manuscripts;
+
+    std::vector<std::shared_ptr<Entry>> monographs = {entry};
+
+
+    EntryMap entryMap = {{Monograph, monographs}};
+
+    std::string expected = " \\documentclass{article}\n    \\usepackage{fontspec,lipsum}\n    \\defaultfontfeatures{Ligatures=TeX}\n    \\usepackage[small,sf,bf]{titlesec}\n    \\setromanfont{Gentium Plus}\n    \\newfontfamily\\arabicfont[Script=Arabic]{Amiri}\n    \\usepackage{polyglossia}\n    \\setmainlanguage{english}\n    \\setotherlanguage{arabic}\n    \\title{Twelver Usul Bibliography}\n    \\author{The TUB Team}\n    \\date{\\today} \n    \\begin{document}\n    \\maketitle\n    \\tableofcontents\n    \\pagebreak\n\\section{Monograph}\n\\begin{enumerate}\n\\item \\textbf{Title Transliterated}\n        \\newline\n        \\textarabic{Title Arabic}\n        \\newline\n        Name Transliterated\n        \\newline\n        (d. 8th century/14th century)\n        \\newline\n        \\newline\n        \\textbf{Principal Manuscripts}\n\\begin{itemize}\n\\item Location, City (\\#Manuscript Number), dated 700/1300\n\\end{itemize}\n        \\textbf{Editions}\n\\begin{itemize}\n\\item NO DATA\n\\end{itemize}\n        \n\\end{enumerate}\n\\end{document}";
+    EXPECT_EQ(expected, latex_formatter::to_latex(entryMap));
 }
