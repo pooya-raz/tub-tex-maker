@@ -9,9 +9,7 @@ int main() {
     tub_mediawiki tub;
     file_writer fileWriter;
 
-
-
-    auto result =  tub.getQuery(
+    auto result = tub.getQuery(
             "[[Category:Title]]"
             "|?Category"
             "|?Book%20type"
@@ -24,13 +22,12 @@ int main() {
             "|limit=1000");
     TubJson tubJson;
     tubJson.parse(result);
-    fileWriter.save_to_file("entries1.json", result);
     BOOST_LOG_TRIVIAL(info) << "The offset: " << tubJson.get_int("query-continue-offset");
     auto results = tubJson.at("query").at("results");
     EntryManager entryManager;
     entryManager.add_entries(results);
 
-    auto result2 =  tub.getQuery(
+    auto result2 = tub.getQuery(
             "[[Category:Title]]"
             "|?Category"
             "|?Book%20type"
@@ -43,14 +40,11 @@ int main() {
             "|?Has%20base%20text"
             "|limit=1000"
             "|offset=1000");
-    fileWriter.save_to_file("entries2.json", result2);
     TubJson tubJson1;
     tubJson1.parse(result2);
     BOOST_LOG_TRIVIAL(info) << "The offset: " << tubJson1.get_int("query-continue-offset");
     auto results2 = tubJson1.at("query").at("results");
     entryManager.add_entries(results2);
-
-
 
     auto manuscripts = tub.getQuery(
             "[[Category:Manuscript]]"
@@ -65,8 +59,7 @@ int main() {
             "|?Manuscript%20of%20title"
             "|limit=1000"
             "|offset=0"
-            );
-    fileWriter.save_to_file("response-manuscript.json", manuscripts);
+    );
     TubJson manuJson;
     manuJson.parse(manuscripts);
     entryManager.add_manuscripts(manuJson);
@@ -86,7 +79,6 @@ int main() {
             "|limit=1000"
             "|offset=1000"
     );
-    fileWriter.save_to_file("response-manuscript2.json", manuscripts2);
     TubJson manuJson2;
     manuJson2.parse(manuscripts2);
     entryManager.add_manuscripts(manuJson2);
@@ -106,7 +98,6 @@ int main() {
             "|limit=1000"
             "|offset=2000"
     );
-    fileWriter.save_to_file("response-manuscript3.json", manuscripts3);
     TubJson manuJson3;
     manuJson3.parse(manuscripts3);
     entryManager.add_manuscripts(manuJson3);
@@ -128,7 +119,6 @@ int main() {
             "|?City"
             "|limit=1000"
     );
-    fileWriter.save_to_file("response-editions.json", editions);
     TubJson editionJson;
     editionJson.parse(editions);
     entryManager.add_editions(editionJson);
@@ -139,8 +129,8 @@ int main() {
      * Add commentaries
      */
     entryManager.add_commentaries();
-    for(const auto& entry: entryManager.getEntries()){
-        if(entry->getId() == "Ḥāshiyat ʿUddat al-uṣūl - al-Ḥāshiyat al-ūlā"){
+    for (const auto &entry: entryManager.getEntries()) {
+        if (entry->getId() == "Ḥāshiyat ʿUddat al-uṣūl - al-Ḥāshiyat al-ūlā") {
             BOOST_LOG_TRIVIAL(info) << "Entry found " << entry->getId() << "\n title type: " << entry->getTitleType();
         }
     }
@@ -159,7 +149,6 @@ int main() {
             "|?Death%20(Gregorian)%20text"
             "|limit=1000"
     );
-    fileWriter.save_to_file("authors.json", author_result);
     TubJson tubAuthors;
     tubAuthors.parse(author_result);
     auto authors = tubAuthors.at("query").at("results");
@@ -168,14 +157,11 @@ int main() {
     /*
      * Sort entries, manuscripts, editions, and commentaries
      */
-
     entryManager.sort_all();
     /*
      * Save to latex
      */
     auto latex = latex_formatter::to_latex(entryManager.getEntryMap());
-    fileWriter.save_to_file("output.tex",latex);
+    fileWriter.save_to_file("output.tex", latex);
     return 0;
-
-
 }
