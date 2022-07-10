@@ -4,6 +4,7 @@
 
 #ifndef TUB_PDF_MAKER_EDITION_H
 #define TUB_PDF_MAKER_EDITION_H
+
 #include <string>
 #include <fmt/core.h>
 
@@ -37,7 +38,9 @@ public:
             std::string published_edition_of_title);
 
     std::string to_latex();
+
     std::string getPublishedEditionOfTitle();
+
     [[nodiscard]] const std::string &getTitleTransliterated() const;
 
     [[nodiscard]] const std::string &getTitleArabic() const;
@@ -60,6 +63,7 @@ public:
 
     [[nodiscard]] const std::string &getDescription() const;
 
+    [[nodiscard]] std::string getDates();
 };
 
 

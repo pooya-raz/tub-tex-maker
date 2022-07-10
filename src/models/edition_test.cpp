@@ -13,7 +13,11 @@ TEST(EditionTestAllFields, BasicTest) {
                               "Publisher",
                               "City",
                               700,
-                              1300, "NO DATA", "NO DATA", "", "Published edition of title");
+                              1300,
+                              "NO DATA",
+                              "NO DATA",
+                              "",
+                              "Published edition of title");
 
     auto expected = "\\item \\emph{Title Transliterated}, Editor, Lithograph, Publisher, City, 700/1300\n";
     EXPECT_EQ(expected, edition.to_latex());
@@ -28,8 +32,31 @@ TEST(EditionModernPrintTest, BasicTest) {
                               "Publisher",
                               "City",
                               700,
-                              1300, "NO DATA", "NO DATA", "", "Published edition of title");
+                              1300,
+                              "NO DATA",
+                              "NO DATA",
+                              "",
+                              "Published edition of title");
 
     auto expected = "\\item \\emph{Title Transliterated}, Editor, Publisher, City, 700/1300\n";
+    EXPECT_EQ(expected, edition.to_latex());
+}
+
+TEST(EditionOnlyShowGregorian, BasicTest) {
+
+    Edition edition = Edition("Title Transliterated",
+                              "Title Arabic",
+                              "Editor",
+                              "Modern Print",
+                              "Publisher",
+                              "City",
+                              0,
+                              1940,
+                              "NO DATA",
+                              "NO DATA",
+                              "",
+                              "Published edition of title");
+
+    auto expected = "\\item \\emph{Title Transliterated}, Editor, Publisher, City, 1940\n";
     EXPECT_EQ(expected, edition.to_latex());
 }
