@@ -40,6 +40,6 @@ TEST(EntryAllFields, BasicTest) {
     entry.setAuthor(author);
     entry.manuscripts = manuscripts;
 
-    auto expected = "\\item \\textbf{Title Transliterated}\n        \\newline\n        \\textarabic{Title Arabic}\n        \\newline\n        Name Transliterated\n        \\newline\n        (d. 8th century/14th century)\n        \\newline\n        \\newline\n        \\textbf{Principal Manuscripts}\n\\begin{itemize}\n\\item Location, City (\\#Manuscript Number), dated 700/1300\n\\end{itemize}\n        \\textbf{Editions}\n\\begin{itemize}\n\\item NO DATA\n\\end{itemize}\n        \n";
+    auto expected = "\\item Title Transliterated\n        \\newline\n        \\textarabic{Title Arabic}\n        \\newline\n        Name Transliterated\n        \\newline\n        (d. 8th century/14th century)\n        \\newline\n        \\newline\n        \\textbf{Principal Manuscripts}\n\\begin{itemize}\n\\item Location, City (\\#Manuscript Number), dated 700/1300\n\\end{itemize}\n        \\textbf{Editions}\n\\begin{itemize}\n\\item NO DATA\n\\end{itemize}\n        \n";
     EXPECT_EQ(expected, entry.to_latex());
 }

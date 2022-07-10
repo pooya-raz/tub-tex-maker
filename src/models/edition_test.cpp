@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include "edition.h"
 
-TEST(EditionTestAllFields, BasicTest) {
+TEST(Edition, BasicTest) {
 
     Edition edition = Edition("Title Transliterated",
                               "Title Arabic",
@@ -23,12 +23,12 @@ TEST(EditionTestAllFields, BasicTest) {
     EXPECT_EQ(expected, edition.to_latex());
 }
 
-TEST(EditionModernPrintTest, BasicTest) {
+TEST(Edition, ModernPrintTest) {
 
     Edition edition = Edition("Title Transliterated",
                               "Title Arabic",
                               "Editor",
-                              "Modern Print",
+                              "Modern print",
                               "Publisher",
                               "City",
                               700,
@@ -42,7 +42,7 @@ TEST(EditionModernPrintTest, BasicTest) {
     EXPECT_EQ(expected, edition.to_latex());
 }
 
-TEST(EditionOnlyShowGregorian, BasicTest) {
+TEST(Edition, OnlyShowGregorian) {
 
     Edition edition = Edition("Title Transliterated",
                               "Title Arabic",

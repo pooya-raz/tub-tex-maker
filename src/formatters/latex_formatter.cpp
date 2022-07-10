@@ -36,7 +36,7 @@ std::string latex_formatter::to_latex(const EntryMap &entryMap) {
              "    \\usepackage{fontspec,lipsum}\n"
              "    \\defaultfontfeatures{Ligatures=TeX}\n"
              "    \\usepackage[small,sf,bf]{titlesec}\n"
-             "    \\setromanfont[BoldFont={Gentium Basic Bold}{Gentium}"
+             "    \\setmainfont[BoldFont={Gentium Basic Bold}]{Gentium Plus}"
              "    \\newfontfamily\\arabicfont[Script=Arabic]{Amiri}\n"
              "    \\usepackage{polyglossia}\n"
              "    \\setmainlanguage{english}\n"
