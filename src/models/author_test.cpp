@@ -3,7 +3,6 @@
 //
 #include <gtest/gtest.h>
 #include "author.h"
-#include <fstream>
 
 TEST(AuthorIntDeathDates, BasicTest) {
 
@@ -26,5 +25,17 @@ TEST(AuthorTextDeathDates, BasicTest) {
             "8th century",
             "14th century");
     auto expected = "(d. 8th century/14th century)";
+    EXPECT_EQ(expected, author.getDeathDates());
+}
+
+TEST(AuthorDontAddD, BasicTest) {
+
+    Author author = Author(
+            "Name Transliterated",
+            0,
+            0,
+            "fl. 553",
+            "fl. 1158");
+    auto expected = "(fl. 553/fl. 1158)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
