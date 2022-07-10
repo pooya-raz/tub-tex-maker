@@ -33,7 +33,7 @@ Edition::Edition(std::string title_transliterated,
         published_edition_of_title(std::move(published_edition_of_title)) {}
 
 std::string Edition::to_latex() {
-    if (edition_type == "Modern Print") {
+    if (edition_type == "Modern print") {
         return fmt::format("\\item \\emph{{{title}}}, {editor}, {publisher}, {city}, {dates}\n",
                            fmt::arg("title", title_transliterated),
                            fmt::arg("editor", editor),
