@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include "manuscript.h"
 
-TEST(ManuscriptTestAllFields, BasicTest) {
+TEST(Manuscript, BasicTest) {
 
     Manuscript manuscript = Manuscript(
             "Location",
@@ -21,11 +21,11 @@ TEST(ManuscriptTestAllFields, BasicTest) {
     EXPECT_EQ(expected, manuscript.to_latex());
 }
 
-TEST(ManuscriptGregorianOnly, BasicTest) {
+TEST(Manuscript, GregorianOnly) {
 
     Manuscript manuscript = Manuscript(
             "Location",
-            0,
+            9999,
             1940,
             "NO DATA",
             "NO DATA",
@@ -35,5 +35,22 @@ TEST(ManuscriptGregorianOnly, BasicTest) {
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), dated 1940\n";
+    EXPECT_EQ(expected, manuscript.to_latex());
+}
+
+TEST(Manuscript, UndatedManuscript) {
+
+    Manuscript manuscript = Manuscript(
+            "Location",
+            9999,
+            0,
+            "NO DATA",
+            "NO DATA",
+            "City",
+            "Manuscript Number",
+            "Manuscript of Title"
+    );
+
+    auto expected = "\\item Location, City (\\#Manuscript Number), undated manuscript\n";
     EXPECT_EQ(expected, manuscript.to_latex());
 }
