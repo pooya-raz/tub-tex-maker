@@ -6,7 +6,7 @@ What you need to install to build this project and how to install them.
 
 * CMake
   * Install using system package manager.
-  * VCPKG manager
+* VCPKG manager
     * Follow installation instructions [on the website](https://vcpkg.io/en/getting-started.html).
     * Add package location to the cmake tool chain: -DCMAKE_TOOLCHAIN_FILE=/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake
 
