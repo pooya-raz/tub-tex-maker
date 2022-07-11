@@ -14,8 +14,10 @@ Edition::Edition(std::string title_transliterated,
                  std::string city,
                  int year_hijri,
                  int year_gregorian,
+                 int year_shamsi,
                  std::string year_hijri_text,
                  std::string year_gregorian_text,
+                 std::string year_shamsi_text,
                  std::string description,
                  std::string published_edition_of_title
 ) :
@@ -27,8 +29,10 @@ Edition::Edition(std::string title_transliterated,
         city(std::move(city)),
         year_hijri(year_hijri),
         year_gregorian(year_gregorian),
+        year_shamsi(year_shamsi),
         year_hijri_text(std::move(year_hijri_text)),
         year_gregorian_text(std::move(year_gregorian_text)),
+        year_shamsi_text(std::move(year_shamsi_text)),
         description(std::move(description)),
         published_edition_of_title(std::move(published_edition_of_title)) {}
 
@@ -55,6 +59,7 @@ std::string Edition::to_latex() {
 std::string Edition::getDates() {
     std::string hijri = "NO DATA";
     std::string gregorian = "NO DATA";
+    std::string shamsi = "NO DATA";
 
     if (year_hijri != 0) {
         hijri = std::to_string(year_hijri);
@@ -70,16 +75,32 @@ std::string Edition::getDates() {
     if (year_gregorian_text != "NO DATA") {
         gregorian = year_gregorian_text;
     }
+    if (year_shamsi != 0) {
+        shamsi = std::to_string(year_shamsi);
+    }
+    if (year_shamsi_text != "NO DATA") {
+        shamsi = year_shamsi_text;
+    }
 
+    if (shamsi != "NO DATA" && year_gregorian != 0) {
+        return fmt::format("{shamsi}Sh/{gregorian}",
+                           fmt::arg("shamsi", shamsi),
+                           fmt::arg("gregorian", gregorian));
+    }
 
+    if (shamsi != "NO DATA" && year_gregorian == 0) {
+        return fmt::format("{shamsi}Sh",
+                           fmt::arg("shamsi", shamsi));
+    }
     if (year_hijri == 0 && year_gregorian != 0) {
         return gregorian;
     }
+
     return fmt::format("{hijri}/{gregorian}",
                        fmt::arg("hijri", hijri),
                        fmt::arg("gregorian", gregorian)
     );
-};
+}
 
 std::string Edition::getPublishedEditionOfTitle() {
     return published_edition_of_title;
@@ -93,36 +114,8 @@ const std::string &Edition::getTitleArabic() const {
     return title_arabic;
 }
 
-const std::string &Edition::getEditor() const {
-    return editor;
-}
-
-const std::string &Edition::getEditionType() const {
-    return edition_type;
-}
-
-const std::string &Edition::getPublisher() const {
-    return publisher;
-}
-
-const std::string &Edition::getCity() const {
-    return city;
-}
-
 int Edition::getYearHijri() const {
     return year_hijri;
-}
-
-int Edition::getYearGregorian() const {
-    return year_gregorian;
-}
-
-const std::string &Edition::getYearHijriText() const {
-    return year_hijri_text;
-}
-
-const std::string &Edition::getYearGregorianText() const {
-    return year_gregorian_text;
 }
 
 const std::string &Edition::getDescription() const {

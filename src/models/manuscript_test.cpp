@@ -10,6 +10,8 @@ TEST(Manuscript, BasicTest) {
             "Location",
             700,
             1300,
+            0,
+            "NO DATA",
             "NO DATA",
             "NO DATA",
             "City",
@@ -27,6 +29,8 @@ TEST(Manuscript, GregorianOnly) {
             "Location",
             9999,
             1940,
+            0,
+            "NO DATA",
             "NO DATA",
             "NO DATA",
             "City",
@@ -44,6 +48,8 @@ TEST(Manuscript, UndatedManuscript) {
             "Location",
             9999,
             0,
+            0,
+            "NO DATA",
             "NO DATA",
             "NO DATA",
             "City",
@@ -52,5 +58,43 @@ TEST(Manuscript, UndatedManuscript) {
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), undated manuscript\n";
+    EXPECT_EQ(expected, manuscript.to_latex());
+}
+
+TEST(Manuscript, ShamsiManuscirpt) {
+
+    Manuscript manuscript = Manuscript(
+            "Location",
+            9999,
+            1300,
+            678,
+            "NO DATA",
+            "NO DATA",
+            "NO DATA",
+            "City",
+            "Manuscript Number",
+            "Manuscript of Title"
+    );
+
+    auto expected = "\\item Location, City (\\#Manuscript Number), dated 678Sh/1300\n";
+    EXPECT_EQ(expected, manuscript.to_latex());
+}
+
+TEST(Manuscript, OnlyShamsiManuscirpt) {
+
+    Manuscript manuscript = Manuscript(
+            "Location",
+            9999,
+            0,
+            678,
+            "NO DATA",
+            "NO DATA",
+            "NO DATA",
+            "City",
+            "Manuscript Number",
+            "Manuscript of Title"
+    );
+
+    auto expected = "\\item Location, City (\\#Manuscript Number), dated 678Sh\n";
     EXPECT_EQ(expected, manuscript.to_latex());
 }

@@ -10,16 +10,20 @@ Manuscript::Manuscript(
         std::string location,
         int year_hijri,
         int year_gregorian,
+        int year_shamsi,
         std::string year_hijri_text,
         std::string year_gregorian_text,
+        std::string year_shamsi_text,
         std::string city,
         std::string manuscript_number,
         std::string manuscript_of_title) :
         location(std::move(location)),
         year_hijri(year_hijri),
         year_gregorian(year_gregorian),
+        year_shamsi(year_shamsi),
         year_hijri_text(std::move(year_hijri_text)),
         year_gregorian_text(std::move(year_gregorian_text)),
+        year_shamsi_text(std::move(year_shamsi_text)),
         city(std::move(city)),
         manuscript_number(std::move(manuscript_number)),
         manuscript_of_title(std::move(manuscript_of_title)) {}
@@ -32,6 +36,7 @@ const std::string &Manuscript::getManuscriptOfTitle() const {
 std::string Manuscript::getDates() const {
     std::string hijri = "NO DATA";
     std::string gregorian = "NO DATA";
+    std::string shamsi = "NO DATA";
 
     if (year_hijri != 9999) {
         hijri = std::to_string(year_hijri);
@@ -47,13 +52,28 @@ std::string Manuscript::getDates() const {
     if (year_gregorian_text != "NO DATA") {
         gregorian = year_gregorian_text;
     }
-    if (year_hijri == 9999 && year_gregorian != 0) {
-        return fmt::format("dated {gregorian}",
-                           fmt::arg("gregorian", gregorian)
-        );
+    if (year_shamsi != 0) {
+        shamsi = std::to_string(year_shamsi);
+    }
+    if (year_shamsi_text != "NO DATA") {
+        shamsi = year_shamsi_text;
     }
 
-    if (hijri == "NO DATA" && gregorian == "NO DATA") {
+    if (shamsi != "NO DATA" && year_gregorian != 0) {
+        return fmt::format("dated {shamsi}Sh/{gregorian}",
+                           fmt::arg("shamsi", shamsi),
+                           fmt::arg("gregorian", gregorian));
+    }
+    if (shamsi != "NO DATA" && year_gregorian == 0) {
+        return fmt::format("dated {shamsi}Sh",
+                           fmt::arg("shamsi", shamsi));
+    }
+    if (hijri == "NO DATA" && shamsi == "NO DATA" && year_gregorian != 0) {
+        return fmt::format("dated {gregorian}",
+                           fmt::arg("gregorian", gregorian));
+    }
+
+    if (hijri == "NO DATA" && gregorian == "NO DATA" && shamsi == "NO DATA") {
         return "undated manuscript";
     }
 

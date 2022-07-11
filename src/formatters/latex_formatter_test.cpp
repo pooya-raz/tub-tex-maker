@@ -16,6 +16,8 @@ TEST(LatexFormatterTest, BasicTest) {
             "Location",
             700,
             1300,
+            0,
+            "NO DATA",
             "NO DATA",
             "NO DATA",
             "City",
