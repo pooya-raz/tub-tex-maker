@@ -34,7 +34,7 @@ Edition::Edition(std::string title_transliterated,
 
 std::string Edition::to_latex() {
     if (edition_type == "Modern print") {
-        return fmt::format("\\item \\emph{{{title}}}, {editor}, {publisher}, {city}, {dates}\n",
+        return fmt::format("\\item \\emph{{{title}}}, ed. {editor}, {publisher}, {city}, {dates}\n",
                            fmt::arg("title", title_transliterated),
                            fmt::arg("editor", editor),
                            fmt::arg("publisher", publisher),
@@ -42,7 +42,7 @@ std::string Edition::to_latex() {
                            fmt::arg("dates", getDates())
         );
     }
-    return fmt::format("\\item \\emph{{{title}}}, {editor}, {edition_type}, {publisher}, {city}, {dates}\n",
+    return fmt::format("\\item \\emph{{{title}}}, ed. {editor}, {edition_type}, {publisher}, {city}, {dates}\n",
                        fmt::arg("title", title_transliterated),
                        fmt::arg("editor", editor),
                        fmt::arg("edition_type", edition_type),
