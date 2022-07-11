@@ -54,15 +54,15 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
 
     auto new_entry = std::make_shared<Entry>(
             id,
-                    title_transliterated,
-                    title_arabic,
-                    description,
-                    category,
-                    corrections_required,
-                    title_type,
-                    base_text,
-                    author_page_title
-                    );
+            title_transliterated,
+            title_arabic,
+            description,
+            category,
+            corrections_required,
+            title_type,
+            base_text,
+            author_page_title
+    );
     return new_entry;
 }
 
@@ -80,18 +80,29 @@ Manuscript EntryManager::add_manuscript(TubJson &json) {
     auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
     auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
     auto year_gregorian_text = json.at("printouts").at("Has year(Gregorian) text").get(0);
+    auto year_shamsi = json.at("printouts").at("Has year(Shamsi)").get_int(0);
+    auto year_shamsi_text = json.at("printouts").at("Has year(Shamsi) text").get(0);
     auto city = json.at("printouts").at("Located in a city").at(0).get("fulltext");
-    auto manuscript_number= json.at("printouts").at("Manuscript number").get(0);
-    auto manuscript_of_title= json.at("printouts").at("Manuscript of title").at(0).get("fulltext");
+    auto manuscript_number = json.at("printouts").at("Manuscript number").get(0);
+    auto manuscript_of_title = json.at("printouts").at("Manuscript of title").at(0).get("fulltext");
 
-    return {location, year_hijri, year_gregorian, year_hijri_text, year_gregorian_text, city, manuscript_number,manuscript_of_title};
+    return {location,
+            year_hijri,
+            year_gregorian,
+            year_shamsi,
+            year_hijri_text,
+            year_gregorian_text,
+            year_shamsi_text,
+            city,
+            manuscript_number,
+            manuscript_of_title};
 }
 
 void EntryManager::add_manuscripts(TubJson &json) {
-    for (TubJson &manuscript: json.get_results()){
+    for (TubJson &manuscript: json.get_results()) {
         auto new_manuscript = add_manuscript(manuscript);
-        for (auto &entry: entries){
-            if(new_manuscript.getManuscriptOfTitle() == entry->getId()){
+        for (auto &entry: entries) {
+            if (new_manuscript.getManuscriptOfTitle() == entry->getId()) {
                 entry->manuscripts.push_back(new_manuscript);
             }
         }
@@ -99,15 +110,15 @@ void EntryManager::add_manuscripts(TubJson &json) {
 }
 
 
-EntryVec& EntryManager::getEntries() {
+EntryVec &EntryManager::getEntries() {
     return entries;
 }
 
-EntryMap& EntryManager::getEntryMap() {
+EntryMap &EntryManager::getEntryMap() {
     return entryMap;
 }
 
-Edition EntryManager::add_edition(TubJson& json){
+Edition EntryManager::add_edition(TubJson &json) {
     auto title_transliterated = json.at("printouts").at("Title (transliterated)").get(0);
     auto title_arabic = json.at("printouts").at("Title (Arabic)").get(0);
     auto editor = json.at("printouts").at("Has editor(s)").get(0);
@@ -116,10 +127,12 @@ Edition EntryManager::add_edition(TubJson& json){
     auto city = json.at("printouts").at("City").at(0).get("fulltext");
     auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int(0);
     auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
+    auto year_shamsi = json.at("printouts").at("Has year(Shamsi)").get_int(0);
     auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
     auto year_gregorian_text = json.at("printouts").at("Has year(Gregorian) text").get(0);
-    auto description= json.at("printouts").at("Has a description").get(0);
-    auto published_edition_of_title= json.at("printouts").at("Published edition of title").at(0).get("fulltext");
+    auto year_shamsi_text = json.at("printouts").at("Has year(Shamsi) text").get(0);
+    auto description = json.at("printouts").at("Has a description").get(0);
+    auto published_edition_of_title = json.at("printouts").at("Published edition of title").at(0).get("fulltext");
 
     return {title_transliterated,
             title_arabic,
@@ -129,17 +142,19 @@ Edition EntryManager::add_edition(TubJson& json){
             city,
             year_hijri,
             year_gregorian,
+            year_shamsi,
             year_hijri_text,
             year_gregorian_text,
+            year_shamsi_text,
             description,
             published_edition_of_title};
 }
 
-void EntryManager::add_editions(TubJson& json) {
-    for (TubJson &edition: json.get_results()){
+void EntryManager::add_editions(TubJson &json) {
+    for (TubJson &edition: json.get_results()) {
         auto new_edition = add_edition(edition);
-        for (auto &entry: entries){
-            if(new_edition.getPublishedEditionOfTitle() == entry->getId()){
+        for (auto &entry: entries) {
+            if (new_edition.getPublishedEditionOfTitle() == entry->getId()) {
                 entry->editions.push_back(new_edition);
             }
         }
@@ -147,10 +162,10 @@ void EntryManager::add_editions(TubJson& json) {
 }
 
 void EntryManager::add_commentaries() {
-    for (const auto& entry: entries){
-        if(entry->getBaseText() != "NO DATA"){
-            for(auto& base :entries){
-                if(base->getId() == entry->getBaseText()){
+    for (const auto &entry: entries) {
+        if (entry->getBaseText() != "NO DATA") {
+            for (auto &base: entries) {
+                if (base->getId() == entry->getBaseText()) {
                     base->commentaries.push_back(entry);
                 }
             }
@@ -164,13 +179,13 @@ void EntryManager::sort_all() {
     /*
     * Lambda helper functions for sorting entries and vectors
     */
-    auto compare_hijri = []<typename T>(T a, T b){
+    auto compare_hijri = []<typename T>(T a, T b) {
         return (a.getYearHijri() < b.getYearHijri());
     };
     auto greaterc = []
-            (const std::shared_ptr<Entry>& a, const std::shared_ptr<Entry>& b){
+            (const std::shared_ptr<Entry> &a, const std::shared_ptr<Entry> &b) {
         //Todo:Remove this and set getAuthor to const. I can't find what is setting the hijri date to 0 for entries without an author.
-        if (a->getAuthor().getMDeathHijri()==0){
+        if (a->getAuthor().getMDeathHijri() == 0) {
             a->getAuthor().setDeathHijri(9999);
         }
         return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
@@ -179,20 +194,20 @@ void EntryManager::sort_all() {
     /*
      * Sort all vectors in entries
      */
-    for (auto& entry:entries){
-        auto& manuscripts = entry->manuscripts;
+    for (auto &entry: entries) {
+        auto &manuscripts = entry->manuscripts;
         std::sort(manuscripts.begin(), manuscripts.end(), compare_hijri);
 
-        auto& editions = entry ->editions;
+        auto &editions = entry->editions;
         std::sort(editions.begin(), editions.end(), compare_hijri);
 
-        auto& commentaries = entry->commentaries;
+        auto &commentaries = entry->commentaries;
         std::sort(commentaries.begin(), commentaries.end(), greaterc);
     }
 
 
-    for(auto& [key,categories]: entryMap){
-        std::sort(categories.begin(), categories.end(),greaterc);
+    for (auto &[key, categories]: entryMap) {
+        std::sort(categories.begin(), categories.end(), greaterc);
     }
 
 }
@@ -222,19 +237,20 @@ Author EntryManager::add_author(TubJson &json) {
      * Build models
      */
     return {author_name_transliterated,
-                  death_hijri,
-                  death_gregorian,
-                  death_hijri_text,
-                  death_gregorian_text};
+            death_hijri,
+            death_gregorian,
+            death_hijri_text,
+            death_gregorian_text};
 }
 
-void EntryManager::add_authors(TubJson& json) {
-    for (TubJson &author_json: json.get_results()){
+void EntryManager::add_authors(TubJson &json) {
+    for (TubJson &author_json: json.get_results()) {
         auto author = add_author(author_json);
-        for (auto &entry: entries){
-            if(author.getName() == entry->getAuthorPageTitle()){
+        for (auto &entry: entries) {
+            if (author.getName() == entry->getAuthorPageTitle()) {
                 entry->setAuthor(author);
-                if (author.getMDeathHijri()== 0 || author.getMDeathGregorian()== 0) entry->addCorrectionsRequired(CheckDates);
+                if (author.getMDeathHijri() == 0 || author.getMDeathGregorian() == 0)
+                    entry->addCorrectionsRequired(CheckDates);
             }
         }
     }

@@ -14,8 +14,10 @@ private:
     std::string location{};
     int year_hijri{};
     int year_gregorian{};
+    int year_shamsi{};
     std::string year_hijri_text{};
     std::string year_gregorian_text{};
+    std::string year_shamsi_text{};
     std::string city{};
     std::string manuscript_number{};
     std::string manuscript_of_title{};
@@ -27,8 +29,10 @@ public:
             std::string location,
             int year_hijri,
             int year_gregorian,
+            int year_shamsi,
             std::string year_hijri_text,
             std::string year_gregorian_text,
+            std::string year_shamsi_text,
             std::string city,
             std::string manuscript_number,
             std::string manuscript_of_title
@@ -49,11 +53,11 @@ public:
     [[nodiscard]] const std::string &getCity() const;
 
     [[nodiscard]] const std::string &getManuscriptNumber() const;
+
     [[nodiscard]] std::string getDates() const;
 
     [[nodiscard]] std::string to_latex() const;
 };
-
 
 
 #endif //TUB_PDF_MAKER_MANUSCRIPT_H

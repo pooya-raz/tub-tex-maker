@@ -19,8 +19,10 @@ private:
     std::string city;
     int year_hijri{};
     int year_gregorian{};
+    int year_shamsi{};
     std::string year_hijri_text{};
     std::string year_gregorian_text{};
+    std::string year_shamsi_text{};
     std::string description{};
     std::string published_edition_of_title{};
 public:
@@ -32,8 +34,10 @@ public:
             std::string city,
             int year_hijri,
             int year_gregorian,
+            int year_shamsi,
             std::string year_hijri_text,
             std::string year_gregorian_text,
+            std::string year_shamsi_text,
             std::string description,
             std::string published_edition_of_title);
 
