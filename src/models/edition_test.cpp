@@ -19,7 +19,7 @@ TEST(Edition, BasicTest) {
                               "",
                               "Published edition of title");
 
-    auto expected = "\\item \\emph{Title Transliterated}, Editor, Lithograph, Publisher, City, 700/1300\n";
+    auto expected = "\\item \\emph{Title Transliterated}, ed. Editor, Lithograph, Publisher, City, 700/1300\n";
     EXPECT_EQ(expected, edition.to_latex());
 }
 
@@ -38,7 +38,7 @@ TEST(Edition, ModernPrintTest) {
                               "",
                               "Published edition of title");
 
-    auto expected = "\\item \\emph{Title Transliterated}, Editor, Publisher, City, 700/1300\n";
+    auto expected = "\\item \\emph{Title Transliterated}, ed. Editor, Publisher, City, 700/1300\n";
     EXPECT_EQ(expected, edition.to_latex());
 }
 
@@ -57,6 +57,6 @@ TEST(Edition, OnlyShowGregorian) {
                               "",
                               "Published edition of title");
 
-    auto expected = "\\item \\emph{Title Transliterated}, Editor, Publisher, City, 1940\n";
+    auto expected = "\\item \\emph{Title Transliterated}, ed. Editor, Publisher, City, 1940\n";
     EXPECT_EQ(expected, edition.to_latex());
 }
