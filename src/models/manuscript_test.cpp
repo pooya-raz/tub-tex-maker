@@ -16,7 +16,8 @@ TEST(Manuscript, BasicTest) {
             "NO DATA",
             "City",
             "Manuscript Number",
-            "Manuscript of Title"
+            "Manuscript of Title",
+            0
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), dated 700/1300\n";
@@ -35,7 +36,8 @@ TEST(Manuscript, GregorianOnly) {
             "NO DATA",
             "City",
             "Manuscript Number",
-            "Manuscript of Title"
+            "Manuscript of Title",
+            0
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), dated 1940\n";
@@ -54,7 +56,8 @@ TEST(Manuscript, UndatedManuscript) {
             "NO DATA",
             "City",
             "Manuscript Number",
-            "Manuscript of Title"
+            "Manuscript of Title",
+            0
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), undated manuscript\n";
@@ -73,7 +76,8 @@ TEST(Manuscript, ShamsiManuscirpt) {
             "NO DATA",
             "City",
             "Manuscript Number",
-            "Manuscript of Title"
+            "Manuscript of Title",
+            0
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), dated 678Sh/1300\n";
@@ -92,7 +96,8 @@ TEST(Manuscript, OnlyShamsiManuscirpt) {
             "NO DATA",
             "City",
             "Manuscript Number",
-            "Manuscript of Title"
+            "Manuscript of Title",
+            0
     );
 
     auto expected = "\\item Location, City (\\#Manuscript Number), dated 678Sh\n";

@@ -19,7 +19,8 @@ Edition::Edition(std::string title_transliterated,
                  std::string year_gregorian_text,
                  std::string year_shamsi_text,
                  std::string description,
-                 std::string published_edition_of_title
+                 std::string published_edition_of_title,
+                 double sort
 ) :
         title_transliterated(std::move(title_transliterated)),
         title_arabic(std::move(title_arabic)),
@@ -34,7 +35,8 @@ Edition::Edition(std::string title_transliterated,
         year_gregorian_text(std::move(year_gregorian_text)),
         year_shamsi_text(std::move(year_shamsi_text)),
         description(std::move(description)),
-        published_edition_of_title(std::move(published_edition_of_title)) {}
+        published_edition_of_title(std::move(published_edition_of_title)),
+        sort(sort) {}
 
 std::string Edition::to_latex() {
     if (edition_type == "Modern print") {
@@ -61,7 +63,7 @@ std::string Edition::getDates() {
     std::string gregorian = "NO DATA";
     std::string shamsi = "NO DATA";
 
-    if (year_hijri != 0) {
+    if (year_hijri != 9999) {
         hijri = std::to_string(year_hijri);
 
     }
@@ -92,7 +94,7 @@ std::string Edition::getDates() {
         return fmt::format("{shamsi}Sh",
                            fmt::arg("shamsi", shamsi));
     }
-    if (year_hijri == 0 && year_gregorian != 0) {
+    if (year_hijri == 9999 && year_gregorian != 0) {
         return gregorian;
     }
 
@@ -120,5 +122,9 @@ int Edition::getYearHijri() const {
 
 const std::string &Edition::getDescription() const {
     return description;
+}
+
+double Edition::getSort() const {
+    return sort;
 }
 

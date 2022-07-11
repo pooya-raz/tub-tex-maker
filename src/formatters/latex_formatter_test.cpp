@@ -22,7 +22,8 @@ TEST(LatexFormatterTest, BasicTest) {
             "NO DATA",
             "City",
             "Manuscript Number",
-            "Manuscript of Title"
+            "Manuscript of Title",
+            0
     );
     std::vector<Manuscript> manuscripts = {manuscript};
     std::vector<CorrectionsRequired> corrections_required = {};

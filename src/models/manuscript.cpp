@@ -16,7 +16,8 @@ Manuscript::Manuscript(
         std::string year_shamsi_text,
         std::string city,
         std::string manuscript_number,
-        std::string manuscript_of_title) :
+        std::string manuscript_of_title,
+        double sort) :
         location(std::move(location)),
         year_hijri(year_hijri),
         year_gregorian(year_gregorian),
@@ -26,7 +27,8 @@ Manuscript::Manuscript(
         year_shamsi_text(std::move(year_shamsi_text)),
         city(std::move(city)),
         manuscript_number(std::move(manuscript_number)),
-        manuscript_of_title(std::move(manuscript_of_title)) {}
+        manuscript_of_title(std::move(manuscript_of_title)),
+        sort(sort) {}
 
 const std::string &Manuscript::getManuscriptOfTitle() const {
     return manuscript_of_title;
@@ -117,4 +119,8 @@ const std::string &Manuscript::getCity() const {
 
 const std::string &Manuscript::getManuscriptNumber() const {
     return manuscript_number;
+}
+
+double Manuscript::getSort() const {
+    return sort;
 }
