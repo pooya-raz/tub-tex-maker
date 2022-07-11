@@ -25,6 +25,10 @@ private:
     std::string year_shamsi_text{};
     std::string description{};
     std::string published_edition_of_title{};
+    double sort{};
+public:
+    double getSort() const;
+
 public:
     Edition(std::string title_transliterated,
             std::string title_arabic,
@@ -39,7 +43,8 @@ public:
             std::string year_gregorian_text,
             std::string year_shamsi_text,
             std::string description,
-            std::string published_edition_of_title);
+            std::string published_edition_of_title,
+            double sort);
 
     std::string to_latex();
 

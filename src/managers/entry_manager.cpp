@@ -85,6 +85,7 @@ Manuscript EntryManager::add_manuscript(TubJson &json) {
     auto city = json.at("printouts").at("Located in a city").at(0).get("fulltext");
     auto manuscript_number = json.at("printouts").at("Manuscript number").get(0);
     auto manuscript_of_title = json.at("printouts").at("Manuscript of title").at(0).get("fulltext");
+    auto sort = createSort(year_hijri, year_gregorian, year_shamsi);
 
     return {location,
             year_hijri,
@@ -95,7 +96,8 @@ Manuscript EntryManager::add_manuscript(TubJson &json) {
             year_shamsi_text,
             city,
             manuscript_number,
-            manuscript_of_title};
+            manuscript_of_title,
+            sort};
 }
 
 void EntryManager::add_manuscripts(TubJson &json) {
@@ -125,7 +127,7 @@ Edition EntryManager::add_edition(TubJson &json) {
     auto edition_type = json.at("printouts").at("Edition type").get(0);
     auto publisher = json.at("printouts").at("Has a publisher").get(0);
     auto city = json.at("printouts").at("City").at(0).get("fulltext");
-    auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int(0);
+    auto year_hijri = json.at("printouts").at("Has year(Hijri)").get_int_hijri(0);
     auto year_gregorian = json.at("printouts").at("Has year(Gregorian)").get_int(0);
     auto year_shamsi = json.at("printouts").at("Has year(Shamsi)").get_int(0);
     auto year_hijri_text = json.at("printouts").at("Has year(Hijri) text").get(0);
@@ -133,7 +135,7 @@ Edition EntryManager::add_edition(TubJson &json) {
     auto year_shamsi_text = json.at("printouts").at("Has year(Shamsi) text").get(0);
     auto description = json.at("printouts").at("Has a description").get(0);
     auto published_edition_of_title = json.at("printouts").at("Published edition of title").at(0).get("fulltext");
-
+    auto sort = createSort(year_hijri, year_gregorian, year_shamsi);
     return {title_transliterated,
             title_arabic,
             editor,
@@ -147,7 +149,20 @@ Edition EntryManager::add_edition(TubJson &json) {
             year_gregorian_text,
             year_shamsi_text,
             description,
-            published_edition_of_title};
+            published_edition_of_title,
+            sort};
+}
+
+double EntryManager::createSort(int hijri, int gregorian, int shamsi) {
+    if (hijri != 9999) {
+        return hijri;
+    } else if (gregorian != 0) {
+        return (gregorian - 622) * 1.03;
+    } else if (shamsi != 0) {
+        return shamsi * 1.03;
+    } else {
+        return 9999;
+    }
 }
 
 void EntryManager::add_editions(TubJson &json) {
@@ -179,9 +194,6 @@ void EntryManager::sort_all() {
     /*
     * Lambda helper functions for sorting entries and vectors
     */
-    auto compare_hijri = []<typename T>(T a, T b) {
-        return (a.getYearHijri() < b.getYearHijri());
-    };
     auto greaterc = []
             (const std::shared_ptr<Entry> &a, const std::shared_ptr<Entry> &b) {
         //Todo:Remove this and set getAuthor to const. I can't find what is setting the hijri date to 0 for entries without an author.
@@ -190,16 +202,18 @@ void EntryManager::sort_all() {
         }
         return (a->getAuthor().getMDeathHijri() < b->getAuthor().getMDeathHijri());
     };
-
+    auto compare_sort = []<typename T>(T a, T b) {
+        return (a.getSort() < b.getSort());
+    };
     /*
      * Sort all vectors in entries
      */
     for (auto &entry: entries) {
         auto &manuscripts = entry->manuscripts;
-        std::sort(manuscripts.begin(), manuscripts.end(), compare_hijri);
+        std::sort(manuscripts.begin(), manuscripts.end(), compare_sort);
 
         auto &editions = entry->editions;
-        std::sort(editions.begin(), editions.end(), compare_hijri);
+        std::sort(editions.begin(), editions.end(), compare_sort);
 
         auto &commentaries = entry->commentaries;
         std::sort(commentaries.begin(), commentaries.end(), greaterc);

@@ -21,6 +21,9 @@ private:
     std::string city{};
     std::string manuscript_number{};
     std::string manuscript_of_title{};
+    double sort{};
+public:
+    double getSort() const;
 
 public:
     Manuscript();
@@ -35,7 +38,8 @@ public:
             std::string year_shamsi_text,
             std::string city,
             std::string manuscript_number,
-            std::string manuscript_of_title
+            std::string manuscript_of_title,
+            double sort
     );
 
     [[nodiscard]] const std::string &getManuscriptOfTitle() const;
