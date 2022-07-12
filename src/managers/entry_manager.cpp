@@ -46,6 +46,7 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
     auto title_type = parseTitleType(json.at("printouts").at("Book type").get(0));
     auto base_text = json.at("printouts").at("Has base text").at(0).get("fulltext");
     auto author_page_title = json.at("printouts").at("Has author(s)").at(0).get("fulltext");
+    auto translator_page_title = json.at("printouts").at("Has translator(s)").get(0);
     /*
      * Check for errors
      */
@@ -61,7 +62,8 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
             corrections_required,
             title_type,
             base_text,
-            author_page_title
+            author_page_title,
+            translator_page_title
     );
     return new_entry;
 }
@@ -264,6 +266,21 @@ void EntryManager::add_authors(TubJson &json) {
             if (author.getName() == entry->getAuthorPageTitle()) {
                 entry->setAuthor(author);
                 if (author.getMDeathHijri() == 0 || author.getMDeathGregorian() == 0)
+                    entry->addCorrectionsRequired(CheckDates);
+            }
+        }
+    }
+
+}
+
+void EntryManager::add_translators(TubJson &json) {
+    for (TubJson &translator_json: json.get_results()) {
+        auto translator = add_author(translator_json);
+        for (auto &entry: entries) {
+            if (translator.getName() == entry->getTranslatorPageTitle()) {
+                entry->setTranslator(translator);
+                entry->setAuthor(translator);//This is for sorting purposes
+                if (translator.getMDeathHijri() == 0 || translator.getMDeathGregorian() == 0)
                     entry->addCorrectionsRequired(CheckDates);
             }
         }
