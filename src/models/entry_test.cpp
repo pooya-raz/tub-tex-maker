@@ -39,7 +39,8 @@ TEST(EntryAllFields, BasicTest) {
             corrections_required,
             Monograph,
             "Base Text",
-            "Author Title Page");
+            "Author Title Page",
+            "");
     entry.setAuthor(author);
     entry.manuscripts = manuscripts;
 
