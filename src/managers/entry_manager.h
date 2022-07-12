@@ -45,6 +45,8 @@ public:
     void sort_all();
 
     static double createSort(int hijri, int gregorian, int shamsi);
+
+    void add_translators(TubJson &json);
 };
 
 

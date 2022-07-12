@@ -36,7 +36,7 @@ std::string latex_formatter::to_latex(const EntryMap &entryMap) {
              "    \\usepackage{fontspec,lipsum}\n"
              "    \\defaultfontfeatures{Ligatures=TeX}\n"
              "    \\usepackage[small,sf,bf]{titlesec}\n"
-             "    \\setmainfont[BoldFont={Gentium Basic Bold}]{Gentium Plus}"
+             "    \\setmainfont{Gentium Plus}\n"
              "    \\newfontfamily\\arabicfont[Script=Arabic]{Amiri}\n"
              "    \\usepackage{polyglossia}\n"
              "    \\setmainlanguage{english}\n"
@@ -59,6 +59,7 @@ std::string latex_formatter::to_latex(const EntryMap &entryMap) {
             {Poem,                 "Poem (manẓūma)"},
             {Refutation,           "Refutation (radd)"},
             {Taqrirat,             "Taqrīrāt"},
+            {Translation,          "Translation"},
             {tCorrectionsRequired, "Corrections required in title type"},
     };
 

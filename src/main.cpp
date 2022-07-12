@@ -17,6 +17,7 @@ int main() {
             "|?Title%20(Arabic)"
             "|?Title%20(transliterated)"
             "|?Has%20author(s)"
+            "|?Has%20translator(s)"
             "|?Has%20a%20catalogue%20description"
             "|?Has%20base%20text"
             "|limit=1000");
@@ -35,7 +36,7 @@ int main() {
             "|?Title%20(Arabic)"
             "|?Title%20(transliterated)"
             "|?Has%20author(s)"
-            "|?Has%20author(s).Full%20name%20(transliterated)"
+            "|?Has%20translator(s)"
             "|?Has%20a%20catalogue%20description"
             "|?Has%20base%20text"
             "|limit=1000"
@@ -161,6 +162,23 @@ int main() {
     tubAuthors.parse(author_result);
     auto authors = tubAuthors.at("query").at("results");
     entryManager.add_authors(authors);
+
+    /*
+    * Get all translators
+    */
+    auto translator_result = tub.getQuery(
+            "[[Category:Translator]]"
+            "|?Full%20name%20(transliterated)"
+            "|?Death%20(Hijri)"
+            "|?Death%20(Gregorian)"
+            "|?Death%20(Hijri)%20text"
+            "|?Death%20(Gregorian)%20text"
+            "|limit=1000"
+    );
+    TubJson tubTranslators;
+    tubTranslators.parse(translator_result);
+    auto translators = tubTranslators.at("query").at("results");
+    entryManager.add_translators(translators);
 
     /*
      * Sort entries, manuscripts, editions, and commentaries

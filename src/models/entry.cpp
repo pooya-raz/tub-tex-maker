@@ -14,7 +14,8 @@ Entry::Entry(std::string id,
              std::vector<CorrectionsRequired> corrections_required,
              TitleType title_type,
              std::string base_text,
-             std::string author_page_title
+             std::string author_page_title,
+             std::string translator_page_title
 ) :
         id(std::move(id)),
         title_transliterated(std::move(title_transliterated)),
@@ -24,7 +25,8 @@ Entry::Entry(std::string id,
         corrections_required(std::move(corrections_required)),
         title_type(title_type),
         base_text(std::move(base_text)),
-        author_page_title(std::move(author_page_title)) {}
+        author_page_title(std::move(author_page_title)),
+        translator_page_title(std::move(translator_page_title)) {}
 
 std::string Entry::to_latex() {
 
@@ -97,6 +99,30 @@ std::string Entry::to_latex() {
         }
     };
 
+    if (title_type == Translation) {
+        return fmt::format("\\item {transliterated_title}\n"
+                           "        \\newline\n"
+                           "        \\textarabic{{{arabic_title}}}\n"
+                           "        \\newline\n"
+                           "        trans. {translator}\n"
+                           "        \\newline\n"
+                           "        {death_dates}\n"
+                           "        \\newline\n"
+                           "        \\newline\n"
+                           "        {manuscripts}"
+                           "        {editions}"
+                           "        {commentaries}"
+                           "\n",
+                           fmt::arg("transliterated_title", title_transliterated),
+                           fmt::arg("arabic_title", title_arabic),
+                           fmt::arg("translator", translator.getName()),
+                           fmt::arg("death_dates", translator.getDeathDates()),
+                           fmt::arg("manuscripts", manuscripts_to_latex()),
+                           fmt::arg("editions", editions_to_latex()),
+                           fmt::arg("commentaries", commentaries_to_latex())
+        );
+    }
+
     return fmt::format("\\item {transliterated_title}\n"
                        "        \\newline\n"
                        "        \\textarabic{{{arabic_title}}}\n"
@@ -168,4 +194,16 @@ void Entry::setAuthor(Author n_author) {
 
 void Entry::addCorrectionsRequired(CorrectionsRequired correctionsRequired) {
     corrections_required.push_back(correctionsRequired);
+}
+
+Author &Entry::getTranslator() {
+    return translator;
+}
+
+void Entry::setTranslator(Author n_translator) {
+    Entry::translator = n_translator;
+}
+
+const std::string &Entry::getTranslatorPageTitle() const {
+    return translator_page_title;
 }
