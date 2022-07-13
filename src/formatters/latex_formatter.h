@@ -10,9 +10,5 @@
 
 namespace latex_formatter {
     std::string to_latex(const EntryMap &entryMap);
-
-    std::string parse_field(std::string field);
-
-    std::string parse_field(int field);
 }
 #endif //TUB_PDF_MAKER_LATEX_FORMATTER_H
