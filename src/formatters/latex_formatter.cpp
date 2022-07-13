@@ -69,10 +69,3 @@ std::string latex_formatter::to_latex(const EntryMap &entryMap) {
     final += "\\end{document}";
     return final;
 }
-
-std::string parse_field(const std::string &field) {
-    if (field == "NO DATA") {
-        return "";
-    }
-    return field + ",";
-}
