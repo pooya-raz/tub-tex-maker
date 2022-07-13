@@ -8,6 +8,10 @@
 #include <string>
 #include <fmt/core.h>
 
+enum Field {
+    f_editor, f_edition_type, f_publisher, f_city
+};
+
 class Edition {
 
 private:
@@ -26,8 +30,8 @@ private:
     std::string description{};
     std::string published_edition_of_title{};
     double sort{};
-public:
-    double getSort() const;
+
+    static std::string create_tex(const std::string &value, Field field);
 
 public:
     Edition(std::string title_transliterated,
@@ -54,26 +58,12 @@ public:
 
     [[nodiscard]] const std::string &getTitleArabic() const;
 
-    [[nodiscard]] const std::string &getEditor() const;
-
-    [[nodiscard]] const std::string &getEditionType() const;
-
-    [[nodiscard]] const std::string &getPublisher() const;
-
-    [[nodiscard]] const std::string &getCity() const;
-
-    [[nodiscard]] int getYearHijri() const;
-
-    [[nodiscard]] int getYearGregorian() const;
-
-    [[nodiscard]] const std::string &getYearHijriText() const;
-
-    [[nodiscard]] const std::string &getYearGregorianText() const;
-
     [[nodiscard]] const std::string &getDescription() const;
 
     [[nodiscard]] std::string getDates();
-};
 
+    [[nodiscard]] double getSort() const;
+
+};
 
 #endif //TUB_PDF_MAKER_EDITION_H
