@@ -113,3 +113,69 @@ TEST(Edition, ShamsiOnly) {
     auto expected = "\\item \\emph{Title Transliterated}, ed. Editor (City: Publisher, 678Sh)\n";
     EXPECT_EQ(expected, edition.to_latex());
 }
+
+TEST(Edition, NoPublisher) {
+
+    Edition edition = Edition("Title Transliterated",
+                              "Title Arabic",
+                              "Editor",
+                              "Lithograph",
+                              "NO DATA",
+                              "City",
+                              700,
+                              1300,
+                              0,
+                              "NO DATA",
+                              "NO DATA",
+                              "NO DATA",
+                              "",
+                              "Published edition of title",
+                              700);
+
+    auto expected = "\\item \\emph{Title Transliterated}, ed. Editor, Lithograph (City: n.pub., 700/1300)\n";
+    EXPECT_EQ(expected, edition.to_latex());
+}
+
+TEST(Edition, NoCity) {
+
+    Edition edition = Edition("Title Transliterated",
+                              "Title Arabic",
+                              "Editor",
+                              "Lithograph",
+                              "Publisher",
+                              "NO DATA",
+                              700,
+                              1300,
+                              0,
+                              "NO DATA",
+                              "NO DATA",
+                              "NO DATA",
+                              "",
+                              "Published edition of title",
+                              700);
+
+    auto expected = "\\item \\emph{Title Transliterated}, ed. Editor, Lithograph (n.plac., Publisher, 700/1300)\n";
+    EXPECT_EQ(expected, edition.to_latex());
+}
+
+TEST(Edition, NoEditorModernPrint) {
+
+    Edition edition = Edition("Title Transliterated",
+                              "Title Arabic",
+                              "NO DATA",
+                              "Modern print",
+                              "Publisher",
+                              "City",
+                              700,
+                              1300,
+                              0,
+                              "NO DATA",
+                              "NO DATA",
+                              "NO DATA",
+                              "",
+                              "Published edition of title",
+                              700);
+
+    auto expected = "\\item \\emph{Title Transliterated} (City: Publisher, 700/1300)\n";
+    EXPECT_EQ(expected, edition.to_latex());
+}

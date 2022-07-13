@@ -39,23 +39,27 @@ Edition::Edition(std::string title_transliterated,
         sort(sort) {}
 
 std::string Edition::to_latex() {
-    if (edition_type == "Modern print") {
-        return fmt::format("\\item \\emph{{{title}}}, ed. {editor} ({city}: {publisher}, {dates})\n",
-                           fmt::arg("title", title_transliterated),
-                           fmt::arg("editor", editor),
-                           fmt::arg("publisher", publisher),
-                           fmt::arg("city", city),
-                           fmt::arg("dates", getDates())
-        );
-    }
-    return fmt::format("\\item \\emph{{{title}}}, ed. {editor}, {edition_type} ({city}: {publisher}, {dates})\n",
+    return fmt::format("\\item \\emph{{{title}}}{editor}{edition_type} ({city} {publisher}, {dates})\n",
                        fmt::arg("title", title_transliterated),
-                       fmt::arg("editor", editor),
-                       fmt::arg("edition_type", edition_type),
-                       fmt::arg("publisher", publisher),
-                       fmt::arg("city", city),
+                       fmt::arg("editor", Edition::create_tex(editor, f_editor)),
+                       fmt::arg("edition_type", create_tex(edition_type, f_edition_type)),
+                       fmt::arg("publisher", Edition::create_tex(publisher, f_publisher)),
+                       fmt::arg("city", Edition::create_tex(city, f_city)),
                        fmt::arg("dates", getDates())
     );
+}
+
+std::string Edition::create_tex(const std::string &value, Field field) {
+    switch (field) {
+        case f_editor:
+            return (value == "NO DATA") ? "" : ", ed. " + value;
+        case f_edition_type:
+            return (value == "Modern print") ? "" : ", " + value;
+        case f_city:
+            return (value == "NO DATA") ? "n.plac.," : value + ":";
+        case f_publisher:
+            return (value == "NO DATA") ? "n.pub." : value;
+    }
 }
 
 std::string Edition::getDates() {
@@ -114,10 +118,6 @@ const std::string &Edition::getTitleTransliterated() const {
 
 const std::string &Edition::getTitleArabic() const {
     return title_arabic;
-}
-
-int Edition::getYearHijri() const {
-    return year_hijri;
 }
 
 const std::string &Edition::getDescription() const {
