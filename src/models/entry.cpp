@@ -57,18 +57,21 @@ std::string Entry::to_latex() {
      * Create edition subsection
      */
     auto editions_to_latex = [this]() {
-        std::string edition_latex = "\\textbf{Editions}\n\\begin{itemize}\n";
-        if (editions.empty()) {
-            edition_latex += "\\item NO DATA\n";
+        if (category == Edited) {
+            std::string edition_latex = "\\textbf{Editions}\n\\begin{itemize}\n";
+            if (editions.empty()) {
+                edition_latex += "\\item NO DATA\n";
 
-        } else {
-            for (auto &edition: this->editions) {
-                edition_latex += edition.to_latex();
+            } else {
+                for (auto &edition: this->editions) {
+                    edition_latex += edition.to_latex();
+                }
             }
-        }
 
-        edition_latex += "\\end{itemize}\n";
-        return edition_latex;
+            edition_latex += "\\end{itemize}\n";
+            return edition_latex;
+        }
+        return std::string();
     };
 
     /*
