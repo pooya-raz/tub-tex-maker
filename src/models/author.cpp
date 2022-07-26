@@ -57,7 +57,16 @@ std::string Author::getDeathDates() const {
         gregorian = std::to_string(death_gregorian);
     }
     if (death_gregorian_text != "NO DATA") {
-        gregorian = death_gregorian_text;
+        int first_digit = 0;
+        std::string only_digits;
+        for (int i = 0; char c: death_gregorian_text) {
+            if (std::isdigit(c)) {
+                first_digit = i;
+                break;
+            }
+            i++;
+        }
+        gregorian = death_gregorian_text.substr(first_digit);
     }
 
     if (std::isdigit(hijri[0])) {
@@ -67,7 +76,7 @@ std::string Author::getDeathDates() const {
         );
     }
     if (hijri.substr(0, 5) == "after") {
-        return fmt::format("(d. {hijri}/d. {gregorian})",
+        return fmt::format("(d. {hijri}/{gregorian})",
                            fmt::arg("hijri", hijri),
                            fmt::arg("gregorian", gregorian)
         );
