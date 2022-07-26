@@ -48,7 +48,7 @@ TEST(Author, DontAddD) {
             0,
             "fl. 553",
             "fl. 1158");
-    auto expected = "(fl. 553/fl. 1158)";
+    auto expected = "(fl. 553/1158)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
 
@@ -60,6 +60,6 @@ TEST(Author, After) {
             0,
             "after 1129",
             "after 1716");
-    auto expected = "(d. after 1129/d. after 1716)";
+    auto expected = "(d. after 1129/1716)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
