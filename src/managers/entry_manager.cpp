@@ -39,6 +39,7 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
      * Get title details
      */
     auto id = json.get("fulltext");
+    auto fullurl = json.get("fullurl");
     auto title_arabic = json.at("printouts").at("Title (Arabic)").get(0);
     auto title_transliterated = json.at("printouts").at("Title (transliterated)").get(0);
     auto description = json.at("printouts").at("Has a catalogue description").get(0);
@@ -63,7 +64,8 @@ std::shared_ptr<Entry> EntryManager::add_entry(TubJson &json) {
             title_type,
             base_text,
             author_page_title,
-            translator_page_title
+            translator_page_title,
+            fullurl
     );
     return new_entry;
 }

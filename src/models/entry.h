@@ -26,6 +26,7 @@ private:
     std::string base_text{};
     std::string author_page_title{};
     std::string translator_page_title{};
+    std::string fullurl{};
     Author author{};
     Author translator{};
 
@@ -47,7 +48,10 @@ public:
           TitleType title_type,
           std::string base_text,
           std::string author_page_title,
-          std::string translator_page_title);
+          std::string translator_page_title,
+          std::string fullurl);
+
+    [[nodiscard]] const std::string &getFullurl() const;
 
     [[nodiscard]] const std::string &getId() const;
 

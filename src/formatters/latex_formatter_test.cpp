@@ -38,7 +38,8 @@ TEST(LatexFormatterTest, BasicTest) {
             Monograph,
             "Base Text",
             "Author Title Page",
-            "");
+            "",
+            "http://144.173.140.108:8080/tub/index.php/Main_Page");
     entry->setAuthor(author);
     entry->manuscripts = manuscripts;
 

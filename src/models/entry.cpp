@@ -15,7 +15,8 @@ Entry::Entry(std::string id,
              TitleType title_type,
              std::string base_text,
              std::string author_page_title,
-             std::string translator_page_title
+             std::string translator_page_title,
+             std::string fullurl
 ) :
         id(std::move(id)),
         title_transliterated(std::move(title_transliterated)),
@@ -26,7 +27,8 @@ Entry::Entry(std::string id,
         title_type(title_type),
         base_text(std::move(base_text)),
         author_page_title(std::move(author_page_title)),
-        translator_page_title(std::move(translator_page_title)) {}
+        translator_page_title(std::move(translator_page_title)),
+        fullurl(std::move(fullurl)) {}
 
 std::string Entry::to_latex() {
 
@@ -103,7 +105,7 @@ std::string Entry::to_latex() {
     };
 
     if (title_type == Translation) {
-        return fmt::format("\\item {transliterated_title}\n"
+        return fmt::format("\\item \\href{{{fullurl}}}{{{transliterated_title}}}\n"
                            "        \\newline\n"
                            "        \\textarabic{{{arabic_title}}}\n"
                            "        \\newline\n"
@@ -116,6 +118,7 @@ std::string Entry::to_latex() {
                            "        {editions}"
                            "        {commentaries}"
                            "\n",
+                           fmt::arg("fullurl", fullurl),
                            fmt::arg("transliterated_title", title_transliterated),
                            fmt::arg("arabic_title", title_arabic),
                            fmt::arg("translator", translator.getName()),
@@ -126,7 +129,7 @@ std::string Entry::to_latex() {
         );
     }
 
-    return fmt::format("\\item {transliterated_title}\n"
+    return fmt::format("\\item \\href{{{fullurl}}}{{{transliterated_title}}}\n"
                        "        \\newline\n"
                        "        \\textarabic{{{arabic_title}}}\n"
                        "        \\newline\n"
@@ -139,6 +142,7 @@ std::string Entry::to_latex() {
                        "        {editions}"
                        "        {commentaries}"
                        "\n",
+                       fmt::arg("fullurl", fullurl),
                        fmt::arg("transliterated_title", title_transliterated),
                        fmt::arg("arabic_title", title_arabic),
                        fmt::arg("author", author.getName()),
@@ -209,4 +213,8 @@ void Entry::setTranslator(Author n_translator) {
 
 const std::string &Entry::getTranslatorPageTitle() const {
     return translator_page_title;
+}
+
+const std::string &Entry::getFullurl() const {
+    return fullurl;
 }
