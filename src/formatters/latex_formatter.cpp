@@ -34,6 +34,7 @@ std::string latex_formatter::to_latex(const EntryMap &entryMap) {
     std::string final;
     final += " \\documentclass{article}\n"
              "    \\usepackage{fontspec,lipsum}\n"
+             "    \\usepackage{hyperref}"
              "    \\defaultfontfeatures{Ligatures=TeX}\n"
              "    \\usepackage[small,sf,bf]{titlesec}\n"
              "    \\setmainfont{Gentium Plus}\n"
