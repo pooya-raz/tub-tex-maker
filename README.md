@@ -17,7 +17,7 @@ What you need to install to build this project and how to install them.
 3. To build from the command line, run the following:
    * `cmake --build ./cmake-build-debug --target tub_tex_maker`
 
-## Built with:
+## Built with
 - C++20
 - libcpr: https://docs.libcpr.org/ for http calls
 - Boost-log for logging
