@@ -374,9 +374,7 @@ const void create_requires_edit_latex(){
 
 int main()
 {
-        /*
-        * create_latex();
-        */
+        create_latex();
         create_requires_edit_latex();
         return 0;
 }
