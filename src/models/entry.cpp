@@ -105,7 +105,7 @@ std::string Entry::to_latex() {
     };
 
     if (title_type == Translation) {
-        return fmt::format("\\item \\href{{{fullurl}}}{{{transliterated_title}}}\n"
+        return fmt::format("\\item {transliterated_title}\n"
                            "        \\newline\n"
                            "        \\textarabic{{{arabic_title}}}\n"
                            "        \\newline\n"
