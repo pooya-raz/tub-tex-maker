@@ -63,3 +63,15 @@ TEST(Author, After) {
     auto expected = "(d. after 1129/1716)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
+
+TEST(Author, WithC) {
+
+    Author author = Author(
+            "Name Transliterated",
+            0,
+            0,
+            "c. 1129",
+            "c. 1716");
+    auto expected = "(d. c. 1129/1716)";
+    EXPECT_EQ(expected, author.getDeathDates());
+}
