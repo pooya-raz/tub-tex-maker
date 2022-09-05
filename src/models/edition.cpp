@@ -53,8 +53,8 @@ std::string Edition::create_tex(const std::string &value, Field field) {
     switch (field) {
         case f_editor:
             return (value == "NO DATA") ? "" : ", ed. " + value;
-        case f_edition_type:
-            return (value == "Modern print") ? "" : ", " + value;
+        case f_edition_type: 
+            return (value == "Modern print" || value == "NO DATA") ? "" : ", " + value;
         case f_city:
             return (value == "NO DATA") ? "n.plac.," : value + ":";
         case f_publisher:
