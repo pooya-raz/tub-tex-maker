@@ -81,6 +81,12 @@ std::string Author::getDeathDates() const {
                            fmt::arg("gregorian", gregorian)
         );
     }
+        if (hijri.substr(0, 6) == "before") {
+        return fmt::format("(d. {hijri}/{gregorian})",
+                           fmt::arg("hijri", hijri),
+                           fmt::arg("gregorian", gregorian)
+        );
+    }
     if (hijri.substr(0, 2) == "c.") {
         return fmt::format("(d. {hijri}/{gregorian})",
                            fmt::arg("hijri", hijri),
