@@ -52,7 +52,10 @@ std::string Manuscript::getDates() const {
         gregorian = std::to_string(year_gregorian);
     }
     if (year_gregorian_text != "NO DATA") {
-        gregorian = year_gregorian_text;
+		gregorian = year_gregorian_text;
+        if (year_gregorian_text.substr(0, 6) == "before") {
+			gregorian = year_gregorian_text.substr(7);
+		}
     }
     if (year_shamsi != 0) {
         shamsi = std::to_string(year_shamsi);

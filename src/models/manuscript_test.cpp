@@ -103,3 +103,23 @@ TEST(Manuscript, OnlyShamsiManuscirpt) {
     auto expected = "\\item Location, City (\\#Manuscript Number), dated 678Sh\n";
     EXPECT_EQ(expected, manuscript.to_latex());
 }
+
+TEST(Manuscript, RemoveBeforeInGregorianText) {
+
+    Manuscript manuscript = Manuscript(
+            "Location",
+            700,
+            1300,
+            0,
+            "before 700",
+            "before 1300",
+            "NO DATA",
+            "City",
+            "Manuscript Number",
+            "Manuscript of Title",
+            0
+    );
+
+    auto expected = "\\item Location, City (\\#Manuscript Number), dated before 700/1300\n";
+    EXPECT_EQ(expected, manuscript.to_latex());
+}
