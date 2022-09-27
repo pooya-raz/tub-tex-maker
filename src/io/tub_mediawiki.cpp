@@ -5,7 +5,7 @@
 #include "tub_mediawiki.h"
 
 std::string tub_mediawiki::getQuery(std::string query) {
-    auto url = "http://144.173.140.108:8080/tub/api.php?action=ask&format=json&query=" + query;
+    auto url = "http://10.164.39.147:8080/tub/api.php?action=ask&format=json&query=" + query;
     BOOST_LOG_TRIVIAL(info) << "HTTP call to TUB: \n" << url;
     cpr::Response response = cpr::Get(cpr::Url{url});
     if(response.status_code != 200)
