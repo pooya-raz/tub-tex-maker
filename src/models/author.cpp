@@ -49,6 +49,7 @@ void Author::setDeathHijri(int deathHijri) {
 std::string Author::getDeathDates() const {
     std::string hijri = "NO DATA";
     std::string gregorian = "NO DATA";
+	std::string shamsi = "NO DATA";
 
     if (death_hijri != 9999) {
         hijri = std::to_string(death_hijri);
@@ -72,6 +73,29 @@ std::string Author::getDeathDates() const {
         }
         gregorian = death_gregorian_text.substr(first_digit);
     }
+
+	if (death_shamsi != 0) {
+		shamsi = std::to_string(death_shamsi);
+	}
+	if (death_shamsi_text != "NO DATA") {
+		 int first_digit = 0;
+        std::string only_digits;
+        for (int i = 0; char c: death_shamsi_text) {
+            if (std::isdigit(c)) {
+                first_digit = i;
+                break;
+            }
+            i++;
+        }
+        shamsi = death_shamsi_text.substr(first_digit);
+	}
+
+    if (std::isdigit(hijri[0]) && shamsi != "NO DATA") {
+        return fmt::format("(d. {hijri}/{shamsi} SH)",
+                           fmt::arg("hijri", hijri),
+                           fmt::arg("shamsi", shamsi)
+        );
+	}
 
     if (std::isdigit(hijri[0])) {
         return fmt::format("(d. {hijri}/{gregorian})",
@@ -104,6 +128,3 @@ std::string Author::getDeathDates() const {
 
 
 }
-
-
-

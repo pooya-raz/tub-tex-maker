@@ -12,8 +12,10 @@ TEST(Entry, BasicTest) {
             "Name Transliterated",
             0,
             0,
+			0,
             "8th century",
-            "14th century");
+            "14th century",
+			"NO DATA");
     Manuscript manuscript = Manuscript(
             "Location",
             700,
@@ -55,8 +57,10 @@ TEST(Entry, ManuscriptOnly) {
             "Name Transliterated",
             0,
             0,
+			0,
             "8th century",
-            "14th century");
+            "14th century",
+			"NO DATA");
     Manuscript manuscript = Manuscript(
             "Location",
             700,

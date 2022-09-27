@@ -10,8 +10,10 @@ TEST(LatexFormatterTest, BasicTest) {
             "Name Transliterated",
             0,
             0,
+			0,
             "8th century",
-            "14th century");
+            "14th century",
+			"NO DATA");
     Manuscript manuscript = Manuscript(
             "Location",
             700,
