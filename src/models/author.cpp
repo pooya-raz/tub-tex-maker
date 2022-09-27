@@ -13,13 +13,17 @@ const std::string &Author::getName() const {
 Author::Author(std::string name_transliterated,
                int death_hijri,
                int death_gregorian,
+			   int death_shamsi,
                std::string death_hijri_text,
-               std::string death_gregorian_text) :
+               std::string death_gregorian_text,
+			   std::string death_shamsi_text) :
         name_transliterated(std::move(name_transliterated)),
         death_hijri(death_hijri),
         death_gregorian(death_gregorian),
+		death_shamsi(death_shamsi),
         death_hijri_text(std::move(death_hijri_text)),
-        death_gregorian_text(std::move(death_gregorian_text)) {
+        death_gregorian_text(std::move(death_gregorian_text)),
+		death_shamsi_text(std::move(death_shamsi_text)){
 }
 
 int Author::getMDeathHijri() const {

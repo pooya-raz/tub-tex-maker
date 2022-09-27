@@ -248,8 +248,10 @@ Author EntryManager::add_author(TubJson &json) {
     auto author_name_transliterated = json.get("fulltext");
     auto death_hijri = json.at("printouts").at("Death (Hijri)").get_int_hijri(0);
     auto death_gregorian = parseGregorianDate(json.at("printouts").at("Death (Gregorian)").at(0).get("raw"));
+    auto death_shamsi = json.at("printouts").at("Death (Shamsi)").get_int_hijri(0);
     auto death_hijri_text = json.at("printouts").at("Death (Hijri) text").get(0);
     auto death_gregorian_text = json.at("printouts").at("Death (Gregorian) text").get(0);
+    auto death_shamsi_text = json.at("printouts").at("Death (Shamsi) text").get(0);
 
     /*
      * Build models
@@ -257,8 +259,10 @@ Author EntryManager::add_author(TubJson &json) {
     return {author_name_transliterated,
             death_hijri,
             death_gregorian,
+			death_shamsi,
             death_hijri_text,
-            death_gregorian_text};
+            death_gregorian_text,
+			death_shamsi_text};
 }
 
 void EntryManager::add_authors(TubJson &json) {
@@ -279,8 +283,8 @@ void EntryManager::add_translators(TubJson &json) {
     for (TubJson &translator_json: json.get_results()) {
         auto translator = add_author(translator_json);
         for (auto &entry: entries) {
-            if (translator.getName() == entry->getTranslatorPageTitle()) {
-                entry->setTranslator(translator);
+			if (translator.getName() == entry->getTranslatorPageTitle()) {
+				entry->setTranslator(translator);
                 entry->setAuthor(translator);//This is for sorting purposes
                 if (translator.getMDeathHijri() == 0 || translator.getMDeathGregorian() == 0)
                     entry->addCorrectionsRequired(CheckDates);
