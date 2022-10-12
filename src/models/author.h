@@ -13,20 +13,20 @@ private:
     std::string name_transliterated {};
     int death_hijri {};
     int death_gregorian {};
-	int death_shamsi {};
+    int death_shamsi {};
     std::string death_hijri_text {};
     std::string death_gregorian_text {};
-	std::string death_shamsi_text {};
+    std::string death_shamsi_text {};
 public:
     Author();
 
     Author(std::string name_transliterated,
            int death_hijri,
            int death_gregorian,
-		   int death_shamsi,
+	   int death_shamsi,
            std::string death_hijri_text,
            std::string death_gregorian_text,
-		   std::string death_shamsi_text);
+	   std::string death_shamsi_text);
 
     [[nodiscard]] const std::string &getName() const;
 

@@ -101,6 +101,7 @@ TEST(Author, Before) {
     auto expected = "(d. before 1129/1716)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
+
 TEST(Author, ShamsiDate) {
 
     Author author = Author(
@@ -112,5 +113,33 @@ TEST(Author, ShamsiDate) {
             "NO DATA",
 			"NO DATA");
     auto expected = "(d. 700/1200 SH)";
+    EXPECT_EQ(expected, author.getDeathDates());
+}
+
+TEST(Author, ShamsiDateText) {
+
+    Author author = Author(
+            "Name Transliterated",
+            700,
+            0,
+			1200,
+            "NO DATA",
+            "NO DATA",
+			"NO DATA");
+    auto expected = "(d. 700/1200 SH)";
+    EXPECT_EQ(expected, author.getDeathDates());
+}
+
+TEST(Author, ShamsiAndGregorianDate) {
+
+    Author author = Author(
+            "Name Transliterated",
+            9999,
+            1700,
+			1200,
+            "NO DATA",
+            "NO DATA",
+			"NO DATA");
+    auto expected = "(d. 1200 SH/1700)";
     EXPECT_EQ(expected, author.getDeathDates());
 }

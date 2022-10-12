@@ -151,9 +151,12 @@ const void create_latex()
             "|?Full%20name%20(transliterated)"
             "|?Death%20(Hijri)"
             "|?Death%20(Gregorian)"
+            "|?Death%20(Shamsi)"
             "|?Death%20(Hijri)%20text"
             "|?Death%20(Gregorian)%20text"
+            "|?Death%20(Shamsi)%20text"
             "|limit=1000");
+
         TubJson tubAuthors;
         tubAuthors.parse(author_result);
         auto authors = tubAuthors.at("query").at("results");
@@ -337,9 +340,12 @@ const void create_requires_edit_latex(){
             "|?Full%20name%20(transliterated)"
             "|?Death%20(Hijri)"
             "|?Death%20(Gregorian)"
+	    "|?Death%20(Shamsi)"
             "|?Death%20(Hijri)%20text"
             "|?Death%20(Gregorian)%20text"
+            "|?Death%20(Shamsi)%20text"
             "|limit=1000");
+
         TubJson tubAuthors;
         tubAuthors.parse(author_result);
         auto authors = tubAuthors.at("query").at("results");

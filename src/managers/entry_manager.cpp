@@ -259,10 +259,10 @@ Author EntryManager::add_author(TubJson &json) {
     return {author_name_transliterated,
             death_hijri,
             death_gregorian,
-			death_shamsi,
+	    death_shamsi,
             death_hijri_text,
             death_gregorian_text,
-			death_shamsi_text};
+	    death_shamsi_text};
 }
 
 void EntryManager::add_authors(TubJson &json) {
