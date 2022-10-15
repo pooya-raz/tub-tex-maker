@@ -140,6 +140,6 @@ TEST(Author, ShamsiAndGregorianDate) {
             "NO DATA",
             "NO DATA",
 			"NO DATA");
-    auto expected = "(d. 1200 SH/1700)";
+    auto expected = "(d. 1200Sh/1700)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
