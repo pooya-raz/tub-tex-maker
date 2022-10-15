@@ -13,7 +13,7 @@ const std::string &Author::getName() const {
 Author::Author(std::string name_transliterated,
                int death_hijri,
                int death_gregorian,
-	       int death_shamsi,
+               int death_shamsi,
                std::string death_hijri_text,
                std::string death_gregorian_text,
 	       std::string death_shamsi_text) :
