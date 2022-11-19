@@ -99,7 +99,7 @@ std::string Author::getDeathDates() const {
 	}
 
     if (std::isdigit(hijri[0]) && shamsi != "NO DATA") {
-        return fmt::format("(d. {hijri}/{shamsi} SH)",
+        return fmt::format("(d. {hijri}/{shamsi}Sh)",
                            fmt::arg("hijri", hijri),
                            fmt::arg("shamsi", shamsi)
         );

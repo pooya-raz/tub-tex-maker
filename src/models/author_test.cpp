@@ -112,7 +112,7 @@ TEST(Author, ShamsiDate) {
             "NO DATA",
             "NO DATA",
 			"NO DATA");
-    auto expected = "(d. 700/1200 SH)";
+    auto expected = "(d. 700/1200Sh)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
 
@@ -126,7 +126,7 @@ TEST(Author, ShamsiDateText) {
             "NO DATA",
             "NO DATA",
 			"NO DATA");
-    auto expected = "(d. 700/1200 SH)";
+    auto expected = "(d. 700/1200Sh)";
     EXPECT_EQ(expected, author.getDeathDates());
 }
 
